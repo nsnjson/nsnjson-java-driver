@@ -63,16 +63,7 @@ public class DriverTest extends AbstractFormatTest {
 
     @Test
     public void shouldBeConsistencyWhenGivenObject() {
-        ObjectNode object = new ObjectMapper().createObjectNode();
-        object.set("null_field", getNull());
-        object.set("true_field", getBooleanTrue());
-        object.set("false_field", getBooleanFalse());
-        object.set("int_field", getNumberInt());
-        object.set("long_field", getNumberLong());
-        object.set("double_field", getNumberDouble());
-        object.set("string_field", getString());
-
-        assertConsistency(object);
+        assertConsistency(getObject());
     }
 
     private static void assertConsistency(JsonNode value) {
