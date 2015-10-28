@@ -43,6 +43,19 @@ public class AbstractFormatTest {
         return new ObjectMapper().createArrayNode();
     }
 
+    protected static ArrayNode getArray() {
+        ArrayNode array = getEmptyArray();
+        array.add(getNull());
+        array.add(getBooleanTrue());
+        array.add(getBooleanFalse());
+        array.add(getNumberInt());
+        array.add(getNumberLong());
+        array.add(getNumberDouble());
+        array.add(getString());
+
+        return array;
+    }
+
     protected static ObjectNode getEmptyObject() {
         return new ObjectMapper().createObjectNode();
     }
