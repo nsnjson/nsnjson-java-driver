@@ -1,5 +1,6 @@
 package com.github.nsnjson;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.*;
 
 import java.util.*;
@@ -36,6 +37,14 @@ public class AbstractFormatTest {
 
     protected static TextNode getString() {
         return new TextNode(UUID.randomUUID().toString().replaceAll("-", ""));
+    }
+
+    protected static ArrayNode getEmptyArray() {
+        return new ObjectMapper().createArrayNode();
+    }
+
+    protected static ObjectNode getEmptyObject() {
+        return new ObjectMapper().createObjectNode();
     }
 
 }
