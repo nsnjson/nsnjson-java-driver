@@ -8,32 +8,26 @@ import static com.github.nsnjson.format.Format.*;
 public class Decoder {
 
     public static JsonNode decode(ObjectNode presentation) {
-        String presentationType = type(presentation);
-
-        if (TYPE_MARKER_NULL.equals(presentationType)) {
-            return decodeNull();
-        }
-        else if (TYPE_MARKER_BOOLEAN.equals(presentationType)) {
-            return decodeBoolean(presentation);
-        }
-        else if (TYPE_MARKER_NUMBER.equals(presentationType)) {
-            return decodeNumber(presentation);
-        }
-        else if (TYPE_MARKER_STRING.equals(presentationType)) {
-            return decodeString(presentation);
-        }
-        else if (TYPE_MARKER_ARRAY.equals(presentationType)) {
-            return decodeArray(presentation);
-        }
-        else if (TYPE_MARKER_OBJECT.equals(presentationType)) {
-            return decodeObject(presentation);
+        switch (type(presentation)) {
+            case TYPE_MARKER_NULL:
+                return decodeNull();
+            case TYPE_MARKER_NUMBER:
+                return decodeNumber(presentation);
+            case TYPE_MARKER_STRING:
+                return decodeString(presentation);
+            case TYPE_MARKER_BOOLEAN:
+                return decodeBoolean(presentation);
+            case TYPE_MARKER_ARRAY:
+                return decodeArray(presentation);
+            case TYPE_MARKER_OBJECT:
+                return decodeObject(presentation);
         }
 
         return null;
     }
 
-    private static String type(ObjectNode presentation) {
-        return presentation.get(FIELD_TYPE).asText();
+    private static int type(ObjectNode presentation) {
+        return presentation.get(FIELD_TYPE).asInt();
     }
 
     private static NullNode decodeNull() {
