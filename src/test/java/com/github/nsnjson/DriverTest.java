@@ -1,7 +1,6 @@
 package com.github.nsnjson;
 
-import com.fasterxml.jackson.databind.*;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.junit.*;
 
 public class DriverTest extends AbstractFormatTest {
@@ -73,7 +72,7 @@ public class DriverTest extends AbstractFormatTest {
     }
 
     private static void assertEquals(JsonNode value1, JsonNode value2) {
-        Assert.assertEquals(value1.toString(), value2.toString());
+        Assert.assertEquals(value1, value2);
     }
 
 }
