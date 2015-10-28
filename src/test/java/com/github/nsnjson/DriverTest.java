@@ -4,9 +4,7 @@ import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.node.*;
 import org.junit.*;
 
-import java.util.*;
-
-public class DriverTest {
+public class DriverTest extends AbstractFormatTest {
 
     @Test
     public void shouldBeConsistencyWhenGivenNull() {
@@ -98,38 +96,6 @@ public class DriverTest {
 
     private static void assertEquals(JsonNode value1, JsonNode value2) {
         Assert.assertEquals(value1.toString(), value2.toString());
-    }
-
-    private static NullNode getNull() {
-        return NullNode.getInstance();
-    }
-
-    private static BooleanNode getBooleanTrue() {
-        return BooleanNode.getTrue();
-    }
-
-    private static BooleanNode getBooleanFalse() {
-        return BooleanNode.getFalse();
-    }
-
-    private static NumericNode getNumberInt() {
-        return new IntNode(new Random().nextInt());
-    }
-
-    private static NumericNode getNumberLong() {
-        return new LongNode(new Random().nextLong());
-    }
-
-    private static NumericNode getNumberDouble() {
-        return new DoubleNode(new Random().nextDouble());
-    }
-
-    private static TextNode getEmptyString() {
-        return new TextNode("");
-    }
-
-    private static TextNode getString() {
-        return new TextNode(UUID.randomUUID().toString().replaceAll("-", ""));
     }
 
 }
