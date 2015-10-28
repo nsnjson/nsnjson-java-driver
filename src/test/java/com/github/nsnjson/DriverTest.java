@@ -1,7 +1,7 @@
 package com.github.nsnjson;
 
 import com.fasterxml.jackson.databind.*;
-import com.fasterxml.jackson.databind.node.*;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.junit.*;
 
 public class DriverTest extends AbstractFormatTest {
@@ -53,16 +53,7 @@ public class DriverTest extends AbstractFormatTest {
 
     @Test
     public void shouldBeConsistencyWhenGivenArray() {
-        ArrayNode array = new ObjectMapper().createArrayNode();
-        array.add(getNull());
-        array.add(getBooleanTrue());
-        array.add(getBooleanFalse());
-        array.add(getNumberInt());
-        array.add(getNumberLong());
-        array.add(getNumberDouble());
-        array.add(getString());
-
-        assertConsistency(array);
+        assertConsistency(getArray());
     }
 
     @Test
