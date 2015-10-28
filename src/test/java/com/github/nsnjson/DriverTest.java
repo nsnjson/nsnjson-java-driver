@@ -12,32 +12,22 @@ public class DriverTest extends AbstractFormatTest {
     }
 
     @Test
-    public void shouldBeConsistencyWhenGivenBooleanTrue() {
-        assertConsistency(getBooleanTrue());
-    }
-
-    @Test
-    public void shouldBeConsistencyWhenGivenBooleanFalse() {
-        assertConsistency(getBooleanFalse());
-    }
-
-    @Test
-    public void shouldBeConsistencyWhenGivenNumberInt() {
+    public void shouldBeConsistencyWhenGivenNumberIsInt() {
         assertConsistency(getNumberInt());
     }
 
     @Test
-    public void shouldBeConsistencyWhenGivenNumberLong() {
+    public void shouldBeConsistencyWhenGivenNumberIsLong() {
         assertConsistency(getNumberLong());
     }
 
     @Test
-    public void shouldBeConsistencyWhenGivenNumberDouble() {
+    public void shouldBeConsistencyWhenGivenNumberIsDouble() {
         assertConsistency(getNumberDouble());
     }
 
     @Test
-    public void shouldBeConsistencyWhenGivenStringWhichIsEmpty() {
+    public void shouldBeConsistencyWhenGivenStringIsEmpty() {
         assertConsistency(getEmptyString());
     }
 
@@ -47,10 +37,18 @@ public class DriverTest extends AbstractFormatTest {
     }
 
     @Test
-    public void shouldBeConsistencyWhenGivenArrayWhichIsEmpty() {
-        ArrayNode array = new ObjectMapper().createArrayNode();
+    public void shouldBeConsistencyWhenGivenBooleanIsTrue() {
+        assertConsistency(getBooleanTrue());
+    }
 
-        assertConsistency(array);
+    @Test
+    public void shouldBeConsistencyWhenGivenBooleanIsFalse() {
+        assertConsistency(getBooleanFalse());
+    }
+
+    @Test
+    public void shouldBeConsistencyWhenGivenArrayIsEmpty() {
+        assertConsistency(getEmptyArray());
     }
 
     @Test
@@ -68,10 +66,8 @@ public class DriverTest extends AbstractFormatTest {
     }
 
     @Test
-    public void shouldBeConsistencyWhenGivenObjectWhichIsEmpty() {
-        ObjectNode object = new ObjectMapper().createObjectNode();
-
-        assertConsistency(object);
+    public void shouldBeConsistencyWhenGivenObjectIsEmpty() {
+        assertConsistency(getEmptyObject());
     }
 
     @Test
