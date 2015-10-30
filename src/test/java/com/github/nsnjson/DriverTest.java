@@ -42,10 +42,10 @@ public class DriverTest extends AbstractFormatTest {
     }
 
     @Test
-    public void shouldBeConsistencyWhenGivenString() {
+    public void testString() {
         TextNode value = getString();
 
-        assertConsistency(value, getStringPresentation(value));
+        shouldBeConsistencyWhenGivenString(value, getStringPresentation(value));
     }
 
     @Test
