@@ -233,7 +233,7 @@ public class DriverTest extends AbstractFormatTest {
         assertConsistency(value, presentation);
     }
 
-    public void shouldBeConsistencyWhenGivenNumberIsInt(NumericNode value, ObjectNode presentation) {
+    private void shouldBeConsistencyWhenGivenNumberIsInt(NumericNode value, ObjectNode presentation) {
         assertConsistency(value, presentation);
     }
 
