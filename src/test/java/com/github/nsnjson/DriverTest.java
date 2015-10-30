@@ -66,13 +66,7 @@ public class DriverTest extends AbstractFormatTest {
     }
 
     private static void assertConsistency(JsonNode value) {
-        JsonNode restoredValue = Driver.decode(Driver.encode(value));
-
-        assertEquals(value, restoredValue);
-    }
-
-    private static void assertEquals(JsonNode value1, JsonNode value2) {
-        Assert.assertEquals(value1, value2);
+        Assert.assertEquals(value, Driver.decode(Driver.encode(value)));
     }
 
 }
