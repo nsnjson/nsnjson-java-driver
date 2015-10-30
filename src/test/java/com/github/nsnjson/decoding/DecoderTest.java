@@ -231,11 +231,7 @@ public class DecoderTest extends AbstractFormatTest {
     }
 
     private static void assertDecoding(JsonNode value, ObjectNode presentation) {
-        assertEquals(value, Decoder.decode(presentation));
-    }
-
-    private static void assertEquals(JsonNode value1, JsonNode value2) {
-        Assert.assertEquals(value1, value2);
+        Assert.assertEquals(value, Decoder.decode(presentation));
     }
 
 }
