@@ -246,7 +246,7 @@ public class DriverTest extends AbstractFormatTest {
     }
 
     private void shouldBeConsistencyWhenGivenArrayIsEmpty(ArrayNode array, ObjectNode presentation) {
-        assertConsistency(array, presentation);
+        shouldBeConsistencyWhenGivenArray(array, presentation);
     }
 
     private void shouldBeConsistencyWhenGivenArray(ArrayNode array, ObjectNode presentation) {
