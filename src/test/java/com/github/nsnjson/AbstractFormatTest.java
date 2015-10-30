@@ -5,8 +5,8 @@ import com.fasterxml.jackson.databind.node.*;
 
 import java.util.*;
 
-import static com.github.nsnjson.format.Format.FIELD_TYPE;
-import static com.github.nsnjson.format.Format.TYPE_MARKER_NULL;
+import static com.github.nsnjson.format.Format.*;
+import static com.github.nsnjson.format.Format.FIELD_VALUE;
 
 public class AbstractFormatTest {
 
@@ -79,6 +79,14 @@ public class AbstractFormatTest {
     protected static ObjectNode getNullPresentation() {
         ObjectNode presentation = new ObjectMapper().createObjectNode();
         presentation.put(FIELD_TYPE, TYPE_MARKER_NULL);
+
+        return presentation;
+    }
+
+    protected static ObjectNode getNumberIntPresentation(NumericNode value) {
+        ObjectNode presentation = new ObjectMapper().createObjectNode();
+        presentation.put(FIELD_TYPE, TYPE_MARKER_NUMBER);
+        presentation.put(FIELD_VALUE, value.asInt());
 
         return presentation;
     }
