@@ -142,4 +142,73 @@ public class AbstractFormatTest {
         return presentation;
     }
 
+    protected static ObjectNode getObjectPresentation(ObjectNode object) {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        ArrayNode presentationOfObjectFields = objectMapper.createArrayNode();
+        {
+            String fieldName = "null_field";
+
+
+            ObjectNode presentationOfField = getNullPresentation();
+            presentationOfField.put(FIELD_NAME, fieldName);
+
+            presentationOfObjectFields.add(presentationOfField);
+        }
+        {
+            String fieldName = "int_field";
+
+            ObjectNode presentationOfField = getNumberIntPresentation((NumericNode) object.get(fieldName));
+            presentationOfField.put(FIELD_NAME, fieldName);
+
+            presentationOfObjectFields.add(presentationOfField);
+        }
+        {
+            String fieldName = "long_field";
+
+            ObjectNode presentationOfField = getNumberLongPresentation((NumericNode) object.get(fieldName));
+            presentationOfField.put(FIELD_NAME, fieldName);
+
+            presentationOfObjectFields.add(presentationOfField);
+        }
+        {
+            String fieldName = "double_field";
+
+            ObjectNode presentationOfField = getNumberDoublePresentation((NumericNode) object.get(fieldName));
+            presentationOfField.put(FIELD_NAME, fieldName);
+
+            presentationOfObjectFields.add(presentationOfField);
+        }
+        {
+            String fieldName = "string_field";
+
+            ObjectNode presentationOfField = getStringPresentation((TextNode) object.get(fieldName));
+            presentationOfField.put(FIELD_NAME, fieldName);
+
+            presentationOfObjectFields.add(presentationOfField);
+        }
+        {
+            String fieldName = "true_field";
+
+            ObjectNode presentationOfField = getBooleanPresentation((BooleanNode) object.get(fieldName));
+            presentationOfField.put(FIELD_NAME, fieldName);
+
+            presentationOfObjectFields.add(presentationOfField);
+        }
+        {
+            String fieldName = "false_field";
+
+            ObjectNode presentationOfField = getBooleanPresentation((BooleanNode) object.get(fieldName));
+            presentationOfField.put(FIELD_NAME, fieldName);
+
+            presentationOfObjectFields.add(presentationOfField);
+        }
+
+        ObjectNode presentation = objectMapper.createObjectNode();
+        presentation.put(FIELD_TYPE, TYPE_MARKER_OBJECT);
+        presentation.set(FIELD_VALUE, presentationOfObjectFields);
+
+        return presentation;
+    }
+
 }
