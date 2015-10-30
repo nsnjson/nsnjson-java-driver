@@ -68,7 +68,7 @@ public class DriverTest extends AbstractFormatTest {
     }
 
     @Test
-    public void shouldBeConsistencyWhenGivenArray() {
+    public void processTestArray() {
         ObjectMapper objectMapper = new ObjectMapper();
 
         JsonNode numberInt = getNumberInt();
@@ -132,7 +132,7 @@ public class DriverTest extends AbstractFormatTest {
         presentation.put(FIELD_TYPE, TYPE_MARKER_ARRAY);
         presentation.set(FIELD_VALUE, presentationOfArrayItems);
 
-        assertConsistency(array, presentation);
+        shouldBeConsistencyWhenGivenArray(array, presentation);
     }
 
     @Test
@@ -246,6 +246,10 @@ public class DriverTest extends AbstractFormatTest {
     }
 
     private void shouldBeConsistencyWhenGivenArrayIsEmpty(ArrayNode array, ObjectNode presentation) {
+        assertConsistency(array, presentation);
+    }
+
+    private void shouldBeConsistencyWhenGivenArray(ArrayNode array, ObjectNode presentation) {
         assertConsistency(array, presentation);
     }
 
