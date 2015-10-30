@@ -63,8 +63,8 @@ public class DriverTest extends AbstractFormatTest {
     }
 
     @Test
-    public void shouldBeConsistencyWhenGivenArrayIsEmpty() {
-        assertConsistency(getEmptyArray(), getEmptyArrayPresentation());
+    public void testEmptyArray() {
+        shouldBeConsistencyWhenGivenArrayIsEmpty(getEmptyArray(), getEmptyArrayPresentation());
     }
 
     @Test
@@ -267,6 +267,10 @@ public class DriverTest extends AbstractFormatTest {
 
     private void shouldBeConsistencyWhenGivenBoolean(BooleanNode value, ObjectNode presentation) {
         assertConsistency(value, presentation);
+    }
+
+    private void shouldBeConsistencyWhenGivenArrayIsEmpty(ArrayNode array, ObjectNode presentation) {
+        assertConsistency(array, presentation);
     }
 
     private static void assertConsistency(JsonNode value, ObjectNode presentation) {
