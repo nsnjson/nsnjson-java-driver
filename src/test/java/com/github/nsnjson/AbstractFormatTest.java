@@ -5,6 +5,9 @@ import com.fasterxml.jackson.databind.node.*;
 
 import java.util.*;
 
+import static com.github.nsnjson.format.Format.FIELD_TYPE;
+import static com.github.nsnjson.format.Format.TYPE_MARKER_NULL;
+
 public class AbstractFormatTest {
 
     protected static NullNode getNull() {
@@ -71,6 +74,13 @@ public class AbstractFormatTest {
         object.set("string_field", getString());
 
         return object;
+    }
+
+    protected static ObjectNode getNullPresentation() {
+        ObjectNode presentation = new ObjectMapper().createObjectNode();
+        presentation.put(FIELD_TYPE, TYPE_MARKER_NULL);
+
+        return presentation;
     }
 
 }
