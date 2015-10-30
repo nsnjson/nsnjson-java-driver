@@ -35,7 +35,7 @@ public class DriverTest extends AbstractFormatTest {
     }
 
     @Test
-    public void testEmptyString() {
+    public void processTestEmptyString() {
         TextNode value = getEmptyString();
 
         shouldBeConsistencyWhenGivenString(value, getStringPresentation(value));
