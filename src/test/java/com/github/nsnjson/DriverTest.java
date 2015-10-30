@@ -21,7 +21,7 @@ public class DriverTest extends AbstractFormatTest {
     }
 
     @Test
-    public void testNumberLong() {
+    public void processTestNumberLong() {
         NumericNode value = getNumberLong();
 
         shouldBeConsistencyWhenGivenNumber(value, getNumberLongPresentation(value));
