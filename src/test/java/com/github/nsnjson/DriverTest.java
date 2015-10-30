@@ -141,7 +141,7 @@ public class DriverTest extends AbstractFormatTest {
     }
 
     @Test
-    public void shouldBeConsistencyWhenGivenObject() {
+    public void processObject() {
         ObjectMapper objectMapper = new ObjectMapper();
 
         String nullField = "null_field";
@@ -226,7 +226,7 @@ public class DriverTest extends AbstractFormatTest {
         presentation.put(FIELD_TYPE, TYPE_MARKER_OBJECT);
         presentation.set(FIELD_VALUE, presentationOfArrayItems);
 
-        assertConsistency(object, presentation);
+        shouldBeConsistencyWhenGivenObject(object, presentation);
     }
 
     private void shouldBeConsistencyWhenGivenNull(NullNode value, ObjectNode presentation) {
@@ -254,6 +254,10 @@ public class DriverTest extends AbstractFormatTest {
     }
 
     private void shouldBeConsistencyWhenGivenObjectIsEmpty(ObjectNode object, ObjectNode presentation) {
+        assertConsistency(object, presentation);
+    }
+
+    private  void shouldBeConsistencyWhenGivenObject(ObjectNode object, ObjectNode presentation) {
         assertConsistency(object, presentation);
     }
 
