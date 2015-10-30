@@ -98,4 +98,12 @@ public class AbstractFormatTest {
         return presentation;
     }
 
+    protected static ObjectNode getNumberDoublePresentation(NumericNode value) {
+        ObjectNode presentation = new ObjectMapper().createObjectNode();
+        presentation.put(FIELD_TYPE, TYPE_MARKER_NUMBER);
+        presentation.put(FIELD_VALUE, value.asDouble());
+
+        return presentation;
+    }
+
 }
