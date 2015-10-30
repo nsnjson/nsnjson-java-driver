@@ -234,6 +234,10 @@ public class DriverTest extends AbstractFormatTest {
     }
 
     private void shouldBeConsistencyWhenGivenNumberIsInt(NumericNode value, ObjectNode presentation) {
+        shouldBeConsistencyWhenGivenNumber(value, presentation);
+    }
+
+    private void shouldBeConsistencyWhenGivenNumber(NumericNode value, ObjectNode presentation) {
         assertConsistency(value, presentation);
     }
 
