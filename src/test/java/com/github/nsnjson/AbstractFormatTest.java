@@ -106,4 +106,12 @@ public class AbstractFormatTest {
         return presentation;
     }
 
+    protected static ObjectNode getStringPresentation(TextNode value) {
+        ObjectNode presentation = new ObjectMapper().createObjectNode();
+        presentation.put(FIELD_TYPE, TYPE_MARKER_STRING);
+        presentation.put(FIELD_VALUE, value.asText());
+
+        return presentation;
+    }
+
 }
