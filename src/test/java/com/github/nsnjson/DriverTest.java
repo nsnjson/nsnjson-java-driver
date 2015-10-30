@@ -42,7 +42,7 @@ public class DriverTest extends AbstractFormatTest {
     }
 
     @Test
-    public void testString() {
+    public void processTestString() {
         TextNode value = getString();
 
         shouldBeConsistencyWhenGivenString(value, getStringPresentation(value));
