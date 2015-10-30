@@ -114,4 +114,12 @@ public class AbstractFormatTest {
         return presentation;
     }
 
+    protected static ObjectNode getBooleanPresentation(BooleanNode value) {
+        ObjectNode presentation = new ObjectMapper().createObjectNode();
+        presentation.put(FIELD_TYPE, TYPE_MARKER_BOOLEAN);
+        presentation.put(FIELD_VALUE, value.asBoolean() ? BOOLEAN_TRUE : BOOLEAN_FALSE);
+
+        return presentation;
+    }
+
 }
