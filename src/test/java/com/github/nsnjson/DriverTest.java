@@ -9,7 +9,7 @@ import static com.github.nsnjson.format.Format.*;
 public class DriverTest extends AbstractFormatTest {
 
     @Test
-    public void testNull() {
+    public void processTestNull() {
         shouldBeConsistencyWhenGivenNull(getNull(), getNullPresentation());
     }
 
