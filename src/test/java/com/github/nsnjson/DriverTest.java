@@ -28,10 +28,10 @@ public class DriverTest extends AbstractFormatTest {
     }
 
     @Test
-    public void shouldBeConsistencyWhenGivenNumberIsDouble() {
+    public void testNumberDouble() {
         NumericNode value = getNumberDouble();
 
-        assertConsistency(value, getNumberDoublePresentation(value));
+        shouldBeConsistencyWhenGivenNumberIsDouble(value, getNumberDoublePresentation(value));
     }
 
     @Test
@@ -238,6 +238,10 @@ public class DriverTest extends AbstractFormatTest {
     }
 
     private void shouldBeConsistencyWhenGivenNumberIsLong(NumericNode value, ObjectNode presentation) {
+        shouldBeConsistencyWhenGivenNumber(value, presentation);
+    }
+
+    private void shouldBeConsistencyWhenGivenNumberIsDouble(NumericNode value, ObjectNode presentation) {
         shouldBeConsistencyWhenGivenNumber(value, presentation);
     }
 
