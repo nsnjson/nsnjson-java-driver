@@ -56,7 +56,7 @@ public class DriverTest extends AbstractFormatTest {
     }
 
     @Test
-    public void testBooleanFalse() {
+    public void processTestBooleanFalse() {
         BooleanNode value = getBooleanFalse();
 
         shouldBeConsistencyWhenGivenBoolean(value, getBooleanPresentation(value));
