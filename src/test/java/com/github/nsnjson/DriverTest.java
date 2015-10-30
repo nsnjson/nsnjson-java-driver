@@ -250,7 +250,7 @@ public class DriverTest extends AbstractFormatTest {
     }
 
     private void shouldBeConsistencyWhenGivenObjectIsEmpty(ObjectNode object, ObjectNode presentation) {
-        assertConsistency(object, presentation);
+        shouldBeConsistencyWhenGivenObject(object, presentation);
     }
 
     private  void shouldBeConsistencyWhenGivenObject(ObjectNode object, ObjectNode presentation) {
