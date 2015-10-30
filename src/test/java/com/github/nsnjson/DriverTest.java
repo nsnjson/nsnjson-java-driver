@@ -9,8 +9,8 @@ import static com.github.nsnjson.format.Format.*;
 public class DriverTest extends AbstractFormatTest {
 
     @Test
-    public void shouldBeConsistencyWhenGivenNull() {
-        assertConsistency(getNull(), getNullPresentation());
+    public void testNull() {
+        shouldBeConsistencyWhenGivenNull(getNull(), getNullPresentation());
     }
 
     @Test
@@ -227,6 +227,10 @@ public class DriverTest extends AbstractFormatTest {
         presentation.set(FIELD_VALUE, presentationOfArrayItems);
 
         assertConsistency(object, presentation);
+    }
+
+    private void shouldBeConsistencyWhenGivenNull(NullNode value, ObjectNode presentation) {
+        assertConsistency(value, presentation);
     }
 
     private static void assertConsistency(JsonNode value, ObjectNode presentation) {
