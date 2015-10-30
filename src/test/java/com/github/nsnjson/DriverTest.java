@@ -52,7 +52,7 @@ public class DriverTest extends AbstractFormatTest {
     public void testBooleanTrue() {
         BooleanNode value = getBooleanTrue();
 
-        shouldBeConsistencyWhenGivenBooleanIsTrue(value, getBooleanPresentation(value));
+        shouldBeConsistencyWhenGivenBoolean(value, getBooleanPresentation(value));
     }
 
     @Test
@@ -239,10 +239,6 @@ public class DriverTest extends AbstractFormatTest {
 
     private void shouldBeConsistencyWhenGivenString(TextNode value, ObjectNode presentation) {
         assertConsistency(value, presentation);
-    }
-
-    private void shouldBeConsistencyWhenGivenBooleanIsTrue(BooleanNode value, ObjectNode presentation) {
-        shouldBeConsistencyWhenGivenBoolean(value, presentation);
     }
 
     private void shouldBeConsistencyWhenGivenBooleanIsFalse(BooleanNode value, ObjectNode presentation) {
