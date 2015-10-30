@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.node.*;
 import java.util.*;
 
 import static com.github.nsnjson.format.Format.*;
-import static com.github.nsnjson.format.Format.FIELD_VALUE;
 
 public class AbstractFormatTest {
 
@@ -87,6 +86,14 @@ public class AbstractFormatTest {
         ObjectNode presentation = new ObjectMapper().createObjectNode();
         presentation.put(FIELD_TYPE, TYPE_MARKER_NUMBER);
         presentation.put(FIELD_VALUE, value.asInt());
+
+        return presentation;
+    }
+
+    protected static ObjectNode getNumberLongPresentation(NumericNode value) {
+        ObjectNode presentation = new ObjectMapper().createObjectNode();
+        presentation.put(FIELD_TYPE, TYPE_MARKER_NUMBER);
+        presentation.put(FIELD_VALUE, value.asLong());
 
         return presentation;
     }
