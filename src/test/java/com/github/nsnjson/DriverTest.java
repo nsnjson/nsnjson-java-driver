@@ -38,7 +38,7 @@ public class DriverTest extends AbstractFormatTest {
     public void testEmptyString() {
         TextNode value = getEmptyString();
 
-        shouldBeConsistencyWhenGivenStringIsEmpty(value, getStringPresentation(value));
+        shouldBeConsistencyWhenGivenString(value, getStringPresentation(value));
     }
 
     @Test
@@ -235,10 +235,6 @@ public class DriverTest extends AbstractFormatTest {
 
     private void shouldBeConsistencyWhenGivenNumber(NumericNode value, ObjectNode presentation) {
         assertConsistency(value, presentation);
-    }
-
-    private void shouldBeConsistencyWhenGivenStringIsEmpty(TextNode value, ObjectNode presentation) {
-        shouldBeConsistencyWhenGivenString(value, presentation);
     }
 
     private void shouldBeConsistencyWhenGivenString(TextNode value, ObjectNode presentation) {
