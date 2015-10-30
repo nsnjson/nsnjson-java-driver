@@ -136,7 +136,7 @@ public class DriverTest extends AbstractFormatTest {
     }
 
     @Test
-    public void testEmptyObject() {
+    public void processTestEmptyObject() {
         shouldBeConsistencyWhenGivenObjectIsEmpty(getEmptyObject(), getEmptyObjectPresentation());
     }
 
