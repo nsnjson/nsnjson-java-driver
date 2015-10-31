@@ -1,11 +1,9 @@
 package com.github.nsnjson.encoding;
 
-import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.*;
 import com.github.nsnjson.AbstractFormatTest;
 import org.junit.*;
-
-import static com.github.nsnjson.format.Format.*;
 
 public class EncoderTest extends AbstractFormatTest {
 
