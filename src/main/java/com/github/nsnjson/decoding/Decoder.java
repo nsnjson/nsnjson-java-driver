@@ -3,29 +3,25 @@ package com.github.nsnjson.decoding;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.node.*;
 
-import java.util.Optional;
+import java.util.*;
+import java.util.function.Function;
 
 import static com.github.nsnjson.format.Format.*;
 
 public class Decoder {
 
-    public static Optional<JsonNode> decode(ObjectNode presentation) {
-        switch (type(presentation)) {
-            case TYPE_MARKER_NULL:
-                return decodeNull();
-            case TYPE_MARKER_NUMBER:
-                return decodeNumber(presentation);
-            case TYPE_MARKER_STRING:
-                return decodeString(presentation);
-            case TYPE_MARKER_BOOLEAN:
-                return decodeBoolean(presentation);
-            case TYPE_MARKER_ARRAY:
-                return decodeArray(presentation);
-            case TYPE_MARKER_OBJECT:
-                return decodeObject(presentation);
-        }
+    private static final Map<Integer, Function<ObjectNode, Optional<JsonNode>>> resolvers = new HashMap<>();
+    static {
+        resolvers.put(TYPE_MARKER_NULL, (presentation) -> decodeNull());
+        resolvers.put(TYPE_MARKER_NUMBER, Decoder::decodeNumber);
+        resolvers.put(TYPE_MARKER_STRING, Decoder::decodeString);
+        resolvers.put(TYPE_MARKER_BOOLEAN, Decoder::decodeBoolean);
+        resolvers.put(TYPE_MARKER_ARRAY, Decoder::decodeArray);
+        resolvers.put(TYPE_MARKER_OBJECT, Decoder::decodeObject);
+    }
 
-        return Optional.empty();
+    public static Optional<JsonNode> decode(ObjectNode presentation) {
+        return Optional.ofNullable(resolvers.get(type(presentation))).flatMap(resolver -> resolver.apply(presentation));
     }
 
     private static int type(ObjectNode presentation) {
