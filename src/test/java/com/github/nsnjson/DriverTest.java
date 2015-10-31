@@ -78,7 +78,7 @@ public class DriverTest extends AbstractFormatTest {
     }
 
     @Test
-    public void processObject() {
+    public void processTestObject() {
         ObjectNode object = getObject();
 
         shouldBeConsistencyWhenGivenObject(object, getObjectPresentation(object));
