@@ -50,14 +50,10 @@ public class EncoderTest extends AbstractFormatTest {
     }
 
     @Test
-    public void shouldEncodeWhenGivenBooleanIsTrue() {
-        JsonNode value = getBooleanTrue();
+    public void processTestBooleanTrue() {
+        BooleanNode value = getBooleanTrue();
 
-        ObjectNode presentation = new ObjectMapper().createObjectNode();
-        presentation.put(FIELD_TYPE, TYPE_MARKER_BOOLEAN);
-        presentation.put(FIELD_VALUE, BOOLEAN_TRUE);
-
-        assertEncoding(value, presentation);
+        shouldEncodeWhenGivenBoolean(value, getBooleanPresentation(value));
     }
 
     @Test
@@ -259,6 +255,10 @@ public class EncoderTest extends AbstractFormatTest {
     }
 
     public void shouldEncodeWhenGivenString(TextNode value, ObjectNode presentation) {
+        assertEncoding(value, presentation);
+    }
+
+    private void shouldEncodeWhenGivenBoolean(BooleanNode value, ObjectNode presentation) {
         assertEncoding(value, presentation);
     }
 
