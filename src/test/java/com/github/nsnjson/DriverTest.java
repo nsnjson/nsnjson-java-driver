@@ -7,13 +7,6 @@ import org.junit.*;
 public class DriverTest extends AbstractFormatTest {
 
     @Test
-    public void processTestArray() {
-        ArrayNode array = getArray();
-
-        shouldBeConsistencyWhenGivenArray(array, getArrayPresentation(array));
-    }
-
-    @Test
     public void processTestEmptyObject() {
         ObjectNode object = getEmptyObject();
 

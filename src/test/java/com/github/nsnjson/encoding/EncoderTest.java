@@ -8,13 +8,6 @@ import org.junit.*;
 public class EncoderTest extends AbstractFormatTest {
 
     @Test
-    public void processTestArray() {
-        ArrayNode array = getArray();
-
-        shouldEncodeWhenGivenArray(array, getArrayPresentation(array));
-    }
-
-    @Test
     public void processTestEmptyObject() {
         ObjectNode object = getEmptyObject();
 
