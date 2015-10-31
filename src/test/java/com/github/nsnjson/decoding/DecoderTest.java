@@ -22,10 +22,10 @@ public class DecoderTest extends AbstractFormatTest {
     }
 
     @Test
-    public void shouldDecodeWhenGivenNumberIsLong() {
+    public void processTestNumberLong() {
         NumericNode value = getNumberLong();
 
-        assertDecoding(value, getNumberLongPresentation(value));
+        shouldDecodeWhenGivenNumber(value, getNumberLongPresentation(value));
     }
 
     @Test
