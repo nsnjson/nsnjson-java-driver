@@ -64,6 +64,13 @@ public abstract class AbstractFormatTest {
         processTestBoolean(value, getBooleanPresentation(value));
     }
 
+    @Test
+    public void testEmptyArray() {
+        ArrayNode array = getEmptyArray();
+
+        processTestArray(array, getArrayPresentation(array));
+    }
+
     protected abstract void processTestNull(NullNode value, ObjectNode presentation);
 
     protected abstract void processTestNumberInt(NumericNode value, ObjectNode presentation);
@@ -75,6 +82,8 @@ public abstract class AbstractFormatTest {
     protected abstract void processTestString(TextNode value, ObjectNode presentation);
 
     protected abstract void processTestBoolean(BooleanNode value, ObjectNode presentation);
+
+    protected abstract void processTestArray(ArrayNode array, ObjectNode presentation);
 
     private static NullNode getNull() {
         return NullNode.getInstance();
@@ -108,7 +117,7 @@ public abstract class AbstractFormatTest {
         return BooleanNode.getFalse();
     }
 
-    protected static ArrayNode getEmptyArray() {
+    private static ArrayNode getEmptyArray() {
         return new ObjectMapper().createArrayNode();
     }
 

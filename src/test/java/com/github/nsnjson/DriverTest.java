@@ -7,13 +7,6 @@ import org.junit.*;
 public class DriverTest extends AbstractFormatTest {
 
     @Test
-    public void processTestEmptyArray() {
-        ArrayNode array = getEmptyArray();
-
-        shouldBeConsistencyWhenGivenArray(array, getArrayPresentation(array));
-    }
-
-    @Test
     public void processTestArray() {
         ArrayNode array = getArray();
 
@@ -62,6 +55,11 @@ public class DriverTest extends AbstractFormatTest {
     @Override
     protected void processTestBoolean(BooleanNode value, ObjectNode presentation) {
         shouldBeConsistencyWhenGivenBoolean(value, presentation);
+    }
+
+    @Override
+    protected void processTestArray(ArrayNode array, ObjectNode presentation) {
+        shouldBeConsistencyWhenGivenArray(array, presentation);
     }
 
     private static void shouldBeConsistencyWhenGivenNull(NullNode value, ObjectNode presentation) {

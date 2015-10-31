@@ -8,13 +8,6 @@ import org.junit.*;
 public class EncoderTest extends AbstractFormatTest {
 
     @Test
-    public void processTestEmptyArray() {
-        ArrayNode array = getEmptyArray();
-
-        shouldEncodeWhenGivenArray(array, getArrayPresentation(array));
-    }
-
-    @Test
     public void processTestArray() {
         ArrayNode array = getArray();
 
@@ -63,6 +56,11 @@ public class EncoderTest extends AbstractFormatTest {
     @Override
     protected void processTestBoolean(BooleanNode value, ObjectNode presentation) {
         shouldEncodeWhenGivenBoolean(value, presentation);
+    }
+
+    @Override
+    protected void processTestArray(ArrayNode array, ObjectNode presentation) {
+        shouldEncodeWhenGivenArray(array, presentation);
     }
 
     private static void shouldEncodeWhenGivenNull(NullNode value, ObjectNode presentation) {
