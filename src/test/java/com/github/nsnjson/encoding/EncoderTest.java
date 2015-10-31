@@ -64,14 +64,8 @@ public class EncoderTest extends AbstractFormatTest {
     }
 
     @Test
-    public void shouldEncodeWhenGivenArrayIsEmpty() {
-        ObjectMapper objectMapper = new ObjectMapper();
-
-        ObjectNode presentation = objectMapper.createObjectNode();
-        presentation.put(FIELD_TYPE, TYPE_MARKER_ARRAY);
-        presentation.set(FIELD_VALUE, objectMapper.createArrayNode());
-
-        assertEncoding(getEmptyArray(), presentation);
+    public void processTestEmptyArray() {
+        shouldEncodeWhenGivenArray(getEmptyArray(), getEmptyArrayPresentation());
     }
 
     @Test
@@ -256,6 +250,10 @@ public class EncoderTest extends AbstractFormatTest {
 
     private void shouldEncodeWhenGivenBoolean(BooleanNode value, ObjectNode presentation) {
         assertEncoding(value, presentation);
+    }
+
+    private void shouldEncodeWhenGivenArray(ArrayNode array, ObjectNode presentation) {
+        assertEncoding(array, presentation);
     }
 
     private static void assertEncoding(JsonNode value, ObjectNode presentation) {
