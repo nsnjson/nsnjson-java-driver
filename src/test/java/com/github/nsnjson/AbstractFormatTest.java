@@ -44,7 +44,7 @@ public abstract class AbstractFormatTest {
 
     protected abstract void processTestNumberDouble(NumericNode value, ObjectNode presentation);
 
-    protected static NullNode getNull() {
+    private static NullNode getNull() {
         return NullNode.getInstance();
     }
 
@@ -110,7 +110,7 @@ public abstract class AbstractFormatTest {
         return object;
     }
 
-    protected static ObjectNode getNullPresentation() {
+    private static ObjectNode getNullPresentation() {
         ObjectNode presentation = new ObjectMapper().createObjectNode();
         presentation.put(FIELD_TYPE, TYPE_MARKER_NULL);
 
