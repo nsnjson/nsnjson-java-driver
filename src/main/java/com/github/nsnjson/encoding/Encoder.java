@@ -4,28 +4,25 @@ import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.node.*;
 
 import java.util.*;
+import java.util.function.Function;
 
+import static com.fasterxml.jackson.databind.node.JsonNodeType.*;
 import static com.github.nsnjson.format.Format.*;
 
 public class Encoder {
 
-    public static Optional<ObjectNode> encode(JsonNode value) {
-        switch (value.getNodeType()) {
-            case NULL:
-                return encodeNull();
-            case BOOLEAN:
-                return encodeBoolean((BooleanNode) value);
-            case NUMBER:
-                return encodeNumber((NumericNode) value);
-            case STRING:
-                return encodeString((TextNode) value);
-            case ARRAY:
-                return encodeArray((ArrayNode) value);
-            case OBJECT:
-                return encodeObject((ObjectNode) value);
-        }
+    private static final Map<JsonNodeType, Function<JsonNode, Optional<ObjectNode>>> resolvers = new HashMap<>();
+    static {
+        resolvers.put(NULL, (json) -> encodeNull());
+        resolvers.put(NUMBER, (json) -> encodeNumber((NumericNode) json));
+        resolvers.put(STRING, (json) -> encodeString((TextNode) json));
+        resolvers.put(BOOLEAN, (json) -> encodeBoolean((BooleanNode) json));
+        resolvers.put(ARRAY, (json) -> encodeArray((ArrayNode) json));
+        resolvers.put(OBJECT, (json) -> encodeObject((ObjectNode) json));
+    }
 
-        return Optional.empty();
+    public static Optional<ObjectNode> encode(JsonNode value) {
+        return Optional.ofNullable(resolvers.get(value.getNodeType())).flatMap(resolver -> resolver.apply(value));
     }
 
     private static Optional<ObjectNode> encodeNull() {
