@@ -108,7 +108,7 @@ public abstract class AbstractFormatTest {
 
     protected abstract void processTestObject(ObjectNode object, ObjectNode presentation);
 
-    protected static ObjectNode assertAndGetPresentation(Optional<ObjectNode> presentationOption) {
+    protected static JsonNode assertAndGetPresentation(Optional<JsonNode> presentationOption) {
         Assert.assertTrue(presentationOption.isPresent());
 
         return presentationOption.get();

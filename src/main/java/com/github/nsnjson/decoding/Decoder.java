@@ -20,8 +20,12 @@ public class Decoder {
         resolvers.put(TYPE_MARKER_OBJECT, Decoder::decodeObject);
     }
 
-    public static Optional<JsonNode> decode(ObjectNode presentation) {
-        return Optional.ofNullable(resolvers.get(type(presentation))).flatMap(resolver -> resolver.apply(presentation));
+    public static Optional<JsonNode> decode(JsonNode presentation) {
+        if (presentation.isObject()) {
+            return Optional.ofNullable(resolvers.get(type((ObjectNode) presentation))).flatMap(resolver -> resolver.apply((ObjectNode) presentation));
+        } else {
+            return Optional.empty();
+        }
     }
 
     private static int type(ObjectNode presentation) {
@@ -93,7 +97,7 @@ public class Decoder {
                     JsonNode itemPresentation = presentationOfArrayItems.get(i);
 
                     if (itemPresentation.isObject()) {
-                        Optional<JsonNode> itemOption = decode((ObjectNode) itemPresentation);
+                        Optional<JsonNode> itemOption = decode(itemPresentation);
 
                         if (itemOption.isPresent()) {
                             JsonNode item = itemOption.get();
@@ -129,7 +133,7 @@ public class Decoder {
                             if (nameNode.isTextual()) {
                                 String name = nameNode.asText();
 
-                                Optional<JsonNode> valueOption = decode((ObjectNode) fieldPresentation);
+                                Optional<JsonNode> valueOption = decode(fieldPresentation);
 
                                 if (valueOption.isPresent()) {
                                     JsonNode value = valueOption.get();

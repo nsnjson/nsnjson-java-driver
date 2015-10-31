@@ -11,7 +11,7 @@ import static com.github.nsnjson.format.Format.*;
 
 public class Encoder {
 
-    private static final Map<JsonNodeType, Function<JsonNode, Optional<ObjectNode>>> resolvers = new HashMap<>();
+    private static final Map<JsonNodeType, Function<JsonNode, Optional<JsonNode>>> resolvers = new HashMap<>();
     static {
         resolvers.put(NULL, (json) -> encodeNull());
         resolvers.put(NUMBER, (json) -> encodeNumber((NumericNode) json));
@@ -21,11 +21,11 @@ public class Encoder {
         resolvers.put(OBJECT, (json) -> encodeObject((ObjectNode) json));
     }
 
-    public static Optional<ObjectNode> encode(JsonNode value) {
+    public static Optional<JsonNode> encode(JsonNode value) {
         return Optional.ofNullable(resolvers.get(value.getNodeType())).flatMap(resolver -> resolver.apply(value));
     }
 
-    private static Optional<ObjectNode> encodeNull() {
+    private static Optional<JsonNode> encodeNull() {
         ObjectMapper objectMapper = new ObjectMapper();
 
         ObjectNode presentation = objectMapper.createObjectNode();
@@ -34,7 +34,7 @@ public class Encoder {
         return Optional.of(presentation);
     }
 
-    private static Optional<ObjectNode> encodeBoolean(BooleanNode value) {
+    private static Optional<JsonNode> encodeBoolean(BooleanNode value) {
         ObjectMapper objectMapper = new ObjectMapper();
 
         ObjectNode presentation = objectMapper.createObjectNode();
@@ -44,7 +44,7 @@ public class Encoder {
         return Optional.of(presentation);
     }
 
-    private static Optional<ObjectNode> encodeNumber(NumericNode value) {
+    private static Optional<JsonNode> encodeNumber(NumericNode value) {
         if (value.isInt()) {
             return encodeNumberInt(value);
         }
@@ -58,7 +58,7 @@ public class Encoder {
         return Optional.empty();
     }
 
-    private static Optional<ObjectNode> encodeNumberInt(NumericNode value) {
+    private static Optional<JsonNode> encodeNumberInt(NumericNode value) {
         ObjectNode presentation = new ObjectMapper().createObjectNode();
         presentation.put(FIELD_TYPE, TYPE_MARKER_NUMBER);
         presentation.put(FIELD_VALUE, value.asInt());
@@ -66,7 +66,7 @@ public class Encoder {
         return Optional.of(presentation);
     }
 
-    private static Optional<ObjectNode> encodeNumberLong(NumericNode value) {
+    private static Optional<JsonNode> encodeNumberLong(NumericNode value) {
         ObjectNode presentation = new ObjectMapper().createObjectNode();
         presentation.put(FIELD_TYPE, TYPE_MARKER_NUMBER);
         presentation.put(FIELD_VALUE, value.asLong());
@@ -74,7 +74,7 @@ public class Encoder {
         return Optional.of(presentation);
     }
 
-    private static Optional<ObjectNode> encodeNumberDouble(NumericNode value) {
+    private static Optional<JsonNode> encodeNumberDouble(NumericNode value) {
         ObjectNode presentation = new ObjectMapper().createObjectNode();
         presentation.put(FIELD_TYPE, TYPE_MARKER_NUMBER);
         presentation.put(FIELD_VALUE, value.asDouble());
@@ -82,7 +82,7 @@ public class Encoder {
         return Optional.of(presentation);
     }
 
-    private static Optional<ObjectNode> encodeString(TextNode value) {
+    private static Optional<JsonNode> encodeString(TextNode value) {
         ObjectMapper objectMapper = new ObjectMapper();
 
         ObjectNode presentation = objectMapper.createObjectNode();
@@ -92,16 +92,16 @@ public class Encoder {
         return Optional.of(presentation);
     }
 
-    private static Optional<ObjectNode> encodeArray(ArrayNode array) {
+    private static Optional<JsonNode> encodeArray(ArrayNode array) {
         ObjectMapper objectMapper = new ObjectMapper();
 
         ArrayNode presentationOfArrayItems = objectMapper.createArrayNode();
 
         for (JsonNode item: array) {
-            Optional<ObjectNode> itemPresentationOption = encode(item);
+            Optional<JsonNode> itemPresentationOption = encode(item);
 
             if (itemPresentationOption.isPresent()) {
-                ObjectNode encodedItem = itemPresentationOption.get();
+                JsonNode encodedItem = itemPresentationOption.get();
 
                 presentationOfArrayItems.add(encodedItem);
             }
@@ -114,7 +114,7 @@ public class Encoder {
         return Optional.of(presentation);
     }
 
-    private static Optional<ObjectNode> encodeObject(ObjectNode object) {
+    private static Optional<JsonNode> encodeObject(ObjectNode object) {
         ObjectMapper objectMapper = new ObjectMapper();
 
         ArrayNode presentationOfObjectFields = objectMapper.createArrayNode();
@@ -124,10 +124,10 @@ public class Encoder {
 
             JsonNode value = object.get(name);
 
-            Optional<ObjectNode> valuePresentationOption = encode(value);
+            Optional<JsonNode> valuePresentationOption = encode(value);
 
             if (valuePresentationOption.isPresent()) {
-                ObjectNode valuePresentation = valuePresentationOption.get();
+                JsonNode valuePresentation = valuePresentationOption.get();
 
                 ObjectNode fieldPresentation = objectMapper.createObjectNode();
                 fieldPresentation.put(FIELD_NAME, name);
