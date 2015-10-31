@@ -29,14 +29,10 @@ public class EncoderTest extends AbstractFormatTest {
     }
 
     @Test
-    public void shouldEncodeWhenGivenNumberIsDouble() {
-        JsonNode value = getNumberDouble();
+    public void processTestNumberDouble() {
+        NumericNode value = getNumberDouble();
 
-        ObjectNode presentation = new ObjectMapper().createObjectNode();
-        presentation.put(FIELD_TYPE, TYPE_MARKER_NUMBER);
-        presentation.put(FIELD_VALUE, value.asDouble());
-
-        assertEncoding(value, presentation);
+        shouldEncodeWhenGivenNumber(value, getNumberDoublePresentation(value));
     }
 
     @Test
