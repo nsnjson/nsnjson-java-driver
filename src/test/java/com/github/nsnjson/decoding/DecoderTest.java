@@ -64,10 +64,10 @@ public class DecoderTest extends AbstractFormatTest {
     }
 
     @Test
-    public void shouldDecodeWhenGivenArrayIsEmpty() {
+    public void processTestEmptyArray() {
         ArrayNode array = getEmptyArray();
 
-        assertDecoding(array, getArrayPresentation(array));
+        shouldDecodeWhenGivenArray(array, getArrayPresentation(array));
     }
 
     @Test
@@ -248,6 +248,10 @@ public class DecoderTest extends AbstractFormatTest {
 
     private void shouldDecodeWhenGivenBoolean(BooleanNode value, ObjectNode presentation) {
         assertDecoding(value, presentation);
+    }
+
+    private void shouldDecodeWhenGivenArray(ArrayNode array, ObjectNode presentation) {
+        assertDecoding(array, presentation);
     }
 
     private static void assertDecoding(JsonNode value, ObjectNode presentation) {
