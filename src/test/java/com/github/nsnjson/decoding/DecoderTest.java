@@ -57,10 +57,10 @@ public class DecoderTest extends AbstractFormatTest {
     }
 
     @Test
-    public void shouldDecodeWhenGivenBooleanIsFalse() {
+    public void processTestBooleanFalse() {
         BooleanNode value = getBooleanFalse();
 
-        assertDecoding(value, getBooleanPresentation(value));
+        shouldDecodeWhenGivenBoolean(value, getBooleanPresentation(value));
     }
 
     @Test
