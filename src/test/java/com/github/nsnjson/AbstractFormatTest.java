@@ -2,7 +2,7 @@ package com.github.nsnjson;
 
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.node.*;
-import org.junit.Test;
+import org.junit.*;
 
 import java.util.*;
 
@@ -107,6 +107,18 @@ public abstract class AbstractFormatTest {
     protected abstract void processTestArray(ArrayNode array, ObjectNode presentation);
 
     protected abstract void processTestObject(ObjectNode object, ObjectNode presentation);
+
+    protected static ObjectNode assertAndGetPresentation(Optional<ObjectNode> presentationOption) {
+        Assert.assertTrue(presentationOption.isPresent());
+
+        return presentationOption.get();
+    }
+
+    protected static JsonNode assertAndGetValue(Optional<JsonNode> valueOption) {
+        Assert.assertTrue(valueOption.isPresent());
+
+        return valueOption.get();
+    }
 
     private static NullNode getNull() {
         return NullNode.getInstance();
@@ -229,31 +241,37 @@ public abstract class AbstractFormatTest {
         for (int i = 0; i < array.size(); i++) {
             JsonNode value = array.get(i);
 
+            Optional<ObjectNode> itemPresentationOption = Optional.empty();
+
             if (value instanceof NullNode) {
-                presentationOfArrayItems.add(getNullPresentation());
+                itemPresentationOption = Optional.of(getNullPresentation());
             }
             else if (value instanceof NumericNode) {
                 NumericNode numericValue = (NumericNode) value;
 
                 if (numericValue.isInt()) {
-                    presentationOfArrayItems.add(getNumberIntPresentation(numericValue));
+                    itemPresentationOption = Optional.of(getNumberIntPresentation(numericValue));
                 }
                 else if (numericValue.isLong()) {
-                    presentationOfArrayItems.add(getNumberLongPresentation(numericValue));
+                    itemPresentationOption = Optional.of(getNumberLongPresentation(numericValue));
                 }
                 else if (numericValue.isDouble()) {
-                    presentationOfArrayItems.add(getNumberDoublePresentation(numericValue));
+                    itemPresentationOption = Optional.of(getNumberDoublePresentation(numericValue));
                 }
             }
             else if (value instanceof TextNode) {
                 TextNode stringValue = (TextNode) value;
 
-                presentationOfArrayItems.add(getStringPresentation(stringValue));
+                itemPresentationOption = Optional.of(getStringPresentation(stringValue));
             }
             else if (value instanceof BooleanNode) {
                 BooleanNode booleanValue = (BooleanNode) value;
 
-                presentationOfArrayItems.add(getBooleanPresentation(booleanValue));
+                itemPresentationOption = Optional.of(getBooleanPresentation(booleanValue));
+            }
+
+            if (itemPresentationOption.isPresent()) {
+                presentationOfArrayItems.add(itemPresentationOption.get());
             }
         }
 
@@ -274,31 +292,37 @@ public abstract class AbstractFormatTest {
 
             JsonNode value = object.get(name);
 
+            Optional<ObjectNode> fieldPresentationOption = Optional.empty();
+
             if (value instanceof NullNode) {
-                presentationOfObjectFields.add(getFieldPresentation(name, getNullPresentation()));
+                fieldPresentationOption = Optional.of(getFieldPresentation(name, getNullPresentation()));
             }
             else if (value instanceof NumericNode) {
                 NumericNode numericValue = (NumericNode) value;
 
                 if (numericValue.isInt()) {
-                    presentationOfObjectFields.add(getFieldPresentation(name, getNumberIntPresentation(numericValue)));
+                    fieldPresentationOption = Optional.of(getFieldPresentation(name, getNumberIntPresentation(numericValue)));
                 }
                 else if (numericValue.isLong()) {
-                    presentationOfObjectFields.add(getFieldPresentation(name, getNumberLongPresentation(numericValue)));
+                    fieldPresentationOption = Optional.of(getFieldPresentation(name, getNumberLongPresentation(numericValue)));
                 }
                 else if (numericValue.isDouble()) {
-                    presentationOfObjectFields.add(getFieldPresentation(name, getNumberDoublePresentation(numericValue)));
+                    fieldPresentationOption = Optional.of(getFieldPresentation(name, getNumberDoublePresentation(numericValue)));
                 }
             }
             else if (value instanceof TextNode) {
                 TextNode stringValue = (TextNode) value;
 
-                presentationOfObjectFields.add(getFieldPresentation(name, getStringPresentation(stringValue)));
+                fieldPresentationOption = Optional.of(getFieldPresentation(name, getStringPresentation(stringValue)));
             }
             else if (value instanceof BooleanNode) {
                 BooleanNode booleanValue = (BooleanNode) value;
 
-                presentationOfObjectFields.add(getFieldPresentation(name, getBooleanPresentation(booleanValue)));
+                fieldPresentationOption = Optional.of(getFieldPresentation(name, getBooleanPresentation(booleanValue)));
+            }
+
+            if (fieldPresentationOption.isPresent()) {
+                presentationOfObjectFields.add(fieldPresentationOption.get());
             }
         }
 

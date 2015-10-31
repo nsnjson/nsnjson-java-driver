@@ -72,7 +72,7 @@ public class DecoderTest extends AbstractFormatTest {
     }
 
     private static void assertDecoding(JsonNode value, ObjectNode presentation) {
-        Assert.assertEquals(value, Decoder.decode(presentation));
+        Assert.assertEquals(value, assertAndGetValue(Decoder.decode(presentation)));
     }
 
 }

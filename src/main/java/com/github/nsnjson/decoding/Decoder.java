@@ -3,11 +3,13 @@ package com.github.nsnjson.decoding;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.node.*;
 
+import java.util.Optional;
+
 import static com.github.nsnjson.format.Format.*;
 
 public class Decoder {
 
-    public static JsonNode decode(ObjectNode presentation) {
+    public static Optional<JsonNode> decode(ObjectNode presentation) {
         switch (type(presentation)) {
             case TYPE_MARKER_NULL:
                 return decodeNull();
@@ -23,125 +25,131 @@ public class Decoder {
                 return decodeObject(presentation);
         }
 
-        return null;
+        return Optional.empty();
     }
 
     private static int type(ObjectNode presentation) {
         return presentation.get(FIELD_TYPE).asInt();
     }
 
-    private static NullNode decodeNull() {
-        return NullNode.getInstance();
+    private static Optional<JsonNode> decodeNull() {
+        return Optional.of(NullNode.getInstance());
     }
 
-    private static BooleanNode decodeBoolean(ObjectNode presentation) {
+    private static Optional<JsonNode> decodeBoolean(ObjectNode presentation) {
         if (presentation.has(FIELD_VALUE)) {
             JsonNode valueNode = presentation.get(FIELD_VALUE);
 
             if (valueNode.isInt()) {
                 switch (valueNode.asInt()) {
                     case BOOLEAN_TRUE:
-                        return BooleanNode.getTrue();
+                        return Optional.of(BooleanNode.getTrue());
                     case BOOLEAN_FALSE:
-                        return BooleanNode.getFalse();
+                        return Optional.of(BooleanNode.getFalse());
                 }
             }
         }
 
-        return null;
+        return Optional.empty();
     }
 
-    private static NumericNode decodeNumber(ObjectNode presentation) {
+    private static Optional<JsonNode> decodeNumber(ObjectNode presentation) {
         if (presentation.has(FIELD_VALUE)) {
             JsonNode valueNode = presentation.get(FIELD_VALUE);
 
             if (valueNode.isInt()) {
-                return new IntNode(valueNode.asInt());
+                return Optional.of(IntNode.valueOf(valueNode.asInt()));
             }
             else if (valueNode.isLong()) {
-                return new LongNode(valueNode.asLong());
+                return Optional.of(LongNode.valueOf(valueNode.asLong()));
             }
             else if (valueNode.isDouble()) {
-                return new DoubleNode(valueNode.asDouble());
+                return Optional.of(DoubleNode.valueOf(valueNode.asDouble()));
             }
         }
 
-        return null;
+        return Optional.empty();
     }
 
-    private static TextNode decodeString(ObjectNode presentation) {
+    private static Optional<JsonNode> decodeString(ObjectNode presentation) {
         if (presentation.has(FIELD_VALUE)) {
             JsonNode value = presentation.get(FIELD_VALUE);
 
             if (value.isTextual()) {
-                return (TextNode) value;
+                return Optional.of(TextNode.valueOf(value.asText()));
             }
          }
 
-        return null;
+        return Optional.empty();
     }
 
 
-    private static ArrayNode decodeArray(ObjectNode presentation) {
+    private static Optional<JsonNode> decodeArray(ObjectNode presentation) {
         if (presentation.has(FIELD_VALUE)) {
             JsonNode valueNode = presentation.get(FIELD_VALUE);
 
             if (valueNode.isArray()) {
                 ArrayNode array = new ObjectMapper().createArrayNode();
 
-                ArrayNode encodedItems = (ArrayNode) valueNode;
+                ArrayNode presentationOfArrayItems = (ArrayNode) valueNode;
 
-                for (int i = 0; i < encodedItems.size(); i++) {
-                    JsonNode encodedItem = encodedItems.get(i);
+                for (int i = 0; i < presentationOfArrayItems.size(); i++) {
+                    JsonNode itemPresentation = presentationOfArrayItems.get(i);
 
-                    if (encodedItem.isObject()) {
-                        JsonNode item = decode((ObjectNode) encodedItem);
+                    if (itemPresentation.isObject()) {
+                        Optional<JsonNode> itemOption = decode((ObjectNode) itemPresentation);
 
-                        if (item != null) {
+                        if (itemOption.isPresent()) {
+                            JsonNode item = itemOption.get();
+
                             array.add(item);
                         }
                     }
                 }
 
-                return array;
+                return Optional.of(array);
             }
         }
 
-        return null;
+        return Optional.empty();
     }
 
-    private static ObjectNode decodeObject(ObjectNode presentation) {
+    private static Optional<JsonNode> decodeObject(ObjectNode presentation) {
         if (presentation.has(FIELD_VALUE)) {
             JsonNode valueNode = presentation.get(FIELD_VALUE);
 
             if (valueNode.isArray()) {
                 ObjectNode object = new ObjectMapper().createObjectNode();
 
-                ArrayNode encodedFields = (ArrayNode) valueNode;
+                ArrayNode presentationOfObjectFields = (ArrayNode) valueNode;
 
-                for (int i = 0; i < encodedFields.size(); i++) {
-                    JsonNode encodedField = encodedFields.get(i);
+                for (int i = 0; i < presentationOfObjectFields.size(); i++) {
+                    JsonNode fieldPresentation = presentationOfObjectFields.get(i);
 
-                    if (encodedField.isObject() && encodedField.has(FIELD_NAME)) {
-                        JsonNode nameNode = encodedField.get(FIELD_NAME);
+                    if (fieldPresentation.isObject()) {
+                        if (fieldPresentation.has(FIELD_NAME)) {
+                            JsonNode nameNode = fieldPresentation.get(FIELD_NAME);
 
-                        if (nameNode.isTextual()) {
-                            String name = nameNode.asText();
+                            if (nameNode.isTextual()) {
+                                String name = nameNode.asText();
 
-                            JsonNode value = decode((ObjectNode) encodedField);
+                                Optional<JsonNode> valueOption = decode((ObjectNode) fieldPresentation);
 
-                            if (value != null) {
-                                object.set(name, value);
+                                if (valueOption.isPresent()) {
+                                    JsonNode value = valueOption.get();
+
+                                    object.set(name, value);
+                                }
                             }
                         }
                     }
                 }
 
-                return object;
+                return Optional.of(object);
             }
         }
 
-        return null;
+        return Optional.empty();
     }
 
 }

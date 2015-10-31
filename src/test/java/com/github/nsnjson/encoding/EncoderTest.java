@@ -72,7 +72,7 @@ public class EncoderTest extends AbstractFormatTest {
     }
 
     private static void assertEncoding(JsonNode value, ObjectNode presentation) {
-        Assert.assertEquals(presentation, Encoder.encode(value));
+        Assert.assertEquals(presentation, assertAndGetPresentation(Encoder.encode(value)));
     }
 
 }
