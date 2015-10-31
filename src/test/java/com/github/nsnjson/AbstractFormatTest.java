@@ -1,6 +1,6 @@
 package com.github.nsnjson;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.node.*;
 
 import java.util.*;
@@ -128,6 +128,49 @@ public class AbstractFormatTest {
         ObjectNode presentation = objectMapper.createObjectNode();
         presentation.put(FIELD_TYPE, TYPE_MARKER_ARRAY);
         presentation.set(FIELD_VALUE, objectMapper.createArrayNode());
+
+        return presentation;
+    }
+
+    protected static ObjectNode getArrayPresentation(ArrayNode array) {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        ArrayNode presentationOfArrayItems = objectMapper.createArrayNode();
+
+        for (int i = 0; i < array.size(); i++) {
+            JsonNode value = array.get(i);
+
+            if (value instanceof NullNode) {
+                presentationOfArrayItems.add(getNullPresentation());
+            }
+            else if (value instanceof NumericNode) {
+                NumericNode numericValue = (NumericNode) value;
+
+                if (numericValue.isInt()) {
+                    presentationOfArrayItems.add(getNumberIntPresentation(numericValue));
+                }
+                else if (numericValue.isLong()) {
+                    presentationOfArrayItems.add(getNumberLongPresentation(numericValue));
+                }
+                else if (numericValue.isDouble()) {
+                    presentationOfArrayItems.add(getNumberDoublePresentation(numericValue));
+                }
+            }
+            else if (value instanceof TextNode) {
+                TextNode stringValue = (TextNode) value;
+
+                presentationOfArrayItems.add(getStringPresentation(stringValue));
+            }
+            else if (value instanceof BooleanNode) {
+                BooleanNode booleanValue = (BooleanNode) value;
+
+                presentationOfArrayItems.add(getBooleanPresentation(booleanValue));
+            }
+        }
+
+        ObjectNode presentation = objectMapper.createObjectNode();
+        presentation.put(FIELD_TYPE, TYPE_MARKER_ARRAY);
+        presentation.set(FIELD_VALUE, presentationOfArrayItems);
 
         return presentation;
     }
