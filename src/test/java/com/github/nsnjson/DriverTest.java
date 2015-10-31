@@ -88,27 +88,27 @@ public class DriverTest extends AbstractFormatTest {
         shouldBeConsistencyWhenGivenObject(object, getObjectPresentation(object));
     }
 
-    private void shouldBeConsistencyWhenGivenNull(NullNode value, ObjectNode presentation) {
+    private static void shouldBeConsistencyWhenGivenNull(NullNode value, ObjectNode presentation) {
         assertConsistency(value, presentation);
     }
 
-    private void shouldBeConsistencyWhenGivenNumber(NumericNode value, ObjectNode presentation) {
+    private static void shouldBeConsistencyWhenGivenNumber(NumericNode value, ObjectNode presentation) {
         assertConsistency(value, presentation);
     }
 
-    private void shouldBeConsistencyWhenGivenString(TextNode value, ObjectNode presentation) {
+    private static void shouldBeConsistencyWhenGivenString(TextNode value, ObjectNode presentation) {
         assertConsistency(value, presentation);
     }
 
-    private void shouldBeConsistencyWhenGivenBoolean(BooleanNode value, ObjectNode presentation) {
+    private static void shouldBeConsistencyWhenGivenBoolean(BooleanNode value, ObjectNode presentation) {
         assertConsistency(value, presentation);
     }
 
-    private void shouldBeConsistencyWhenGivenArray(ArrayNode array, ObjectNode presentation) {
+    private static void shouldBeConsistencyWhenGivenArray(ArrayNode array, ObjectNode presentation) {
         assertConsistency(array, presentation);
     }
 
-    private  void shouldBeConsistencyWhenGivenObject(ObjectNode object, ObjectNode presentation) {
+    private static void shouldBeConsistencyWhenGivenObject(ObjectNode object, ObjectNode presentation) {
         assertConsistency(object, presentation);
     }
 
