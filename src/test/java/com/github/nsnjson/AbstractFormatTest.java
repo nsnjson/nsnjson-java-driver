@@ -23,7 +23,7 @@ public abstract class AbstractFormatTest {
     }
 
     @Test
-    public void processTestNumberLong() {
+    public void testNumberLong() {
         NumericNode value = getNumberLong();
 
         processTestNumberLong(value, getNumberLongPresentation(value));
