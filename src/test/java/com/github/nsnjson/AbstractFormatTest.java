@@ -2,12 +2,20 @@ package com.github.nsnjson;
 
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.node.*;
+import org.junit.Test;
 
 import java.util.*;
 
 import static com.github.nsnjson.format.Format.*;
 
-public class AbstractFormatTest {
+public abstract class AbstractFormatTest {
+
+    @Test
+    public void testNull() {
+        processTestNull(getNull(), getNullPresentation());
+    }
+
+    protected abstract void processTestNull(NullNode value, ObjectNode presentation);
 
     protected static NullNode getNull() {
         return NullNode.getInstance();

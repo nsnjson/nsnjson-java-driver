@@ -8,11 +8,6 @@ import org.junit.*;
 public class EncoderTest extends AbstractFormatTest {
 
     @Test
-    public void processTestNull() {
-        shouldEncodeWhenGivenNull(getNull(), getNullPresentation());
-    }
-
-    @Test
     public void processTestNumberInt() {
         NumericNode value = getNumberInt();
 
@@ -87,6 +82,11 @@ public class EncoderTest extends AbstractFormatTest {
         ObjectNode object = getObject();
 
         shouldEncodeWhenGivenObject(object, getObjectPresentation(object));
+    }
+
+    @Override
+    protected void processTestNull(NullNode value, ObjectNode presentation) {
+        shouldEncodeWhenGivenNull(value, presentation);
     }
 
     private static void shouldEncodeWhenGivenNull(NullNode value, ObjectNode presentation) {

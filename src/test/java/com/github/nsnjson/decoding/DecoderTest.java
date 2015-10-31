@@ -8,11 +8,6 @@ import org.junit.*;
 public class DecoderTest extends AbstractFormatTest {
 
     @Test
-    public void processTestNull() {
-        shouldDecodeWhenGivenNull(getNull(), getNullPresentation());
-    }
-
-    @Test
     public void processTestNumberInt() {
         NumericNode value = getNumberInt();
 
@@ -87,6 +82,11 @@ public class DecoderTest extends AbstractFormatTest {
         ObjectNode object = getObject();
 
         shouldDecodeWhenGivenObject(object, getObjectPresentation(object));
+    }
+
+    @Override
+    protected void processTestNull(NullNode value, ObjectNode presentation) {
+        shouldDecodeWhenGivenNull(getNull(), getNullPresentation());
     }
 
     private static void shouldDecodeWhenGivenNull(NullNode value, ObjectNode presentation) {
