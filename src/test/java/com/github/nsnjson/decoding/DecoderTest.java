@@ -1,11 +1,9 @@
 package com.github.nsnjson.decoding;
 
-import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.*;
 import com.github.nsnjson.AbstractFormatTest;
 import org.junit.*;
-
-import static com.github.nsnjson.format.Format.*;
 
 public class DecoderTest extends AbstractFormatTest {
 
@@ -91,27 +89,27 @@ public class DecoderTest extends AbstractFormatTest {
         shouldDecodeWhenGivenObject(object, getObjectPresentation(object));
     }
 
-    private void shouldDecodeWhenGivenNull(NullNode value, ObjectNode presentation) {
+    private static void shouldDecodeWhenGivenNull(NullNode value, ObjectNode presentation) {
         assertDecoding(value, presentation);
     }
 
-    private void shouldDecodeWhenGivenNumber(NumericNode value, ObjectNode presentation) {
+    private static void shouldDecodeWhenGivenNumber(NumericNode value, ObjectNode presentation) {
         assertDecoding(value, presentation);
     }
 
-    private void shouldDecodeWhenGivenString(TextNode value, ObjectNode presentation) {
+    private static void shouldDecodeWhenGivenString(TextNode value, ObjectNode presentation) {
         assertDecoding(value, presentation);
     }
 
-    private void shouldDecodeWhenGivenBoolean(BooleanNode value, ObjectNode presentation) {
+    private static void shouldDecodeWhenGivenBoolean(BooleanNode value, ObjectNode presentation) {
         assertDecoding(value, presentation);
     }
 
-    private void shouldDecodeWhenGivenArray(ArrayNode array, ObjectNode presentation) {
+    private static void shouldDecodeWhenGivenArray(ArrayNode array, ObjectNode presentation) {
         assertDecoding(array, presentation);
     }
 
-    private void shouldDecodeWhenGivenObject(ObjectNode object, ObjectNode presentation) {
+    private static void shouldDecodeWhenGivenObject(ObjectNode object, ObjectNode presentation) {
         assertDecoding(object, presentation);
     }
 
