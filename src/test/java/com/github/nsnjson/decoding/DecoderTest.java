@@ -43,10 +43,10 @@ public class DecoderTest extends AbstractFormatTest {
     }
 
     @Test
-    public void shouldDecodeWhenGivenStringIsEmpty() {
-        TextNode value = getEmptyString();
+    public void processTestString() {
+        TextNode value = getString();
 
-        assertDecoding(value, getStringPresentation(value));
+        shouldDecodeWhenGivenString(value, getStringPresentation(value));
     }
 
     @Test
