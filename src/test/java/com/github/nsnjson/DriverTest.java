@@ -7,13 +7,6 @@ import org.junit.*;
 public class DriverTest extends AbstractFormatTest {
 
     @Test
-    public void processTestNumberDouble() {
-        NumericNode value = getNumberDouble();
-
-        shouldBeConsistencyWhenGivenNumber(value, getNumberDoublePresentation(value));
-    }
-
-    @Test
     public void processTestEmptyString() {
         TextNode value = getEmptyString();
 
@@ -81,6 +74,11 @@ public class DriverTest extends AbstractFormatTest {
 
     @Override
     protected void processTestNumberLong(NumericNode value, ObjectNode presentation) {
+        shouldBeConsistencyWhenGivenNumber(value, presentation);
+    }
+
+    @Override
+    protected void processTestNumberDouble(NumericNode value, ObjectNode presentation) {
         shouldBeConsistencyWhenGivenNumber(value, presentation);
     }
 
