@@ -123,13 +123,7 @@ public class AbstractFormatTest {
     }
 
     protected static ObjectNode getEmptyArrayPresentation() {
-        ObjectMapper objectMapper = new ObjectMapper();
-
-        ObjectNode presentation = objectMapper.createObjectNode();
-        presentation.put(FIELD_TYPE, TYPE_MARKER_ARRAY);
-        presentation.set(FIELD_VALUE, objectMapper.createArrayNode());
-
-        return presentation;
+        return getArrayPresentation(getEmptyArray());
     }
 
     protected static ObjectNode getArrayPresentation(ArrayNode array) {
