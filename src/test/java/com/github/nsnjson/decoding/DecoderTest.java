@@ -29,10 +29,10 @@ public class DecoderTest extends AbstractFormatTest {
     }
 
     @Test
-    public void shouldDecodeWhenGivenNumberIsDouble() {
+    public void processTestNumberDouble() {
         NumericNode value = getNumberDouble();
 
-        assertDecoding(value, getNumberDoublePresentation(value));
+        shouldDecodeWhenGivenNumber(value, getNumberDoublePresentation(value));
     }
 
     @Test
