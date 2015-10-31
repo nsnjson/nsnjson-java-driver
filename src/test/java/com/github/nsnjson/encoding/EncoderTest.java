@@ -99,7 +99,7 @@ public class EncoderTest extends AbstractFormatTest {
         assertEncoding(value, presentation);
     }
 
-    public void shouldEncodeWhenGivenString(TextNode value, ObjectNode presentation) {
+    private void shouldEncodeWhenGivenString(TextNode value, ObjectNode presentation) {
         assertEncoding(value, presentation);
     }
 
