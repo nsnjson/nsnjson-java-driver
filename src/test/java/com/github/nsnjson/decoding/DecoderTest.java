@@ -10,8 +10,8 @@ import static com.github.nsnjson.format.Format.*;
 public class DecoderTest extends AbstractFormatTest {
 
     @Test
-    public void shouldDecodeWhenGivenNull() {
-        assertDecoding(getNull(), getNullPresentation());
+    public void processTestNull() {
+        shouldDecodeWhenGivenNull(getNull(), getNullPresentation());
     }
 
     @Test
@@ -232,6 +232,10 @@ public class DecoderTest extends AbstractFormatTest {
         presentation.set(FIELD_VALUE, presentationOfArrayItems);
 
         assertDecoding(object, presentation);
+    }
+
+    private void shouldDecodeWhenGivenNull(NullNode value, ObjectNode presentation) {
+        assertDecoding(value, presentation);
     }
 
     private static void assertDecoding(JsonNode value, ObjectNode presentation) {
