@@ -122,10 +122,6 @@ public class AbstractFormatTest {
         return presentation;
     }
 
-    protected static ObjectNode getEmptyArrayPresentation() {
-        return getArrayPresentation(getEmptyArray());
-    }
-
     protected static ObjectNode getArrayPresentation(ArrayNode array) {
         ObjectMapper objectMapper = new ObjectMapper();
 

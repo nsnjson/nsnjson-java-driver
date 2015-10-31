@@ -65,7 +65,9 @@ public class EncoderTest extends AbstractFormatTest {
 
     @Test
     public void processTestEmptyArray() {
-        shouldEncodeWhenGivenArray(getEmptyArray(), getEmptyArrayPresentation());
+        ArrayNode array = getEmptyArray();
+
+        shouldEncodeWhenGivenArray(array, getArrayPresentation(array));
     }
 
     @Test

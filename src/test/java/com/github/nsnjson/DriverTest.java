@@ -62,7 +62,9 @@ public class DriverTest extends AbstractFormatTest {
 
     @Test
     public void processTestEmptyArray() {
-        shouldBeConsistencyWhenGivenArray(getEmptyArray(), getEmptyArrayPresentation());
+        ArrayNode array = getEmptyArray();
+
+        shouldBeConsistencyWhenGivenArray(array, getArrayPresentation(array));
     }
 
     @Test

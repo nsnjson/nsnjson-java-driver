@@ -65,7 +65,9 @@ public class DecoderTest extends AbstractFormatTest {
 
     @Test
     public void shouldDecodeWhenGivenArrayIsEmpty() {
-        assertDecoding(getEmptyArray(), getEmptyArrayPresentation());
+        ArrayNode array = getEmptyArray();
+
+        assertDecoding(array, getArrayPresentation(array));
     }
 
     @Test
