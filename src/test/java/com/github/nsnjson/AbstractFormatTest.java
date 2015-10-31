@@ -50,6 +50,13 @@ public abstract class AbstractFormatTest {
         processTestString(value, getStringPresentation(value));
     }
 
+    @Test
+    public void testBooleanTrue() {
+        BooleanNode value = getBooleanTrue();
+
+        processTestBoolean(value, getBooleanPresentation(value));
+    }
+
     protected abstract void processTestNull(NullNode value, ObjectNode presentation);
 
     protected abstract void processTestNumberInt(NumericNode value, ObjectNode presentation);
@@ -59,6 +66,8 @@ public abstract class AbstractFormatTest {
     protected abstract void processTestNumberDouble(NumericNode value, ObjectNode presentation);
 
     protected abstract void processTestString(TextNode value, ObjectNode presentation);
+
+    protected abstract void processTestBoolean(BooleanNode value, ObjectNode presentation);
 
     private static NullNode getNull() {
         return NullNode.getInstance();
@@ -84,7 +93,7 @@ public abstract class AbstractFormatTest {
         return new TextNode(UUID.randomUUID().toString().replaceAll("-", ""));
     }
 
-    protected static BooleanNode getBooleanTrue() {
+    private static BooleanNode getBooleanTrue() {
         return BooleanNode.getTrue();
     }
 

@@ -7,13 +7,6 @@ import org.junit.*;
 public class DriverTest extends AbstractFormatTest {
 
     @Test
-    public void processTestBooleanTrue() {
-        BooleanNode value = getBooleanTrue();
-
-        shouldBeConsistencyWhenGivenBoolean(value, getBooleanPresentation(value));
-    }
-
-    @Test
     public void processTestBooleanFalse() {
         BooleanNode value = getBooleanFalse();
 
@@ -71,6 +64,11 @@ public class DriverTest extends AbstractFormatTest {
     @Override
     protected void processTestString(TextNode value, ObjectNode presentation) {
         shouldBeConsistencyWhenGivenString(value, presentation);
+    }
+
+    @Override
+    protected void processTestBoolean(BooleanNode value, ObjectNode presentation) {
+        shouldBeConsistencyWhenGivenBoolean(value, presentation);
     }
 
     private static void shouldBeConsistencyWhenGivenNull(NullNode value, ObjectNode presentation) {

@@ -8,13 +8,6 @@ import org.junit.*;
 public class DecoderTest extends AbstractFormatTest {
 
     @Test
-    public void processTestBooleanTrue() {
-        BooleanNode value = getBooleanTrue();
-
-        shouldDecodeWhenGivenBoolean(value, getBooleanPresentation(value));
-    }
-
-    @Test
     public void processTestBooleanFalse() {
         BooleanNode value = getBooleanFalse();
 
@@ -72,6 +65,11 @@ public class DecoderTest extends AbstractFormatTest {
     @Override
     protected void processTestString(TextNode value, ObjectNode presentation) {
         shouldDecodeWhenGivenString(value, presentation);
+    }
+
+    @Override
+    protected void processTestBoolean(BooleanNode value, ObjectNode presentation) {
+        shouldDecodeWhenGivenBoolean(value, presentation);
     }
 
     private static void shouldDecodeWhenGivenNull(NullNode value, ObjectNode presentation) {
