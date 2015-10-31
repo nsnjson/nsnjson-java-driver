@@ -89,27 +89,27 @@ public class EncoderTest extends AbstractFormatTest {
         shouldEncodeWhenGivenObject(object, getObjectPresentation(object));
     }
 
-    private void shouldEncodeWhenGivenNull(NullNode value, ObjectNode presentation) {
+    private static void shouldEncodeWhenGivenNull(NullNode value, ObjectNode presentation) {
         assertEncoding(value, presentation);
     }
 
-    private void shouldEncodeWhenGivenNumber(NumericNode value, ObjectNode presentation) {
+    private static void shouldEncodeWhenGivenNumber(NumericNode value, ObjectNode presentation) {
         assertEncoding(value, presentation);
     }
 
-    private void shouldEncodeWhenGivenString(TextNode value, ObjectNode presentation) {
+    private static void shouldEncodeWhenGivenString(TextNode value, ObjectNode presentation) {
         assertEncoding(value, presentation);
     }
 
-    private void shouldEncodeWhenGivenBoolean(BooleanNode value, ObjectNode presentation) {
+    private static void shouldEncodeWhenGivenBoolean(BooleanNode value, ObjectNode presentation) {
         assertEncoding(value, presentation);
     }
 
-    private void shouldEncodeWhenGivenArray(ArrayNode array, ObjectNode presentation) {
+    private static void shouldEncodeWhenGivenArray(ArrayNode array, ObjectNode presentation) {
         assertEncoding(array, presentation);
     }
 
-    private void shouldEncodeWhenGivenObject(ObjectNode object, ObjectNode presentation) {
+    private static void shouldEncodeWhenGivenObject(ObjectNode object, ObjectNode presentation) {
         assertEncoding(object, presentation);
     }
 
