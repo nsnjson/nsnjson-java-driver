@@ -15,14 +15,10 @@ public class EncoderTest extends AbstractFormatTest {
     }
 
     @Test
-    public void shouldEncodeWhenGivenNumberIsInt() {
-        JsonNode value = getNumberInt();
+    public void processTestNumberInt() {
+        NumericNode value = getNumberInt();
 
-        ObjectNode presentation = new ObjectMapper().createObjectNode();
-        presentation.put(FIELD_TYPE, TYPE_MARKER_NUMBER);
-        presentation.put(FIELD_VALUE, value.asInt());
-
-        assertEncoding(value, presentation);
+        shouldEncodeWhenGivenNumber(value, getNumberIntPresentation(value));
     }
 
     @Test
@@ -271,6 +267,10 @@ public class EncoderTest extends AbstractFormatTest {
     }
 
     private void shouldEncodeWhenGivenNull(NullNode value, ObjectNode presentation) {
+        assertEncoding(value, presentation);
+    }
+
+    private void shouldEncodeWhenGivenNumber(NumericNode value, ObjectNode presentation) {
         assertEncoding(value, presentation);
     }
 
