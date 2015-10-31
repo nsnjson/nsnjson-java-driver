@@ -57,6 +57,13 @@ public abstract class AbstractFormatTest {
         processTestBoolean(value, getBooleanPresentation(value));
     }
 
+    @Test
+    public void testBooleanFalse() {
+        BooleanNode value = getBooleanFalse();
+
+        processTestBoolean(value, getBooleanPresentation(value));
+    }
+
     protected abstract void processTestNull(NullNode value, ObjectNode presentation);
 
     protected abstract void processTestNumberInt(NumericNode value, ObjectNode presentation);
@@ -97,7 +104,7 @@ public abstract class AbstractFormatTest {
         return BooleanNode.getTrue();
     }
 
-    protected static BooleanNode getBooleanFalse() {
+    private static BooleanNode getBooleanFalse() {
         return BooleanNode.getFalse();
     }
 
@@ -174,7 +181,7 @@ public abstract class AbstractFormatTest {
         return presentation;
     }
 
-    protected static ObjectNode getBooleanPresentation(BooleanNode value) {
+    private static ObjectNode getBooleanPresentation(BooleanNode value) {
         ObjectNode presentation = new ObjectMapper().createObjectNode();
         presentation.put(FIELD_TYPE, TYPE_MARKER_BOOLEAN);
         presentation.put(FIELD_VALUE, value.asBoolean() ? BOOLEAN_TRUE : BOOLEAN_FALSE);

@@ -7,13 +7,6 @@ import org.junit.*;
 public class DriverTest extends AbstractFormatTest {
 
     @Test
-    public void processTestBooleanFalse() {
-        BooleanNode value = getBooleanFalse();
-
-        shouldBeConsistencyWhenGivenBoolean(value, getBooleanPresentation(value));
-    }
-
-    @Test
     public void processTestEmptyArray() {
         ArrayNode array = getEmptyArray();
 
