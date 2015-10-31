@@ -22,9 +22,18 @@ public abstract class AbstractFormatTest {
         processTestNumberInt(value, getNumberIntPresentation(value));
     }
 
+    @Test
+    public void processTestNumberLong() {
+        NumericNode value = getNumberLong();
+
+        processTestNumberLong(value, getNumberLongPresentation(value));
+    }
+
     protected abstract void processTestNull(NullNode value, ObjectNode presentation);
 
     protected abstract void processTestNumberInt(NumericNode value, ObjectNode presentation);
+
+    protected abstract void processTestNumberLong(NumericNode value, ObjectNode presentation);
 
     protected static NullNode getNull() {
         return NullNode.getInstance();
@@ -42,7 +51,7 @@ public abstract class AbstractFormatTest {
         return new IntNode(new Random().nextInt());
     }
 
-    protected static NumericNode getNumberLong() {
+    private static NumericNode getNumberLong() {
         return new LongNode(new Random().nextLong());
     }
 
@@ -107,7 +116,7 @@ public abstract class AbstractFormatTest {
         return presentation;
     }
 
-    protected static ObjectNode getNumberLongPresentation(NumericNode value) {
+    private static ObjectNode getNumberLongPresentation(NumericNode value) {
         ObjectNode presentation = new ObjectMapper().createObjectNode();
         presentation.put(FIELD_TYPE, TYPE_MARKER_NUMBER);
         presentation.put(FIELD_VALUE, value.asLong());
