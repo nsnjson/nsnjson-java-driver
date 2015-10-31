@@ -3,51 +3,48 @@ package com.github.nsnjson.encoding;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.node.*;
 
-import java.util.Iterator;
+import java.util.*;
+import java.util.function.Function;
 
+import static com.fasterxml.jackson.databind.node.JsonNodeType.*;
 import static com.github.nsnjson.format.Format.*;
 
 public class Encoder {
 
-    public static ObjectNode encode(JsonNode value) {
-        switch (value.getNodeType()) {
-            case NULL:
-                return encodeNull();
-            case BOOLEAN:
-                return encodeBoolean((BooleanNode) value);
-            case NUMBER:
-                return encodeNumber((NumericNode) value);
-            case STRING:
-                return encodeString((TextNode) value);
-            case ARRAY:
-                return encodeArray((ArrayNode) value);
-            case OBJECT:
-                return encodeObject((ObjectNode) value);
-        }
-
-        return null;
+    private static final Map<JsonNodeType, Function<JsonNode, Optional<JsonNode>>> resolvers = new HashMap<>();
+    static {
+        resolvers.put(NULL, (json) -> encodeNull());
+        resolvers.put(NUMBER, (json) -> encodeNumber((NumericNode) json));
+        resolvers.put(STRING, (json) -> encodeString((TextNode) json));
+        resolvers.put(BOOLEAN, (json) -> encodeBoolean((BooleanNode) json));
+        resolvers.put(ARRAY, (json) -> encodeArray((ArrayNode) json));
+        resolvers.put(OBJECT, (json) -> encodeObject((ObjectNode) json));
     }
 
-    private static ObjectNode encodeNull() {
+    public static Optional<JsonNode> encode(JsonNode value) {
+        return Optional.ofNullable(resolvers.get(value.getNodeType())).flatMap(resolver -> resolver.apply(value));
+    }
+
+    private static Optional<JsonNode> encodeNull() {
         ObjectMapper objectMapper = new ObjectMapper();
 
-        ObjectNode valueInfo = objectMapper.createObjectNode();
-        valueInfo.put(FIELD_TYPE, TYPE_MARKER_NULL);
+        ObjectNode presentation = objectMapper.createObjectNode();
+        presentation.put(FIELD_TYPE, TYPE_MARKER_NULL);
 
-        return valueInfo;
+        return Optional.of(presentation);
     }
 
-    private static ObjectNode encodeBoolean(BooleanNode value) {
+    private static Optional<JsonNode> encodeBoolean(BooleanNode value) {
         ObjectMapper objectMapper = new ObjectMapper();
 
-        ObjectNode valueInfo = objectMapper.createObjectNode();
-        valueInfo.put(FIELD_TYPE, TYPE_MARKER_BOOLEAN);
-        valueInfo.put(FIELD_VALUE, value.booleanValue() ? BOOLEAN_TRUE : BOOLEAN_FALSE);
+        ObjectNode presentation = objectMapper.createObjectNode();
+        presentation.put(FIELD_TYPE, TYPE_MARKER_BOOLEAN);
+        presentation.put(FIELD_VALUE, value.booleanValue() ? BOOLEAN_TRUE : BOOLEAN_FALSE);
 
-        return valueInfo;
+        return Optional.of(presentation);
     }
 
-    private static ObjectNode encodeNumber(NumericNode value) {
+    private static Optional<JsonNode> encodeNumber(NumericNode value) {
         if (value.isInt()) {
             return encodeNumberInt(value);
         }
@@ -58,93 +55,97 @@ public class Encoder {
             return encodeNumberDouble(value);
         }
 
-        return null;
+        return Optional.empty();
     }
 
-    private static ObjectNode encodeNumberInt(NumericNode value) {
-        ObjectNode valueInfo = new ObjectMapper().createObjectNode();
-        valueInfo.put(FIELD_TYPE, TYPE_MARKER_NUMBER);
-        valueInfo.put(FIELD_VALUE, value.asInt());
+    private static Optional<JsonNode> encodeNumberInt(NumericNode value) {
+        ObjectNode presentation = new ObjectMapper().createObjectNode();
+        presentation.put(FIELD_TYPE, TYPE_MARKER_NUMBER);
+        presentation.put(FIELD_VALUE, value.asInt());
 
-        return valueInfo;
+        return Optional.of(presentation);
     }
 
-    private static ObjectNode encodeNumberLong(NumericNode value) {
-        ObjectNode valueInfo = new ObjectMapper().createObjectNode();
-        valueInfo.put(FIELD_TYPE, TYPE_MARKER_NUMBER);
-        valueInfo.put(FIELD_VALUE, value.asLong());
+    private static Optional<JsonNode> encodeNumberLong(NumericNode value) {
+        ObjectNode presentation = new ObjectMapper().createObjectNode();
+        presentation.put(FIELD_TYPE, TYPE_MARKER_NUMBER);
+        presentation.put(FIELD_VALUE, value.asLong());
 
-        return valueInfo;
+        return Optional.of(presentation);
     }
 
-    private static ObjectNode encodeNumberDouble(NumericNode value) {
-        ObjectNode valueInfo = new ObjectMapper().createObjectNode();
-        valueInfo.put(FIELD_TYPE, TYPE_MARKER_NUMBER);
-        valueInfo.put(FIELD_VALUE, value.asDouble());
+    private static Optional<JsonNode> encodeNumberDouble(NumericNode value) {
+        ObjectNode presentation = new ObjectMapper().createObjectNode();
+        presentation.put(FIELD_TYPE, TYPE_MARKER_NUMBER);
+        presentation.put(FIELD_VALUE, value.asDouble());
 
-        return valueInfo;
+        return Optional.of(presentation);
     }
 
-    private static ObjectNode encodeString(TextNode value) {
+    private static Optional<JsonNode> encodeString(TextNode value) {
         ObjectMapper objectMapper = new ObjectMapper();
 
-        ObjectNode valueInfo = objectMapper.createObjectNode();
-        valueInfo.put(FIELD_TYPE, TYPE_MARKER_STRING);
-        valueInfo.put(FIELD_VALUE, value.asText());
+        ObjectNode presentation = objectMapper.createObjectNode();
+        presentation.put(FIELD_TYPE, TYPE_MARKER_STRING);
+        presentation.put(FIELD_VALUE, value.asText());
 
-        return valueInfo;
+        return Optional.of(presentation);
     }
 
-    private static ObjectNode encodeArray(ArrayNode array) {
+    private static Optional<JsonNode> encodeArray(ArrayNode array) {
         ObjectMapper objectMapper = new ObjectMapper();
 
-        ArrayNode encodedItems = objectMapper.createArrayNode();
+        ArrayNode presentationOfArrayItems = objectMapper.createArrayNode();
 
         for (JsonNode item: array) {
-            ObjectNode encodedItem = encode(item);
+            Optional<JsonNode> itemPresentationOption = encode(item);
 
-            if (encodedItem != null) {
-                encodedItems.add(encodedItem);
+            if (itemPresentationOption.isPresent()) {
+                JsonNode encodedItem = itemPresentationOption.get();
+
+                presentationOfArrayItems.add(encodedItem);
             }
         }
 
-        ObjectNode arrayInfo = objectMapper.createObjectNode();
-        arrayInfo.put(FIELD_TYPE, TYPE_MARKER_ARRAY);
-        arrayInfo.set(FIELD_VALUE, encodedItems);
+        ObjectNode presentation = objectMapper.createObjectNode();
+        presentation.put(FIELD_TYPE, TYPE_MARKER_ARRAY);
+        presentation.set(FIELD_VALUE, presentationOfArrayItems);
 
-        return arrayInfo;
+        return Optional.of(presentation);
     }
 
-    private static ObjectNode encodeObject(ObjectNode object) {
+    private static Optional<JsonNode> encodeObject(ObjectNode object) {
         ObjectMapper objectMapper = new ObjectMapper();
 
-        ArrayNode encodedFields = objectMapper.createArrayNode();
+        ArrayNode presentationOfObjectFields = objectMapper.createArrayNode();
 
         for (Iterator<String> namesIterator = object.fieldNames(); namesIterator.hasNext();) {
             String name = namesIterator.next();
 
             JsonNode value = object.get(name);
 
-            ObjectNode encodedValue = encode(value);
+            Optional<JsonNode> valuePresentationOption = encode(value);
 
-            if (encodedValue != null) {
-                ObjectNode encodedField = objectMapper.createObjectNode();
-                encodedField.put(FIELD_NAME, name);
-                encodedField.set(FIELD_TYPE, encodedValue.get(FIELD_TYPE));
+            if (valuePresentationOption.isPresent()) {
+                JsonNode valuePresentation = valuePresentationOption.get();
 
-                if (encodedValue.has(FIELD_VALUE)) {
-                    encodedField.set(FIELD_VALUE, encodedValue.get(FIELD_VALUE));
+                ObjectNode fieldPresentation = objectMapper.createObjectNode();
+                fieldPresentation.put(FIELD_NAME, name);
+                fieldPresentation.set(FIELD_TYPE, valuePresentation.get(FIELD_TYPE));
+
+                if (valuePresentation.has(FIELD_VALUE)) {
+                    fieldPresentation.set(FIELD_VALUE, valuePresentation.get(FIELD_VALUE));
                 }
 
-                encodedFields.add(encodedField);
+                presentationOfObjectFields.add(fieldPresentation);
             }
         }
 
-        ObjectNode objectInfo = objectMapper.createObjectNode();
-        objectInfo.put(FIELD_TYPE, TYPE_MARKER_OBJECT);
-        objectInfo.set(FIELD_VALUE, encodedFields);
+        ObjectNode presentation = objectMapper.createObjectNode();
+        presentation.put(FIELD_TYPE, TYPE_MARKER_OBJECT);
+        presentation.set(FIELD_VALUE, presentationOfObjectFields);
 
-        return objectInfo;
+        return Optional.of(presentation);
     }
 
 }

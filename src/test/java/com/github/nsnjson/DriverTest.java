@@ -1,135 +1,91 @@
 package com.github.nsnjson;
 
-import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.*;
-import org.junit.*;
+import org.junit.Assert;
 
-import java.util.*;
+public class DriverTest extends AbstractFormatTest {
 
-public class DriverTest {
-
-    @Test
-    public void shouldBeConsistencyWhenGivenNull() {
-        assertConsistency(getNull());
+    @Override
+    protected void processTestNull(NullNode value, JsonNode presentation) {
+        shouldBeConsistencyWhenGivenNull(value, presentation);
     }
 
-    @Test
-    public void shouldBeConsistencyWhenGivenBooleanTrue() {
-        assertConsistency(getBooleanTrue());
+    @Override
+    protected void processTestNumberInt(NumericNode value, JsonNode presentation) {
+        shouldBeConsistencyWhenGivenNumber(value, presentation);
     }
 
-    @Test
-    public void shouldBeConsistencyWhenGivenBooleanFalse() {
-        assertConsistency(getBooleanFalse());
+    @Override
+    protected void processTestNumberLong(NumericNode value, JsonNode presentation) {
+        shouldBeConsistencyWhenGivenNumber(value, presentation);
     }
 
-    @Test
-    public void shouldBeConsistencyWhenGivenNumberInt() {
-        assertConsistency(getNumberInt());
+    @Override
+    protected void processTestNumberDouble(NumericNode value, JsonNode presentation) {
+        shouldBeConsistencyWhenGivenNumber(value, presentation);
     }
 
-    @Test
-    public void shouldBeConsistencyWhenGivenNumberLong() {
-        assertConsistency(getNumberLong());
+    @Override
+    protected void processTestString(TextNode value, JsonNode presentation) {
+        shouldBeConsistencyWhenGivenString(value, presentation);
     }
 
-    @Test
-    public void shouldBeConsistencyWhenGivenNumberDouble() {
-        assertConsistency(getNumberDouble());
+    @Override
+    protected void processTestBoolean(BooleanNode value, JsonNode presentation) {
+        shouldBeConsistencyWhenGivenBoolean(value, presentation);
     }
 
-    @Test
-    public void shouldBeConsistencyWhenGivenStringWhichIsEmpty() {
-        assertConsistency(getEmptyString());
+    @Override
+    protected void processTestArray(ArrayNode array, JsonNode presentation) {
+        shouldBeConsistencyWhenGivenArray(array, presentation);
     }
 
-    @Test
-    public void shouldBeConsistencyWhenGivenString() {
-        assertConsistency(getString());
+    @Override
+    protected void processTestObject(ObjectNode object, JsonNode presentation) {
+        shouldBeConsistencyWhenGivenObject(object, presentation);
     }
 
-    @Test
-    public void shouldBeConsistencyWhenGivenArrayWhichIsEmpty() {
-        ArrayNode array = new ObjectMapper().createArrayNode();
-
-        assertConsistency(array);
+    private static void shouldBeConsistencyWhenGivenNull(NullNode value, JsonNode presentation) {
+        assertConsistency(value, presentation);
     }
 
-    @Test
-    public void shouldBeConsistencyWhenGivenArray() {
-        ArrayNode array = new ObjectMapper().createArrayNode();
-        array.add(getNull());
-        array.add(getBooleanTrue());
-        array.add(getBooleanFalse());
-        array.add(getNumberInt());
-        array.add(getNumberLong());
-        array.add(getNumberDouble());
-        array.add(getString());
-
-        assertConsistency(array);
+    private static void shouldBeConsistencyWhenGivenNumber(NumericNode value, JsonNode presentation) {
+        assertConsistency(value, presentation);
     }
 
-    @Test
-    public void shouldBeConsistencyWhenGivenObjectWhichIsEmpty() {
-        ObjectNode object = new ObjectMapper().createObjectNode();
-
-        assertConsistency(object);
+    private static void shouldBeConsistencyWhenGivenString(TextNode value, JsonNode presentation) {
+        assertConsistency(value, presentation);
     }
 
-    @Test
-    public void shouldBeConsistencyWhenGivenObject() {
-        ObjectNode object = new ObjectMapper().createObjectNode();
-        object.set("null_field", getNull());
-        object.set("true_field", getBooleanTrue());
-        object.set("false_field", getBooleanFalse());
-        object.set("int_field", getNumberInt());
-        object.set("long_field", getNumberLong());
-        object.set("double_field", getNumberDouble());
-        object.set("string_field", getString());
-
-        assertConsistency(object);
+    private static void shouldBeConsistencyWhenGivenBoolean(BooleanNode value, JsonNode presentation) {
+        assertConsistency(value, presentation);
     }
 
-    private static void assertConsistency(JsonNode value) {
-        JsonNode restoredValue = Driver.decode(Driver.encode(value));
-
-        assertEquals(value, restoredValue);
+    private static void shouldBeConsistencyWhenGivenArray(ArrayNode array, JsonNode presentation) {
+        assertConsistency(array, presentation);
     }
 
-    private static void assertEquals(JsonNode value1, JsonNode value2) {
-        Assert.assertEquals(value1.toString(), value2.toString());
+    private static void shouldBeConsistencyWhenGivenObject(ObjectNode object, JsonNode presentation) {
+        assertConsistency(object, presentation);
     }
 
-    private static NullNode getNull() {
-        return NullNode.getInstance();
+    private static void assertConsistency(JsonNode value, JsonNode presentation) {
+        assertConsistencyByEncoding(value);
+
+        assertConsistencyByDecoding(presentation);
     }
 
-    private static BooleanNode getBooleanTrue() {
-        return BooleanNode.getTrue();
+    private static void assertConsistencyByEncoding(JsonNode value) {
+        JsonNode presentation = assertAndGetPresentation(Driver.encode(value));
+
+        Assert.assertEquals(value, assertAndGetValue(Driver.decode(presentation)));
     }
 
-    private static BooleanNode getBooleanFalse() {
-        return BooleanNode.getFalse();
-    }
+    private static void assertConsistencyByDecoding(JsonNode presentation) {
+        JsonNode value = assertAndGetValue(Driver.decode(presentation));
 
-    private static NumericNode getNumberInt() {
-        return new IntNode(new Random().nextInt());
-    }
-
-    private static NumericNode getNumberLong() {
-        return new LongNode(new Random().nextLong());
-    }
-
-    private static NumericNode getNumberDouble() {
-        return new DoubleNode(new Random().nextDouble());
-    }
-
-    private static TextNode getEmptyString() {
-        return new TextNode("");
-    }
-
-    private static TextNode getString() {
-        return new TextNode(UUID.randomUUID().toString().replaceAll("-", ""));
+        Assert.assertEquals(presentation, assertAndGetPresentation(Driver.encode(value)));
     }
 
 }
