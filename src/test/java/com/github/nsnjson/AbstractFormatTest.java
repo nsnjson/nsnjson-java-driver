@@ -36,6 +36,13 @@ public abstract class AbstractFormatTest {
         processTestNumberDouble(value, getNumberDoublePresentation(value));
     }
 
+    @Test
+    public void testEmptyString() {
+        TextNode value = getEmptyString();
+
+        processTestString(value, getStringPresentation(value));
+    }
+
     protected abstract void processTestNull(NullNode value, ObjectNode presentation);
 
     protected abstract void processTestNumberInt(NumericNode value, ObjectNode presentation);
@@ -43,6 +50,8 @@ public abstract class AbstractFormatTest {
     protected abstract void processTestNumberLong(NumericNode value, ObjectNode presentation);
 
     protected abstract void processTestNumberDouble(NumericNode value, ObjectNode presentation);
+
+    protected abstract void processTestString(TextNode value, ObjectNode presentation);
 
     private static NullNode getNull() {
         return NullNode.getInstance();

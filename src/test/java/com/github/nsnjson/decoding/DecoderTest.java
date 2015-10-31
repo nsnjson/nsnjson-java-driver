@@ -8,13 +8,6 @@ import org.junit.*;
 public class DecoderTest extends AbstractFormatTest {
 
     @Test
-    public void processTestEmptyString() {
-        TextNode value = getEmptyString();
-
-        shouldDecodeWhenGivenString(value, getStringPresentation(value));
-    }
-
-    @Test
     public void processTestString() {
         TextNode value = getString();
 
@@ -81,6 +74,11 @@ public class DecoderTest extends AbstractFormatTest {
     @Override
     protected void processTestNumberDouble(NumericNode value, ObjectNode presentation) {
         shouldDecodeWhenGivenNumber(value, presentation);
+    }
+
+    @Override
+    protected void processTestString(TextNode value, ObjectNode presentation) {
+        shouldDecodeWhenGivenString(value, presentation);
     }
 
     private static void shouldDecodeWhenGivenNull(NullNode value, ObjectNode presentation) {
