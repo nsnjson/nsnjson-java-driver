@@ -48,14 +48,6 @@ public abstract class AbstractFormatTest {
         return NullNode.getInstance();
     }
 
-    protected static BooleanNode getBooleanTrue() {
-        return BooleanNode.getTrue();
-    }
-
-    protected static BooleanNode getBooleanFalse() {
-        return BooleanNode.getFalse();
-    }
-
     private static NumericNode getNumberInt() {
         return new IntNode(new Random().nextInt());
     }
@@ -74,6 +66,14 @@ public abstract class AbstractFormatTest {
 
     protected static TextNode getString() {
         return new TextNode(UUID.randomUUID().toString().replaceAll("-", ""));
+    }
+
+    protected static BooleanNode getBooleanTrue() {
+        return BooleanNode.getTrue();
+    }
+
+    protected static BooleanNode getBooleanFalse() {
+        return BooleanNode.getFalse();
     }
 
     protected static ArrayNode getEmptyArray() {
