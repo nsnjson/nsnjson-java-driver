@@ -69,71 +69,10 @@ public class EncoderTest extends AbstractFormatTest {
     }
 
     @Test
-    public void shouldEncodeWhenGivenArray() {
-        ObjectMapper objectMapper = new ObjectMapper();
+    public void processTestArray() {
+        ArrayNode array = getArray();
 
-        JsonNode numberInt = getNumberInt();
-
-        JsonNode numberLong = getNumberLong();
-
-        JsonNode numberDouble = getNumberDouble();
-
-        JsonNode string = getString();
-
-        JsonNode booleanTrue = getBooleanTrue();
-
-        JsonNode booleanFalse = getBooleanFalse();
-
-        ArrayNode array = objectMapper.createArrayNode();
-        array.add(getNull());
-        array.add(numberInt);
-        array.add(numberLong);
-        array.add(numberDouble);
-        array.add(string);
-        array.add(booleanTrue);
-        array.add(booleanFalse);
-
-        ObjectNode presentationOfNull = objectMapper.createObjectNode();
-        presentationOfNull.put(FIELD_TYPE, TYPE_MARKER_NULL);
-
-        ObjectNode presentationOfNumberInt = objectMapper.createObjectNode();
-        presentationOfNumberInt.put(FIELD_TYPE, TYPE_MARKER_NUMBER);
-        presentationOfNumberInt.put(FIELD_VALUE, numberInt.asInt());
-
-        ObjectNode presentationOfNumberLong = objectMapper.createObjectNode();
-        presentationOfNumberLong.put(FIELD_TYPE, TYPE_MARKER_NUMBER);
-        presentationOfNumberLong.put(FIELD_VALUE, numberLong.asLong());
-
-        ObjectNode presentationOfNumberDouble = objectMapper.createObjectNode();
-        presentationOfNumberDouble.put(FIELD_TYPE, TYPE_MARKER_NUMBER);
-        presentationOfNumberDouble.put(FIELD_VALUE, numberDouble.asDouble());
-
-        ObjectNode presentationOfString = objectMapper.createObjectNode();
-        presentationOfString.put(FIELD_TYPE, TYPE_MARKER_STRING);
-        presentationOfString.put(FIELD_VALUE, string.asText());
-
-        ObjectNode presentationOfBooleanTrue = objectMapper.createObjectNode();
-        presentationOfBooleanTrue.put(FIELD_TYPE, TYPE_MARKER_BOOLEAN);
-        presentationOfBooleanTrue.put(FIELD_VALUE, BOOLEAN_TRUE);
-
-        ObjectNode presentationOfBooleanFalse = objectMapper.createObjectNode();
-        presentationOfBooleanFalse.put(FIELD_TYPE, TYPE_MARKER_BOOLEAN);
-        presentationOfBooleanFalse.put(FIELD_VALUE, BOOLEAN_FALSE);
-
-        ArrayNode presentationOfArrayItems = objectMapper.createArrayNode();
-        presentationOfArrayItems.add(presentationOfNull);
-        presentationOfArrayItems.add(presentationOfNumberInt);
-        presentationOfArrayItems.add(presentationOfNumberLong);
-        presentationOfArrayItems.add(presentationOfNumberDouble);
-        presentationOfArrayItems.add(presentationOfString);
-        presentationOfArrayItems.add(presentationOfBooleanTrue);
-        presentationOfArrayItems.add(presentationOfBooleanFalse);
-
-        ObjectNode presentation = objectMapper.createObjectNode();
-        presentation.put(FIELD_TYPE, TYPE_MARKER_ARRAY);
-        presentation.set(FIELD_VALUE, presentationOfArrayItems);
-
-        assertEncoding(array, presentation);
+        shouldEncodeWhenGivenArray(array, getArrayPresentation(array));
     }
 
     @Test
