@@ -10,13 +10,8 @@ import static com.github.nsnjson.format.Format.*;
 public class EncoderTest extends AbstractFormatTest {
 
     @Test
-    public void shouldEncodeWhenGivenNull() {
-        JsonNode value = getNull();
-
-        ObjectNode presentation = new ObjectMapper().createObjectNode();
-        presentation.put(FIELD_TYPE, TYPE_MARKER_NULL);
-
-        assertEncoding(value, presentation);
+    public void processTestNull() {
+        shouldEncodeWhenGivenNull(getNull(), getNullPresentation());
     }
 
     @Test
@@ -273,6 +268,10 @@ public class EncoderTest extends AbstractFormatTest {
         presentation.set(FIELD_VALUE, presentationOfArrayItems);
 
         assertEncoding(object, presentation);
+    }
+
+    private void shouldEncodeWhenGivenNull(NullNode value, ObjectNode presentation) {
+        assertEncoding(value, presentation);
     }
 
     private static void assertEncoding(JsonNode value, ObjectNode presentation) {
