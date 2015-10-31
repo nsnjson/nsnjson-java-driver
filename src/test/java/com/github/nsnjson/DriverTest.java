@@ -6,14 +6,6 @@ import org.junit.*;
 
 public class DriverTest extends AbstractFormatTest {
 
-
-    @Test
-    public void processTestString() {
-        TextNode value = getString();
-
-        shouldBeConsistencyWhenGivenString(value, getStringPresentation(value));
-    }
-
     @Test
     public void processTestBooleanTrue() {
         BooleanNode value = getBooleanTrue();

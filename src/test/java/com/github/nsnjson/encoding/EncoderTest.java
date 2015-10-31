@@ -8,13 +8,6 @@ import org.junit.*;
 public class EncoderTest extends AbstractFormatTest {
 
     @Test
-    public void processTestString() {
-        TextNode value = getString();
-
-        shouldEncodeWhenGivenString(value, getStringPresentation(value));
-    }
-
-    @Test
     public void processTestBooleanTrue() {
         BooleanNode value = getBooleanTrue();
 
