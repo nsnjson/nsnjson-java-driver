@@ -189,67 +189,58 @@ public class AbstractFormatTest {
         ObjectMapper objectMapper = new ObjectMapper();
 
         ArrayNode presentationOfObjectFields = objectMapper.createArrayNode();
-        {
-            String fieldName = "null_field";
 
+        for (Iterator<String> namesIterator = object.fieldNames(); namesIterator.hasNext();) {
+            String name = namesIterator.next();
 
-            ObjectNode presentationOfField = getNullPresentation();
-            presentationOfField.put(FIELD_NAME, fieldName);
+            JsonNode value = object.get(name);
 
-            presentationOfObjectFields.add(presentationOfField);
-        }
-        {
-            String fieldName = "int_field";
+            if (value instanceof NullNode) {
+                presentationOfObjectFields.add(getFieldPresentation(name, getNullPresentation()));
+            }
+            else if (value instanceof NumericNode) {
+                NumericNode numericValue = (NumericNode) value;
 
-            ObjectNode presentationOfField = getNumberIntPresentation((NumericNode) object.get(fieldName));
-            presentationOfField.put(FIELD_NAME, fieldName);
+                if (numericValue.isInt()) {
+                    presentationOfObjectFields.add(getFieldPresentation(name, getNumberIntPresentation(numericValue)));
+                }
+                else if (numericValue.isLong()) {
+                    presentationOfObjectFields.add(getFieldPresentation(name, getNumberLongPresentation(numericValue)));
+                }
+                else if (numericValue.isDouble()) {
+                    presentationOfObjectFields.add(getFieldPresentation(name, getNumberDoublePresentation(numericValue)));
+                }
+            }
+            else if (value instanceof TextNode) {
+                TextNode stringValue = (TextNode) value;
 
-            presentationOfObjectFields.add(presentationOfField);
-        }
-        {
-            String fieldName = "long_field";
+                presentationOfObjectFields.add(getFieldPresentation(name, getStringPresentation(stringValue)));
+            }
+            else if (value instanceof BooleanNode) {
+                BooleanNode booleanValue = (BooleanNode) value;
 
-            ObjectNode presentationOfField = getNumberLongPresentation((NumericNode) object.get(fieldName));
-            presentationOfField.put(FIELD_NAME, fieldName);
-
-            presentationOfObjectFields.add(presentationOfField);
-        }
-        {
-            String fieldName = "double_field";
-
-            ObjectNode presentationOfField = getNumberDoublePresentation((NumericNode) object.get(fieldName));
-            presentationOfField.put(FIELD_NAME, fieldName);
-
-            presentationOfObjectFields.add(presentationOfField);
-        }
-        {
-            String fieldName = "string_field";
-
-            ObjectNode presentationOfField = getStringPresentation((TextNode) object.get(fieldName));
-            presentationOfField.put(FIELD_NAME, fieldName);
-
-            presentationOfObjectFields.add(presentationOfField);
-        }
-        {
-            String fieldName = "true_field";
-
-            ObjectNode presentationOfField = getBooleanPresentation((BooleanNode) object.get(fieldName));
-            presentationOfField.put(FIELD_NAME, fieldName);
-
-            presentationOfObjectFields.add(presentationOfField);
-        }
-        {
-            String fieldName = "false_field";
-
-            ObjectNode presentationOfField = getBooleanPresentation((BooleanNode) object.get(fieldName));
-            presentationOfField.put(FIELD_NAME, fieldName);
-
-            presentationOfObjectFields.add(presentationOfField);
+                presentationOfObjectFields.add(getFieldPresentation(name, getBooleanPresentation(booleanValue)));
+            }
         }
 
         ObjectNode presentation = objectMapper.createObjectNode();
         presentation.put(FIELD_TYPE, TYPE_MARKER_OBJECT);
         presentation.set(FIELD_VALUE, presentationOfObjectFields);
+
+        return presentation;
+    }
+
+    private static ObjectNode getFieldPresentation(String name, ObjectNode valuePresentation) {
+        ObjectNode presentation = new ObjectMapper().createObjectNode();
+        presentation.put(FIELD_NAME, name);
+
+        if (valuePresentation != null) {
+            presentation.set(FIELD_TYPE, valuePresentation.get(FIELD_TYPE));
+
+            if (valuePresentation.has(FIELD_VALUE)) {
+                presentation.set(FIELD_VALUE, valuePresentation.get(FIELD_VALUE));
+            }
+        }
 
         return presentation;
     }
