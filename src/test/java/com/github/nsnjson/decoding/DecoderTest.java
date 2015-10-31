@@ -65,7 +65,7 @@ public class DecoderTest extends AbstractFormatTest {
 
     @Override
     protected void processTestNull(NullNode value, ObjectNode presentation) {
-        shouldDecodeWhenGivenNull(getNull(), getNullPresentation());
+        shouldDecodeWhenGivenNull(value, presentation);
     }
 
     @Override
