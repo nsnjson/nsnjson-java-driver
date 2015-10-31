@@ -15,10 +15,10 @@ public class DecoderTest extends AbstractFormatTest {
     }
 
     @Test
-    public void shouldDecodeWhenGivenNumberIsInt() {
+    public void processTestNumberInt() {
         NumericNode value = getNumberInt();
 
-        assertDecoding(value, getNumberIntPresentation(value));
+        shouldDecodeWhenGivenNumber(value, getNumberIntPresentation(value));
     }
 
     @Test
@@ -235,6 +235,10 @@ public class DecoderTest extends AbstractFormatTest {
     }
 
     private void shouldDecodeWhenGivenNull(NullNode value, ObjectNode presentation) {
+        assertDecoding(value, presentation);
+    }
+
+    private void shouldDecodeWhenGivenNumber(NumericNode value, ObjectNode presentation) {
         assertDecoding(value, presentation);
     }
 
