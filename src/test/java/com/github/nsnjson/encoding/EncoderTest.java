@@ -22,14 +22,10 @@ public class EncoderTest extends AbstractFormatTest {
     }
 
     @Test
-    public void shouldEncodeWhenGivenNumberIsLong() {
-        JsonNode value = getNumberLong();
+    public void processTestNumberLong() {
+        NumericNode value = getNumberLong();
 
-        ObjectNode presentation = new ObjectMapper().createObjectNode();
-        presentation.put(FIELD_TYPE, TYPE_MARKER_NUMBER);
-        presentation.put(FIELD_VALUE, value.asLong());
-
-        assertEncoding(value, presentation);
+        shouldEncodeWhenGivenNumber(value, getNumberLongPresentation(value));
     }
 
     @Test
