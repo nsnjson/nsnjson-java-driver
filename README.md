@@ -1,4 +1,4 @@
-# NSNJSON Java Driver
+# NSNJSON Java Driver ![build](https://circleci.com/gh/nsnjson/nsnjson-java-driver/tree/master.svg?style=shield&circle-token=c91e2eba8de5af7a91c989724823c5027a5fd21f)
 ## NSNJSON - Not So Normal JSON
 
 ![nsnjson_logo](https://raw.githubusercontent.com/wiki/nsnjson/nsnjson-driver/images/nsnjson_logo.png)
