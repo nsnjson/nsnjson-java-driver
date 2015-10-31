@@ -3,16 +3,9 @@ package com.github.nsnjson.decoding;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.*;
 import com.github.nsnjson.AbstractFormatTest;
-import org.junit.*;
+import org.junit.Assert;
 
 public class DecoderTest extends AbstractFormatTest {
-
-    @Test
-    public void processTestObject() {
-        ObjectNode object = getObject();
-
-        shouldDecodeWhenGivenObject(object, getObjectPresentation(object));
-    }
 
     @Override
     protected void processTestNull(NullNode value, ObjectNode presentation) {

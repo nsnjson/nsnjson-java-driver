@@ -2,16 +2,9 @@ package com.github.nsnjson;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.*;
-import org.junit.*;
+import org.junit.Assert;
 
 public class DriverTest extends AbstractFormatTest {
-
-    @Test
-    public void processTestObject() {
-        ObjectNode object = getObject();
-
-        shouldBeConsistencyWhenGivenObject(object, getObjectPresentation(object));
-    }
 
     @Override
     protected void processTestNull(NullNode value, ObjectNode presentation) {

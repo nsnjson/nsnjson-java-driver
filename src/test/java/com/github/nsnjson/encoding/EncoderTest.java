@@ -3,16 +3,9 @@ package com.github.nsnjson.encoding;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.*;
 import com.github.nsnjson.AbstractFormatTest;
-import org.junit.*;
+import org.junit.Assert;
 
 public class EncoderTest extends AbstractFormatTest {
-
-    @Test
-    public void processTestObject() {
-        ObjectNode object = getObject();
-
-        shouldEncodeWhenGivenObject(object, getObjectPresentation(object));
-    }
 
     @Override
     protected void processTestNull(NullNode value, ObjectNode presentation) {
