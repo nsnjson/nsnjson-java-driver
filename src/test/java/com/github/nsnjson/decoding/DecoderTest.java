@@ -8,70 +8,70 @@ import org.junit.Assert;
 public class DecoderTest extends AbstractFormatTest {
 
     @Override
-    protected void processTestNull(NullNode value, ObjectNode presentation) {
+    protected void processTestNull(NullNode value, JsonNode presentation) {
         shouldDecodeWhenGivenNull(value, presentation);
     }
 
     @Override
-    protected void processTestNumberInt(NumericNode value, ObjectNode presentation) {
+    protected void processTestNumberInt(NumericNode value, JsonNode presentation) {
         shouldDecodeWhenGivenNumber(value, presentation);
     }
 
     @Override
-    protected void processTestNumberLong(NumericNode value, ObjectNode presentation) {
+    protected void processTestNumberLong(NumericNode value, JsonNode presentation) {
         shouldDecodeWhenGivenNumber(value, presentation);
     }
 
     @Override
-    protected void processTestNumberDouble(NumericNode value, ObjectNode presentation) {
+    protected void processTestNumberDouble(NumericNode value, JsonNode presentation) {
         shouldDecodeWhenGivenNumber(value, presentation);
     }
 
     @Override
-    protected void processTestString(TextNode value, ObjectNode presentation) {
+    protected void processTestString(TextNode value, JsonNode presentation) {
         shouldDecodeWhenGivenString(value, presentation);
     }
 
     @Override
-    protected void processTestBoolean(BooleanNode value, ObjectNode presentation) {
+    protected void processTestBoolean(BooleanNode value, JsonNode presentation) {
         shouldDecodeWhenGivenBoolean(value, presentation);
     }
 
     @Override
-    protected void processTestArray(ArrayNode array, ObjectNode presentation) {
+    protected void processTestArray(ArrayNode array, JsonNode presentation) {
         shouldDecodeWhenGivenArray(array, presentation);
     }
 
     @Override
-    protected void processTestObject(ObjectNode object, ObjectNode presentation) {
+    protected void processTestObject(ObjectNode object, JsonNode presentation) {
         shouldDecodeWhenGivenObject(object, presentation);
     }
 
-    private static void shouldDecodeWhenGivenNull(NullNode value, ObjectNode presentation) {
+    private static void shouldDecodeWhenGivenNull(NullNode value, JsonNode presentation) {
         assertDecoding(value, presentation);
     }
 
-    private static void shouldDecodeWhenGivenNumber(NumericNode value, ObjectNode presentation) {
+    private static void shouldDecodeWhenGivenNumber(NumericNode value, JsonNode presentation) {
         assertDecoding(value, presentation);
     }
 
-    private static void shouldDecodeWhenGivenString(TextNode value, ObjectNode presentation) {
+    private static void shouldDecodeWhenGivenString(TextNode value, JsonNode presentation) {
         assertDecoding(value, presentation);
     }
 
-    private static void shouldDecodeWhenGivenBoolean(BooleanNode value, ObjectNode presentation) {
+    private static void shouldDecodeWhenGivenBoolean(BooleanNode value, JsonNode presentation) {
         assertDecoding(value, presentation);
     }
 
-    private static void shouldDecodeWhenGivenArray(ArrayNode array, ObjectNode presentation) {
+    private static void shouldDecodeWhenGivenArray(ArrayNode array, JsonNode presentation) {
         assertDecoding(array, presentation);
     }
 
-    private static void shouldDecodeWhenGivenObject(ObjectNode object, ObjectNode presentation) {
+    private static void shouldDecodeWhenGivenObject(ObjectNode object, JsonNode presentation) {
         assertDecoding(object, presentation);
     }
 
-    private static void assertDecoding(JsonNode value, ObjectNode presentation) {
+    private static void assertDecoding(JsonNode value, JsonNode presentation) {
         Assert.assertEquals(value, assertAndGetValue(Decoder.decode(presentation)));
     }
 

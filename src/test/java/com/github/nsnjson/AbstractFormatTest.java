@@ -92,21 +92,21 @@ public abstract class AbstractFormatTest {
         processTestObject(object, getObjectPresentation(object));
     }
 
-    protected abstract void processTestNull(NullNode value, ObjectNode presentation);
+    protected abstract void processTestNull(NullNode value, JsonNode presentation);
 
-    protected abstract void processTestNumberInt(NumericNode value, ObjectNode presentation);
+    protected abstract void processTestNumberInt(NumericNode value, JsonNode presentation);
 
-    protected abstract void processTestNumberLong(NumericNode value, ObjectNode presentation);
+    protected abstract void processTestNumberLong(NumericNode value, JsonNode presentation);
 
-    protected abstract void processTestNumberDouble(NumericNode value, ObjectNode presentation);
+    protected abstract void processTestNumberDouble(NumericNode value, JsonNode presentation);
 
-    protected abstract void processTestString(TextNode value, ObjectNode presentation);
+    protected abstract void processTestString(TextNode value, JsonNode presentation);
 
-    protected abstract void processTestBoolean(BooleanNode value, ObjectNode presentation);
+    protected abstract void processTestBoolean(BooleanNode value, JsonNode presentation);
 
-    protected abstract void processTestArray(ArrayNode array, ObjectNode presentation);
+    protected abstract void processTestArray(ArrayNode array, JsonNode presentation);
 
-    protected abstract void processTestObject(ObjectNode object, ObjectNode presentation);
+    protected abstract void processTestObject(ObjectNode object, JsonNode presentation);
 
     protected static JsonNode assertAndGetPresentation(Optional<JsonNode> presentationOption) {
         Assert.assertTrue(presentationOption.isPresent());
@@ -186,14 +186,14 @@ public abstract class AbstractFormatTest {
         return object;
     }
 
-    private static ObjectNode getNullPresentation() {
+    private static JsonNode getNullPresentation() {
         ObjectNode presentation = new ObjectMapper().createObjectNode();
         presentation.put(FIELD_TYPE, TYPE_MARKER_NULL);
 
         return presentation;
     }
 
-    private static ObjectNode getNumberIntPresentation(NumericNode value) {
+    private static JsonNode getNumberIntPresentation(NumericNode value) {
         ObjectNode presentation = new ObjectMapper().createObjectNode();
         presentation.put(FIELD_TYPE, TYPE_MARKER_NUMBER);
         presentation.put(FIELD_VALUE, value.asInt());
@@ -201,7 +201,7 @@ public abstract class AbstractFormatTest {
         return presentation;
     }
 
-    private static ObjectNode getNumberLongPresentation(NumericNode value) {
+    private static JsonNode getNumberLongPresentation(NumericNode value) {
         ObjectNode presentation = new ObjectMapper().createObjectNode();
         presentation.put(FIELD_TYPE, TYPE_MARKER_NUMBER);
         presentation.put(FIELD_VALUE, value.asLong());
@@ -209,7 +209,7 @@ public abstract class AbstractFormatTest {
         return presentation;
     }
 
-    private static ObjectNode getNumberDoublePresentation(NumericNode value) {
+    private static JsonNode getNumberDoublePresentation(NumericNode value) {
         ObjectNode presentation = new ObjectMapper().createObjectNode();
         presentation.put(FIELD_TYPE, TYPE_MARKER_NUMBER);
         presentation.put(FIELD_VALUE, value.asDouble());
@@ -217,7 +217,7 @@ public abstract class AbstractFormatTest {
         return presentation;
     }
 
-    private static ObjectNode getStringPresentation(TextNode value) {
+    private static JsonNode getStringPresentation(TextNode value) {
         ObjectNode presentation = new ObjectMapper().createObjectNode();
         presentation.put(FIELD_TYPE, TYPE_MARKER_STRING);
         presentation.put(FIELD_VALUE, value.asText());
@@ -225,7 +225,7 @@ public abstract class AbstractFormatTest {
         return presentation;
     }
 
-    private static ObjectNode getBooleanPresentation(BooleanNode value) {
+    private static JsonNode getBooleanPresentation(BooleanNode value) {
         ObjectNode presentation = new ObjectMapper().createObjectNode();
         presentation.put(FIELD_TYPE, TYPE_MARKER_BOOLEAN);
         presentation.put(FIELD_VALUE, value.asBoolean() ? BOOLEAN_TRUE : BOOLEAN_FALSE);
@@ -233,7 +233,7 @@ public abstract class AbstractFormatTest {
         return presentation;
     }
 
-    private static ObjectNode getArrayPresentation(ArrayNode array) {
+    private static JsonNode getArrayPresentation(ArrayNode array) {
         ObjectMapper objectMapper = new ObjectMapper();
 
         ArrayNode presentationOfArrayItems = objectMapper.createArrayNode();
@@ -241,7 +241,7 @@ public abstract class AbstractFormatTest {
         for (int i = 0; i < array.size(); i++) {
             JsonNode value = array.get(i);
 
-            Optional<ObjectNode> itemPresentationOption = Optional.empty();
+            Optional<JsonNode> itemPresentationOption = Optional.empty();
 
             if (value instanceof NullNode) {
                 itemPresentationOption = Optional.of(getNullPresentation());
@@ -282,7 +282,7 @@ public abstract class AbstractFormatTest {
         return presentation;
     }
 
-    private static ObjectNode getObjectPresentation(ObjectNode object) {
+    private static JsonNode getObjectPresentation(ObjectNode object) {
         ObjectMapper objectMapper = new ObjectMapper();
 
         ArrayNode presentationOfObjectFields = objectMapper.createArrayNode();
@@ -292,7 +292,7 @@ public abstract class AbstractFormatTest {
 
             JsonNode value = object.get(name);
 
-            Optional<ObjectNode> fieldPresentationOption = Optional.empty();
+            Optional<JsonNode> fieldPresentationOption = Optional.empty();
 
             if (value instanceof NullNode) {
                 fieldPresentationOption = Optional.of(getFieldPresentation(name, getNullPresentation()));
@@ -333,17 +333,13 @@ public abstract class AbstractFormatTest {
         return presentation;
     }
 
-    private static ObjectNode getFieldPresentation(String name, ObjectNode valuePresentation) {
+    private static JsonNode getFieldPresentation(String name, JsonNode valuePresentation) {
         ObjectNode presentation = new ObjectMapper().createObjectNode();
         presentation.put(FIELD_NAME, name);
 
-        if (valuePresentation != null) {
-            presentation.set(FIELD_TYPE, valuePresentation.get(FIELD_TYPE));
-
-            if (valuePresentation.has(FIELD_VALUE)) {
-                presentation.set(FIELD_VALUE, valuePresentation.get(FIELD_VALUE));
-            }
-        }
+        valuePresentation.fieldNames().forEachRemaining((valueProperty) -> {
+            presentation.set(valueProperty, valuePresentation.get(valueProperty));
+        });
 
         return presentation;
     }
