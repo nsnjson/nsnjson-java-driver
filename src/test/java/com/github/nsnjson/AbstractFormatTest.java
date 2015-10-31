@@ -65,11 +65,11 @@ public class AbstractFormatTest {
     protected static ObjectNode getObject() {
         ObjectNode object = new ObjectMapper().createObjectNode();
         object.set("null_field", getNull());
-        object.set("true_field", getBooleanTrue());
-        object.set("false_field", getBooleanFalse());
         object.set("int_field", getNumberInt());
         object.set("long_field", getNumberLong());
         object.set("double_field", getNumberDouble());
+        object.set("true_field", getBooleanTrue());
+        object.set("false_field", getBooleanFalse());
         object.set("string_field", getString());
 
         return object;
