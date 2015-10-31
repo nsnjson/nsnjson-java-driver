@@ -43,14 +43,10 @@ public class EncoderTest extends AbstractFormatTest {
     }
 
     @Test
-    public void shouldEncodeWhenGivenStringIsEmpty() {
-        JsonNode value = getEmptyString();
+    public void processTestString() {
+        TextNode value = getString();
 
-        ObjectNode presentation = new ObjectMapper().createObjectNode();
-        presentation.put(FIELD_TYPE, TYPE_MARKER_STRING);
-        presentation.put(FIELD_VALUE, value.asText());
-
-        assertEncoding(value, presentation);
+        shouldEncodeWhenGivenString(value, getStringPresentation(value));
     }
 
     @Test
