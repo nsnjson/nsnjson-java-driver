@@ -165,10 +165,6 @@ public class AbstractFormatTest {
         return presentation;
     }
 
-    protected static ObjectNode getEmptyObjectPresentation() {
-        return getObjectPresentation(getEmptyObject());
-    }
-
     protected static ObjectNode getObjectPresentation(ObjectNode object) {
         ObjectMapper objectMapper = new ObjectMapper();
 

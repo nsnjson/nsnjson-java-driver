@@ -79,7 +79,9 @@ public class EncoderTest extends AbstractFormatTest {
 
     @Test
     public void processTestEmptyObject() {
-        shouldEncodeWhenGivenObject(getEmptyObject(), getEmptyObjectPresentation());
+        ObjectNode object = getEmptyObject();
+
+        shouldEncodeWhenGivenObject(object, getObjectPresentation(object));
     }
 
     @Test

@@ -140,7 +140,9 @@ public class DecoderTest extends AbstractFormatTest {
 
     @Test
     public void shouldDecodeWhenGivenObjectIsEmpty() {
-        assertDecoding(getEmptyObject(), getEmptyObjectPresentation());
+        ObjectNode object = getEmptyObject();
+
+        assertDecoding(object, getObjectPresentation(object));
     }
 
     @Test
