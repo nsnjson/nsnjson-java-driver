@@ -43,6 +43,13 @@ public abstract class AbstractFormatTest {
         processTestString(value, getStringPresentation(value));
     }
 
+    @Test
+    public void testString() {
+        TextNode value = getString();
+
+        processTestString(value, getStringPresentation(value));
+    }
+
     protected abstract void processTestNull(NullNode value, ObjectNode presentation);
 
     protected abstract void processTestNumberInt(NumericNode value, ObjectNode presentation);
@@ -69,11 +76,11 @@ public abstract class AbstractFormatTest {
         return new DoubleNode(new Random().nextDouble());
     }
 
-    protected static TextNode getEmptyString() {
+    private static TextNode getEmptyString() {
         return new TextNode("");
     }
 
-    protected static TextNode getString() {
+    private static TextNode getString() {
         return new TextNode(UUID.randomUUID().toString().replaceAll("-", ""));
     }
 
@@ -150,7 +157,7 @@ public abstract class AbstractFormatTest {
         return presentation;
     }
 
-    protected static ObjectNode getStringPresentation(TextNode value) {
+    private static ObjectNode getStringPresentation(TextNode value) {
         ObjectNode presentation = new ObjectMapper().createObjectNode();
         presentation.put(FIELD_TYPE, TYPE_MARKER_STRING);
         presentation.put(FIELD_VALUE, value.asText());
