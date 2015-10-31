@@ -33,3 +33,23 @@ Also, for all JSON types except **null** the object always contains field **"v"*
 JSON object field has a name. So, NSNJSON saves this information in field **"n"** (which means **name** of field JSON object).
 
 More info on <a href="https://github.com/nsnjson/nsnjson-driver">NSNJSON Driver</a> page.
+
+## Install
+
+Use [jitpack.io](https://jitpack.io)!
+
+If you are using [**Maven**](http://maven.apache.org), then add JitPack repository to your [**pom.xml**](http://maven.apache.org/ref/3.3.3/maven-model/maven.html):
+```xml  
+<repository>
+  <id>jitpack.io</id>
+  <url>https://jitpack.io</url>
+</repository>
+```
+Now, you can specify dependency:
+```xml
+<dependency>
+  <groupId>com.github.nsnjson</groupId>
+  <artifactId>nsnjson-java-driver</artifactId>
+  <version>v0.0.2</version>
+</dependency>
+```
