@@ -53,3 +53,18 @@ Now, you can specify dependency:
   <version>v0.0.2</version>
 </dependency>
 ```
+
+## Usage
+
+The driver uses [**Optional<T>**](https://docs.oracle.com/javase/8/docs/api/java/util/Optional.html) as a wrapper for encoding / decoding results.
+```java
+JsonNode json = IntNode.valueOf(1007);
+
+Optional<JsonNode> encodedJSON = Encoder.encode(json);
+
+System.out.println(encodedJSON);
+// Optional[{ "t": "null" }]
+
+System.out.println(Decoder.decode(encodedJSON.get()));
+// Optional[1007]
+```
