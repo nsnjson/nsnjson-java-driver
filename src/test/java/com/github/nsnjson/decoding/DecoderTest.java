@@ -36,15 +36,15 @@ public class DecoderTest extends AbstractFormatTest {
     }
 
     @Test
-    public void shouldDecodeWhenGivenStringIsEmpty() {
+    public void processTestEmptyString() {
         TextNode value = getEmptyString();
 
-        assertDecoding(value, getStringPresentation(value));
+        shouldDecodeWhenGivenString(value, getStringPresentation(value));
     }
 
     @Test
-    public void shouldDecodeWhenGivenString() {
-        TextNode value = getString();
+    public void shouldDecodeWhenGivenStringIsEmpty() {
+        TextNode value = getEmptyString();
 
         assertDecoding(value, getStringPresentation(value));
     }
@@ -239,6 +239,10 @@ public class DecoderTest extends AbstractFormatTest {
     }
 
     private void shouldDecodeWhenGivenNumber(NumericNode value, ObjectNode presentation) {
+        assertDecoding(value, presentation);
+    }
+
+    private void shouldDecodeWhenGivenString(TextNode value, ObjectNode presentation) {
         assertDecoding(value, presentation);
     }
 
