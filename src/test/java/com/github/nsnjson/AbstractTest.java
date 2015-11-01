@@ -1,7 +1,8 @@
 package com.github.nsnjson;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.node.*;
+import org.junit.Assert;
 
 import java.util.*;
 
@@ -71,6 +72,12 @@ public abstract class AbstractTest {
         object.set("string_field", getString());
 
         return object;
+    }
+
+    protected static JsonNode assertAndGetPresentation(Optional<JsonNode> presentationOption) {
+        Assert.assertTrue(presentationOption.isPresent());
+
+        return presentationOption.get();
     }
 
 }

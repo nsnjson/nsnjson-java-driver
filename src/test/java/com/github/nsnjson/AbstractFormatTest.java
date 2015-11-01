@@ -108,12 +108,6 @@ public abstract class AbstractFormatTest extends AbstractTest {
 
     protected abstract void processTestObject(ObjectNode object, JsonNode presentation);
 
-    protected static JsonNode assertAndGetPresentation(Optional<JsonNode> presentationOption) {
-        Assert.assertTrue(presentationOption.isPresent());
-
-        return presentationOption.get();
-    }
-
     protected static JsonNode assertAndGetValue(Optional<JsonNode> valueOption) {
         Assert.assertTrue(valueOption.isPresent());
 
