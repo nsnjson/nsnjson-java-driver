@@ -8,6 +8,70 @@ import java.util.*;
 
 public abstract class AbstractTest {
 
+    protected Optional<JsonNode> getPresentation(JsonNode json) {
+        if (json instanceof NullNode) {
+            return Optional.of(getNullPresentation());
+        }
+
+        if (json instanceof NumericNode) {
+            NumericNode value = (NumericNode) json;
+
+            if (value.isInt()) {
+                return Optional.of(getNumberIntPresentation(value));
+            }
+
+            if (value.isLong()) {
+                return Optional.of(getNumberLongPresentation(value));
+            }
+
+            if (value.isDouble()) {
+                return Optional.of(getNumberDoublePresentation(value));
+            }
+        }
+
+        if (json instanceof TextNode) {
+            TextNode value = (TextNode) json;
+
+            return Optional.of(getStringPresentation(value));
+        }
+
+        if (json instanceof BooleanNode) {
+            BooleanNode value = (BooleanNode) json;
+
+            return Optional.of(getBooleanPresentation(value));
+        }
+
+        if (json instanceof ArrayNode) {
+            ArrayNode array = (ArrayNode) json;
+
+            return Optional.of(getArrayPresentation(array));
+        }
+
+        if (json instanceof ObjectNode) {
+            ObjectNode object = (ObjectNode) json;
+
+            return Optional.of(getObjectPresentation(object));
+        }
+
+        return Optional.empty();
+    }
+
+    protected abstract JsonNode getNullPresentation();
+
+    protected abstract JsonNode getNumberIntPresentation(NumericNode value);
+
+    protected abstract JsonNode getNumberLongPresentation(NumericNode value);
+
+    protected abstract JsonNode getNumberDoublePresentation(NumericNode value);
+
+    protected abstract JsonNode getStringPresentation(TextNode value);
+
+    protected abstract JsonNode getBooleanPresentation(BooleanNode value);
+
+    protected abstract JsonNode getArrayPresentation(ArrayNode array);
+
+    protected abstract JsonNode getObjectPresentation(ObjectNode object);
+
     protected static NullNode getNull() {
         return NullNode.getInstance();
     }
@@ -73,24 +137,6 @@ public abstract class AbstractTest {
 
         return object;
     }
-
-    protected abstract JsonNode getNullPresentation();
-
-    protected abstract JsonNode getNumberIntPresentation(NumericNode value);
-
-    protected abstract JsonNode getNumberLongPresentation(NumericNode value);
-
-    protected abstract JsonNode getNumberDoublePresentation(NumericNode value);
-
-    protected abstract JsonNode getStringPresentation(TextNode value);
-
-    protected abstract JsonNode getBooleanPresentation(BooleanNode value);
-
-    protected abstract JsonNode getArrayPresentation(ArrayNode array);
-
-    protected abstract JsonNode getObjectPresentation(ObjectNode object);
-
-    protected abstract Optional<JsonNode> getPresentation(JsonNode json);
 
     protected static JsonNode assertAndGetValue(Optional<JsonNode> valueOption) {
         Assert.assertTrue(valueOption.isPresent());
