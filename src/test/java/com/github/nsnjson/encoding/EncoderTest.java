@@ -13,17 +13,7 @@ public class EncoderTest extends AbstractFormatTest {
     }
 
     @Override
-    protected void processTestNumberInt(NumericNode value, JsonNode presentation) {
-        shouldEncodeWhenGivenNumber(value, presentation);
-    }
-
-    @Override
-    protected void processTestNumberLong(NumericNode value, JsonNode presentation) {
-        shouldEncodeWhenGivenNumber(value, presentation);
-    }
-
-    @Override
-    protected void processTestNumberDouble(NumericNode value, JsonNode presentation) {
+    protected void processTestNumber(NumericNode value, JsonNode presentation) {
         shouldEncodeWhenGivenNumber(value, presentation);
     }
 
@@ -71,8 +61,8 @@ public class EncoderTest extends AbstractFormatTest {
         assertEncoding(object, presentation);
     }
 
-    private static void assertEncoding(JsonNode value, JsonNode presentation) {
-        Assert.assertEquals(presentation, assertAndGetPresentation(Encoder.encode(value)));
+    private static void assertEncoding(JsonNode json, JsonNode presentation) {
+        Assert.assertEquals(presentation, assertAndGetPresentation(Encoder.encode(json)));
     }
 
 }

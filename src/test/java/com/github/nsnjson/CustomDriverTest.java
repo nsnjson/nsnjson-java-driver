@@ -2,9 +2,13 @@ package com.github.nsnjson;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.*;
+import com.github.nsnjson.decoding.CustomDecoding;
+import com.github.nsnjson.encoding.CustomEncoding;
 import org.junit.Assert;
 
-public class DriverTest extends AbstractFormatTest {
+import java.util.Optional;
+
+public class CustomDriverTest extends AbstractCustomFormatTest {
 
     @Override
     protected void processTestNull(NullNode value, JsonNode presentation) {
@@ -60,22 +64,30 @@ public class DriverTest extends AbstractFormatTest {
         assertConsistency(object, presentation);
     }
 
-    private static void assertConsistency(JsonNode value, JsonNode presentation) {
-        assertConsistencyByEncoding(value);
+    private static void assertConsistency(JsonNode json, JsonNode presentation) {
+        assertConsistencyByCustomEncoding(json);
 
-        assertConsistencyByDecoding(presentation);
+        assertConsistencyByCustomDecoding(presentation);
     }
 
-    private static void assertConsistencyByEncoding(JsonNode value) {
-        JsonNode presentation = assertAndGetPresentation(Driver.encode(value));
+    private static void assertConsistencyByCustomEncoding(JsonNode json) {
+        JsonNode presentation = assertAndGetPresentation(encode(json));
 
-        Assert.assertEquals(value, assertAndGetValue(Driver.decode(presentation)));
+        Assert.assertEquals(json, assertAndGetValue(decode(presentation)));
     }
 
-    private static void assertConsistencyByDecoding(JsonNode presentation) {
-        JsonNode value = assertAndGetValue(Driver.decode(presentation));
+    private static void assertConsistencyByCustomDecoding(JsonNode presentation) {
+        JsonNode json = assertAndGetValue(decode(presentation));
 
-        Assert.assertEquals(presentation, assertAndGetPresentation(Driver.encode(value)));
+        Assert.assertEquals(presentation, assertAndGetPresentation(encode(json)));
+    }
+
+    private static Optional<JsonNode> encode(JsonNode json) {
+        return Driver.encode(json, new CustomEncoding());
+    }
+
+    private static Optional<JsonNode> decode(JsonNode presentation) {
+        return Driver.decode(presentation, new CustomDecoding());
     }
 
 }
