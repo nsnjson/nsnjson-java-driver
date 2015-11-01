@@ -30,7 +30,7 @@ public abstract class AbstractFormatTest extends AbstractTest {
     protected JsonNode getStringPresentation(TextNode value) {
         ObjectNode presentation = new ObjectMapper().createObjectNode();
         presentation.put(FIELD_TYPE, TYPE_MARKER_STRING);
-        presentation.put(FIELD_VALUE, value.asText());
+        presentation.set(FIELD_VALUE, value);
 
         return presentation;
     }
