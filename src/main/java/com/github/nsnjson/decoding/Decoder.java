@@ -12,8 +12,8 @@ public class Decoder {
         return DEFAULT_DECODING.decode(presentation);
     }
 
-    public static Optional<JsonNode> decode(JsonNode json, Decoding decoding) {
-        return Optional.ofNullable(decoding).orElse(DEFAULT_DECODING).decode(json);
+    public static Optional<JsonNode> decode(JsonNode presentation, Decoding decoding) {
+        return Optional.ofNullable(decoding).orElse(DEFAULT_DECODING).decode(presentation);
     }
 
 }
