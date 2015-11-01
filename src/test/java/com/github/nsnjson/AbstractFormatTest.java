@@ -108,12 +108,6 @@ public abstract class AbstractFormatTest extends AbstractTest {
 
     protected abstract void processTestObject(ObjectNode object, JsonNode presentation);
 
-    protected static JsonNode assertAndGetValue(Optional<JsonNode> valueOption) {
-        Assert.assertTrue(valueOption.isPresent());
-
-        return valueOption.get();
-    }
-
     private static JsonNode getNullPresentation() {
         ObjectNode presentation = new ObjectMapper().createObjectNode();
         presentation.put(FIELD_TYPE, TYPE_MARKER_NULL);

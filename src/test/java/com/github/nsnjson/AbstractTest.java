@@ -74,6 +74,12 @@ public abstract class AbstractTest {
         return object;
     }
 
+    protected static JsonNode assertAndGetValue(Optional<JsonNode> valueOption) {
+        Assert.assertTrue(valueOption.isPresent());
+
+        return valueOption.get();
+    }
+
     protected static JsonNode assertAndGetPresentation(Optional<JsonNode> presentationOption) {
         Assert.assertTrue(presentationOption.isPresent());
 
