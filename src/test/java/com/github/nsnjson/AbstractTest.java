@@ -17,21 +17,21 @@ public abstract class AbstractTest {
     public void testNumberInt() {
         NumericNode value = getNumberInt();
 
-        processTestNumber(value, getNumberIntPresentation(value));
+        processTestNumber(value, getNumberPresentation(value));
     }
 
     @Test
     public void testNumberLong() {
         NumericNode value = getNumberLong();
 
-        processTestNumber(value, getNumberLongPresentation(value));
+        processTestNumber(value, getNumberPresentation(value));
     }
 
     @Test
     public void testNumberDouble() {
         NumericNode value = getNumberDouble();
 
-        processTestNumber(value, getNumberDoublePresentation(value));
+        processTestNumber(value, getNumberPresentation(value));
     }
 
     @Test
@@ -110,17 +110,7 @@ public abstract class AbstractTest {
         if (json instanceof NumericNode) {
             NumericNode value = (NumericNode) json;
 
-            if (value.isInt()) {
-                return Optional.of(getNumberIntPresentation(value));
-            }
-
-            if (value.isLong()) {
-                return Optional.of(getNumberLongPresentation(value));
-            }
-
-            if (value.isDouble()) {
-                return Optional.of(getNumberDoublePresentation(value));
-            }
+            return Optional.of(getNumberPresentation(value));
         }
 
         if (json instanceof TextNode) {
@@ -152,11 +142,7 @@ public abstract class AbstractTest {
 
     protected abstract JsonNode getNullPresentation();
 
-    protected abstract JsonNode getNumberIntPresentation(NumericNode value);
-
-    protected abstract JsonNode getNumberLongPresentation(NumericNode value);
-
-    protected abstract JsonNode getNumberDoublePresentation(NumericNode value);
+    protected abstract JsonNode getNumberPresentation(NumericNode value);
 
     protected abstract JsonNode getStringPresentation(TextNode value);
 

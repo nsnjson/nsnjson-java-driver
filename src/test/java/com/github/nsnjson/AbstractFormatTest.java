@@ -18,28 +18,10 @@ public abstract class AbstractFormatTest extends AbstractTest {
     }
 
     @Override
-    protected JsonNode getNumberIntPresentation(NumericNode value) {
+    protected JsonNode getNumberPresentation(NumericNode value) {
         ObjectNode presentation = new ObjectMapper().createObjectNode();
         presentation.put(FIELD_TYPE, TYPE_MARKER_NUMBER);
-        presentation.put(FIELD_VALUE, value.asInt());
-
-        return presentation;
-    }
-
-    @Override
-    protected JsonNode getNumberLongPresentation(NumericNode value) {
-        ObjectNode presentation = new ObjectMapper().createObjectNode();
-        presentation.put(FIELD_TYPE, TYPE_MARKER_NUMBER);
-        presentation.put(FIELD_VALUE, value.asLong());
-
-        return presentation;
-    }
-
-    @Override
-    protected JsonNode getNumberDoublePresentation(NumericNode value) {
-        ObjectNode presentation = new ObjectMapper().createObjectNode();
-        presentation.put(FIELD_TYPE, TYPE_MARKER_NUMBER);
-        presentation.put(FIELD_VALUE, value.asDouble());
+        presentation.put(FIELD_VALUE, value);
 
         return presentation;
     }
