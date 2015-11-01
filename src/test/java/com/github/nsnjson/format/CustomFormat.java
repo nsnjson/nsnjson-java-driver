@@ -1,4 +1,4 @@
-package com.github.nsnjson;
+package com.github.nsnjson.format;
 
 public final class CustomFormat {
 
