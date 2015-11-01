@@ -152,43 +152,55 @@ public abstract class AbstractTest {
 
     protected abstract JsonNode getObjectPresentation(ObjectNode object);
 
-    protected static NullNode getNull() {
+    protected static JsonNode assertAndGetValue(Optional<JsonNode> valueOption) {
+        Assert.assertTrue(valueOption.isPresent());
+
+        return valueOption.get();
+    }
+
+    protected static JsonNode assertAndGetPresentation(Optional<JsonNode> presentationOption) {
+        Assert.assertTrue(presentationOption.isPresent());
+
+        return presentationOption.get();
+    }
+
+    private static NullNode getNull() {
         return NullNode.getInstance();
     }
 
-    protected static NumericNode getNumberInt() {
+    private static NumericNode getNumberInt() {
         return new IntNode(new Random().nextInt());
     }
 
-    protected static NumericNode getNumberLong() {
+    private static NumericNode getNumberLong() {
         return new LongNode(new Random().nextLong());
     }
 
-    protected static NumericNode getNumberDouble() {
+    private static NumericNode getNumberDouble() {
         return new DoubleNode(new Random().nextDouble());
     }
 
-    protected static TextNode getEmptyString() {
+    private static TextNode getEmptyString() {
         return new TextNode("");
     }
 
-    protected static TextNode getString() {
+    private static TextNode getString() {
         return new TextNode(UUID.randomUUID().toString().replaceAll("-", ""));
     }
 
-    protected static BooleanNode getBooleanTrue() {
+    private static BooleanNode getBooleanTrue() {
         return BooleanNode.getTrue();
     }
 
-    protected static BooleanNode getBooleanFalse() {
+    private static BooleanNode getBooleanFalse() {
         return BooleanNode.getFalse();
     }
 
-    protected static ArrayNode getEmptyArray() {
+    private static ArrayNode getEmptyArray() {
         return new ObjectMapper().createArrayNode();
     }
 
-    protected static ArrayNode getArray() {
+    private static ArrayNode getArray() {
         ArrayNode array = getEmptyArray();
         array.add(getNull());
         array.add(getBooleanTrue());
@@ -201,11 +213,11 @@ public abstract class AbstractTest {
         return array;
     }
 
-    protected static ObjectNode getEmptyObject() {
+    private static ObjectNode getEmptyObject() {
         return new ObjectMapper().createObjectNode();
     }
 
-    protected static ObjectNode getObject() {
+    private static ObjectNode getObject() {
         ObjectNode object = new ObjectMapper().createObjectNode();
         object.set("null_field", getNull());
         object.set("int_field", getNumberInt());
@@ -216,18 +228,6 @@ public abstract class AbstractTest {
         object.set("string_field", getString());
 
         return object;
-    }
-
-    protected static JsonNode assertAndGetValue(Optional<JsonNode> valueOption) {
-        Assert.assertTrue(valueOption.isPresent());
-
-        return valueOption.get();
-    }
-
-    protected static JsonNode assertAndGetPresentation(Optional<JsonNode> presentationOption) {
-        Assert.assertTrue(presentationOption.isPresent());
-
-        return presentationOption.get();
     }
 
 }
