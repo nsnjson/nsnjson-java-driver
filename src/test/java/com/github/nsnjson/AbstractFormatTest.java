@@ -108,14 +108,16 @@ public abstract class AbstractFormatTest extends AbstractTest {
 
     protected abstract void processTestObject(ObjectNode object, JsonNode presentation);
 
-    private static JsonNode getNullPresentation() {
+    @Override
+    protected JsonNode getNullPresentation() {
         ObjectNode presentation = new ObjectMapper().createObjectNode();
         presentation.put(FIELD_TYPE, TYPE_MARKER_NULL);
 
         return presentation;
     }
 
-    private static JsonNode getNumberIntPresentation(NumericNode value) {
+    @Override
+    protected JsonNode getNumberIntPresentation(NumericNode value) {
         ObjectNode presentation = new ObjectMapper().createObjectNode();
         presentation.put(FIELD_TYPE, TYPE_MARKER_NUMBER);
         presentation.put(FIELD_VALUE, value.asInt());
@@ -123,7 +125,8 @@ public abstract class AbstractFormatTest extends AbstractTest {
         return presentation;
     }
 
-    private static JsonNode getNumberLongPresentation(NumericNode value) {
+    @Override
+    protected JsonNode getNumberLongPresentation(NumericNode value) {
         ObjectNode presentation = new ObjectMapper().createObjectNode();
         presentation.put(FIELD_TYPE, TYPE_MARKER_NUMBER);
         presentation.put(FIELD_VALUE, value.asLong());
@@ -131,7 +134,8 @@ public abstract class AbstractFormatTest extends AbstractTest {
         return presentation;
     }
 
-    private static JsonNode getNumberDoublePresentation(NumericNode value) {
+    @Override
+    protected JsonNode getNumberDoublePresentation(NumericNode value) {
         ObjectNode presentation = new ObjectMapper().createObjectNode();
         presentation.put(FIELD_TYPE, TYPE_MARKER_NUMBER);
         presentation.put(FIELD_VALUE, value.asDouble());
@@ -139,7 +143,8 @@ public abstract class AbstractFormatTest extends AbstractTest {
         return presentation;
     }
 
-    private static JsonNode getStringPresentation(TextNode value) {
+    @Override
+    protected JsonNode getStringPresentation(TextNode value) {
         ObjectNode presentation = new ObjectMapper().createObjectNode();
         presentation.put(FIELD_TYPE, TYPE_MARKER_STRING);
         presentation.put(FIELD_VALUE, value.asText());
@@ -147,7 +152,8 @@ public abstract class AbstractFormatTest extends AbstractTest {
         return presentation;
     }
 
-    private static JsonNode getBooleanPresentation(BooleanNode value) {
+    @Override
+    protected JsonNode getBooleanPresentation(BooleanNode value) {
         ObjectNode presentation = new ObjectMapper().createObjectNode();
         presentation.put(FIELD_TYPE, TYPE_MARKER_BOOLEAN);
         presentation.put(FIELD_VALUE, value.asBoolean() ? BOOLEAN_TRUE : BOOLEAN_FALSE);
@@ -155,111 +161,110 @@ public abstract class AbstractFormatTest extends AbstractTest {
         return presentation;
     }
 
-    private static JsonNode getArrayPresentation(ArrayNode array) {
+    @Override
+    protected JsonNode getArrayPresentation(ArrayNode array) {
         ObjectMapper objectMapper = new ObjectMapper();
 
-        ArrayNode presentationOfArrayItems = objectMapper.createArrayNode();
+        ArrayNode itemsPresentation = objectMapper.createArrayNode();
 
         for (JsonNode value : array) {
-            Optional<JsonNode> itemPresentationOption = Optional.empty();
-
-            if (value instanceof NullNode) {
-                itemPresentationOption = Optional.of(getNullPresentation());
-            }
-            else if (value instanceof NumericNode) {
-                NumericNode numericValue = (NumericNode) value;
-
-                if (numericValue.isInt()) {
-                    itemPresentationOption = Optional.of(getNumberIntPresentation(numericValue));
-                }
-                else if (numericValue.isLong()) {
-                    itemPresentationOption = Optional.of(getNumberLongPresentation(numericValue));
-                }
-                else if (numericValue.isDouble()) {
-                    itemPresentationOption = Optional.of(getNumberDoublePresentation(numericValue));
-                }
-            }
-            else if (value instanceof TextNode) {
-                TextNode stringValue = (TextNode) value;
-
-                itemPresentationOption = Optional.of(getStringPresentation(stringValue));
-            }
-            else if (value instanceof BooleanNode) {
-                BooleanNode booleanValue = (BooleanNode) value;
-
-                itemPresentationOption = Optional.of(getBooleanPresentation(booleanValue));
-            }
+            Optional<JsonNode> itemPresentationOption = getPresentation(value);
 
             if (itemPresentationOption.isPresent()) {
-                presentationOfArrayItems.add(itemPresentationOption.get());
+                itemsPresentation.add(itemPresentationOption.get());
             }
         }
 
         ObjectNode presentation = objectMapper.createObjectNode();
         presentation.put(FIELD_TYPE, TYPE_MARKER_ARRAY);
-        presentation.set(FIELD_VALUE, presentationOfArrayItems);
+        presentation.set(FIELD_VALUE, itemsPresentation);
 
         return presentation;
     }
 
-    private static JsonNode getObjectPresentation(ObjectNode object) {
+    @Override
+    protected JsonNode getObjectPresentation(ObjectNode object) {
         ObjectMapper objectMapper = new ObjectMapper();
 
-        ArrayNode presentationOfObjectFields = objectMapper.createArrayNode();
+        ArrayNode fieldsPresentation = objectMapper.createArrayNode();
 
         object.fieldNames().forEachRemaining(name -> {
             JsonNode value = object.get(name);
 
-            Optional<JsonNode> fieldPresentationOption = Optional.empty();
+            Optional<JsonNode> valuePresentationOption = getPresentation(value);
 
-            if (value instanceof NullNode) {
-                fieldPresentationOption = Optional.of(getFieldPresentation(name, getNullPresentation()));
-            }
-            else if (value instanceof NumericNode) {
-                NumericNode numericValue = (NumericNode) value;
+            if (valuePresentationOption.isPresent()) {
+                JsonNode valuePresentation = valuePresentationOption.get();
 
-                if (numericValue.isInt()) {
-                    fieldPresentationOption = Optional.of(getFieldPresentation(name, getNumberIntPresentation(numericValue)));
+                ObjectNode fieldPresentation = objectMapper.createObjectNode();
+                fieldPresentation.put(FIELD_NAME, name);
+
+                if (valuePresentation.has(FIELD_TYPE)) {
+                    fieldPresentation.set(FIELD_TYPE, valuePresentation.get(FIELD_TYPE));
                 }
-                else if (numericValue.isLong()) {
-                    fieldPresentationOption = Optional.of(getFieldPresentation(name, getNumberLongPresentation(numericValue)));
+
+                if (valuePresentation.has(FIELD_VALUE)) {
+                    fieldPresentation.set(FIELD_VALUE, valuePresentation.get(FIELD_VALUE));
                 }
-                else if (numericValue.isDouble()) {
-                    fieldPresentationOption = Optional.of(getFieldPresentation(name, getNumberDoublePresentation(numericValue)));
-                }
-            }
-            else if (value instanceof TextNode) {
-                TextNode stringValue = (TextNode) value;
 
-                fieldPresentationOption = Optional.of(getFieldPresentation(name, getStringPresentation(stringValue)));
-            }
-            else if (value instanceof BooleanNode) {
-                BooleanNode booleanValue = (BooleanNode) value;
-
-                fieldPresentationOption = Optional.of(getFieldPresentation(name, getBooleanPresentation(booleanValue)));
-            }
-
-            if (fieldPresentationOption.isPresent()) {
-                presentationOfObjectFields.add(fieldPresentationOption.get());
+                fieldsPresentation.add(fieldPresentation);
             }
         });
 
         ObjectNode presentation = objectMapper.createObjectNode();
         presentation.put(FIELD_TYPE, TYPE_MARKER_OBJECT);
-        presentation.set(FIELD_VALUE, presentationOfObjectFields);
+        presentation.set(FIELD_VALUE, fieldsPresentation);
 
         return presentation;
     }
 
-    private static JsonNode getFieldPresentation(String name, JsonNode valuePresentation) {
-        ObjectNode presentation = new ObjectMapper().createObjectNode();
-        presentation.put(FIELD_NAME, name);
+    @Override
+    protected Optional<JsonNode> getPresentation(JsonNode json) {
+        if (json instanceof NullNode) {
+            return Optional.of(getNullPresentation());
+        }
 
-        valuePresentation.fieldNames().forEachRemaining((valueProperty) -> {
-            presentation.set(valueProperty, valuePresentation.get(valueProperty));
-        });
+        if (json instanceof NumericNode) {
+            NumericNode value = (NumericNode) json;
 
-        return presentation;
+            if (value.isInt()) {
+                return Optional.of(getNumberIntPresentation(value));
+            }
+
+            if (value.isLong()) {
+                return Optional.of(getNumberLongPresentation(value));
+            }
+
+            if (value.isDouble()) {
+                return Optional.of(getNumberDoublePresentation(value));
+            }
+        }
+
+        if (json instanceof TextNode) {
+            TextNode value = (TextNode) json;
+
+            return Optional.of(getStringPresentation(value));
+        }
+
+        if (json instanceof BooleanNode) {
+            BooleanNode value = (BooleanNode) json;
+
+            return Optional.of(getBooleanPresentation(value));
+        }
+
+        if (json instanceof ArrayNode) {
+            ArrayNode array = (ArrayNode) json;
+
+            return Optional.of(getArrayPresentation(array));
+        }
+
+        if (json instanceof ObjectNode) {
+            ObjectNode object = (ObjectNode) json;
+
+            return Optional.of(getObjectPresentation(object));
+        }
+
+        return Optional.empty();
     }
 
 }

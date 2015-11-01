@@ -74,6 +74,24 @@ public abstract class AbstractTest {
         return object;
     }
 
+    protected abstract JsonNode getNullPresentation();
+
+    protected abstract JsonNode getNumberIntPresentation(NumericNode value);
+
+    protected abstract JsonNode getNumberLongPresentation(NumericNode value);
+
+    protected abstract JsonNode getNumberDoublePresentation(NumericNode value);
+
+    protected abstract JsonNode getStringPresentation(TextNode value);
+
+    protected abstract JsonNode getBooleanPresentation(BooleanNode value);
+
+    protected abstract JsonNode getArrayPresentation(ArrayNode array);
+
+    protected abstract JsonNode getObjectPresentation(ObjectNode object);
+
+    protected abstract Optional<JsonNode> getPresentation(JsonNode json);
+
     protected static JsonNode assertAndGetValue(Optional<JsonNode> valueOption) {
         Assert.assertTrue(valueOption.isPresent());
 
