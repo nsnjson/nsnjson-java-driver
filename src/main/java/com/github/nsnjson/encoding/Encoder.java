@@ -12,4 +12,8 @@ public class Encoder {
         return DEFAULT_ENCODING.encode(json);
     }
 
+    public static Optional<JsonNode> encode(JsonNode json, Encoding encoding) {
+        return Optional.ofNullable(encoding).orElse(DEFAULT_ENCODING).encode(json);
+    }
+
 }
