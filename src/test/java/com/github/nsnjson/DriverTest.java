@@ -12,17 +12,7 @@ public class DriverTest extends AbstractFormatTest {
     }
 
     @Override
-    protected void processTestNumberInt(NumericNode value, JsonNode presentation) {
-        shouldBeConsistencyWhenGivenNumber(value, presentation);
-    }
-
-    @Override
-    protected void processTestNumberLong(NumericNode value, JsonNode presentation) {
-        shouldBeConsistencyWhenGivenNumber(value, presentation);
-    }
-
-    @Override
-    protected void processTestNumberDouble(NumericNode value, JsonNode presentation) {
+    protected void processTestNumber(NumericNode value, JsonNode presentation) {
         shouldBeConsistencyWhenGivenNumber(value, presentation);
     }
 

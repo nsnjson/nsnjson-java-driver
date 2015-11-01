@@ -17,21 +17,21 @@ public abstract class AbstractTest {
     public void testNumberInt() {
         NumericNode value = getNumberInt();
 
-        processTestNumberInt(value, getNumberIntPresentation(value));
+        processTestNumber(value, getNumberIntPresentation(value));
     }
 
     @Test
     public void testNumberLong() {
         NumericNode value = getNumberLong();
 
-        processTestNumberLong(value, getNumberLongPresentation(value));
+        processTestNumber(value, getNumberLongPresentation(value));
     }
 
     @Test
     public void testNumberDouble() {
         NumericNode value = getNumberDouble();
 
-        processTestNumberDouble(value, getNumberDoublePresentation(value));
+        processTestNumber(value, getNumberDoublePresentation(value));
     }
 
     @Test
@@ -92,11 +92,7 @@ public abstract class AbstractTest {
 
     protected abstract void processTestNull(NullNode value, JsonNode presentation);
 
-    protected abstract void processTestNumberInt(NumericNode value, JsonNode presentation);
-
-    protected abstract void processTestNumberLong(NumericNode value, JsonNode presentation);
-
-    protected abstract void processTestNumberDouble(NumericNode value, JsonNode presentation);
+    protected abstract void processTestNumber(NumericNode value, JsonNode presentation);
 
     protected abstract void processTestString(TextNode value, JsonNode presentation);
 
