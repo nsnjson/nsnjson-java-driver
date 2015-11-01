@@ -2,6 +2,10 @@ package com.github.nsnjson;
 
 public final class CustomFormat {
 
+    public static final int INDEX_TYPE = 0;
+
+    public static final int INDEX_VALUE = 1;
+
     public static final String TYPE_NAME_NULL = "null";
 
     public static final String TYPE_NAME_NUMBER = "number";
