@@ -4,11 +4,11 @@ import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.node.*;
 import org.junit.*;
 
-import java.util.*;
+import java.util.Optional;
 
 import static com.github.nsnjson.format.Format.*;
 
-public abstract class AbstractFormatTest {
+public abstract class AbstractFormatTest extends AbstractTest {
 
     @Test
     public void testNull() {
@@ -120,72 +120,6 @@ public abstract class AbstractFormatTest {
         return valueOption.get();
     }
 
-    private static NullNode getNull() {
-        return NullNode.getInstance();
-    }
-
-    private static NumericNode getNumberInt() {
-        return new IntNode(new Random().nextInt());
-    }
-
-    private static NumericNode getNumberLong() {
-        return new LongNode(new Random().nextLong());
-    }
-
-    private static NumericNode getNumberDouble() {
-        return new DoubleNode(new Random().nextDouble());
-    }
-
-    private static TextNode getEmptyString() {
-        return new TextNode("");
-    }
-
-    private static TextNode getString() {
-        return new TextNode(UUID.randomUUID().toString().replaceAll("-", ""));
-    }
-
-    private static BooleanNode getBooleanTrue() {
-        return BooleanNode.getTrue();
-    }
-
-    private static BooleanNode getBooleanFalse() {
-        return BooleanNode.getFalse();
-    }
-
-    private static ArrayNode getEmptyArray() {
-        return new ObjectMapper().createArrayNode();
-    }
-
-    private static ArrayNode getArray() {
-        ArrayNode array = getEmptyArray();
-        array.add(getNull());
-        array.add(getBooleanTrue());
-        array.add(getBooleanFalse());
-        array.add(getNumberInt());
-        array.add(getNumberLong());
-        array.add(getNumberDouble());
-        array.add(getString());
-
-        return array;
-    }
-
-    private static ObjectNode getEmptyObject() {
-        return new ObjectMapper().createObjectNode();
-    }
-
-    private static ObjectNode getObject() {
-        ObjectNode object = new ObjectMapper().createObjectNode();
-        object.set("null_field", getNull());
-        object.set("int_field", getNumberInt());
-        object.set("long_field", getNumberLong());
-        object.set("double_field", getNumberDouble());
-        object.set("true_field", getBooleanTrue());
-        object.set("false_field", getBooleanFalse());
-        object.set("string_field", getString());
-
-        return object;
-    }
-
     private static JsonNode getNullPresentation() {
         ObjectNode presentation = new ObjectMapper().createObjectNode();
         presentation.put(FIELD_TYPE, TYPE_MARKER_NULL);
@@ -238,9 +172,7 @@ public abstract class AbstractFormatTest {
 
         ArrayNode presentationOfArrayItems = objectMapper.createArrayNode();
 
-        for (int i = 0; i < array.size(); i++) {
-            JsonNode value = array.get(i);
-
+        for (JsonNode value : array) {
             Optional<JsonNode> itemPresentationOption = Optional.empty();
 
             if (value instanceof NullNode) {
@@ -287,9 +219,7 @@ public abstract class AbstractFormatTest {
 
         ArrayNode presentationOfObjectFields = objectMapper.createArrayNode();
 
-        for (Iterator<String> namesIterator = object.fieldNames(); namesIterator.hasNext();) {
-            String name = namesIterator.next();
-
+        object.fieldNames().forEachRemaining(name -> {
             JsonNode value = object.get(name);
 
             Optional<JsonNode> fieldPresentationOption = Optional.empty();
@@ -324,7 +254,7 @@ public abstract class AbstractFormatTest {
             if (fieldPresentationOption.isPresent()) {
                 presentationOfObjectFields.add(fieldPresentationOption.get());
             }
-        }
+        });
 
         ObjectNode presentation = objectMapper.createObjectNode();
         presentation.put(FIELD_TYPE, TYPE_MARKER_OBJECT);
