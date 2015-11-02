@@ -102,37 +102,37 @@ public abstract class AbstractTest {
 
     protected abstract void processTestObject(ObjectNode object, JsonNode presentation);
 
-    protected Optional<JsonNode> getPresentation(JsonNode json) {
-        if (json instanceof NullNode) {
+    protected Optional<JsonNode> getPresentation(JsonNode data) {
+        if (data instanceof NullNode) {
             return Optional.of(getNullPresentation());
         }
 
-        if (json instanceof NumericNode) {
-            NumericNode value = (NumericNode) json;
+        if (data instanceof NumericNode) {
+            NumericNode value = (NumericNode) data;
 
             return Optional.of(getNumberPresentation(value));
         }
 
-        if (json instanceof TextNode) {
-            TextNode value = (TextNode) json;
+        if (data instanceof TextNode) {
+            TextNode value = (TextNode) data;
 
             return Optional.of(getStringPresentation(value));
         }
 
-        if (json instanceof BooleanNode) {
-            BooleanNode value = (BooleanNode) json;
+        if (data instanceof BooleanNode) {
+            BooleanNode value = (BooleanNode) data;
 
             return Optional.of(getBooleanPresentation(value));
         }
 
-        if (json instanceof ArrayNode) {
-            ArrayNode array = (ArrayNode) json;
+        if (data instanceof ArrayNode) {
+            ArrayNode array = (ArrayNode) data;
 
             return Optional.of(getArrayPresentation(array));
         }
 
-        if (json instanceof ObjectNode) {
-            ObjectNode object = (ObjectNode) json;
+        if (data instanceof ObjectNode) {
+            ObjectNode object = (ObjectNode) data;
 
             return Optional.of(getObjectPresentation(object));
         }
