@@ -114,22 +114,16 @@ public class DefaultEncoding implements Encoding {
     }
 
     @Override
-    public Optional<JsonNode> encode(JsonNode json) {
-        switch (json.getNodeType()) {
-            case NULL:
-                return encodeNull();
-            case NUMBER:
-                return encodeNumber((NumericNode) json);
-            case STRING:
-                return encodeString((TextNode) json);
-            case BOOLEAN:
-                return encodeBoolean((BooleanNode) json);
-            case ARRAY:
-                return encodeArray((ArrayNode) json);
-            case OBJECT:
-                return encodeObject((ObjectNode) json);
-            default:
-                return Optional.empty();
+    public Optional<JsonNode> encode(JsonNode data) {
+        switch (data.getNodeType()) {
+            case NULL:    return encodeNull();
+            case NUMBER:  return encodeNumber((NumericNode) data);
+            case STRING:  return encodeString((TextNode) data);
+            case BOOLEAN: return encodeBoolean((BooleanNode) data);
+            case ARRAY:   return encodeArray((ArrayNode) data);
+            case OBJECT:  return encodeObject((ObjectNode) data);
         }
+
+        return Optional.empty();
     }
 }
