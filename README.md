@@ -79,3 +79,67 @@ public class Main {
     }
 }
 ```
+
+# Custom rules
+You can define your own rules for JSON encoding/decoding.
+
+Just pass custom rules as an argument to related methods:
+- Driver.encode(JsonNode, Encoding)
+- Driver.decode(JsonNode, Decoding)
+- Encoder.encode(JsonNode, Encoding)
+- Decoder.decode(JsonNode, Decoding)
+
+Example:
+```java
+package com.github.nsnjson;
+
+import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.node.*;
+import com.github.nsnjson.decoding.*;
+import com.github.nsnjson.encoding.*;
+
+import java.util.Optional;
+
+public class Main {
+
+    public static void main(String[] args) {
+        JsonNode data = IntNode.valueOf(2015);
+
+        Encoding encoding = new DefaultEncoding() {
+            @Override
+            public Optional<JsonNode> encodeNumber(NumericNode value) {
+                ArrayNode presentation = new ObjectMapper().createArrayNode();
+                presentation.add("number");
+                presentation.add(value);
+
+                return Optional.of(presentation);
+            }
+        };
+
+        Decoding decoding = new DefaultDecoding() {
+            @Override
+            public Optional<JsonNodeType> getType(JsonNode presentation) {
+                if (presentation.isArray()) {
+                    return Optional.of(JsonNodeType.NUMBER);
+                }
+
+                return super.getType(presentation);
+            }
+
+            @Override
+            public Optional<JsonNode> decodeNumber(JsonNode presentation) {
+                return Optional.of(presentation.get(0));
+            }
+        };
+
+        Optional<JsonNode> presentationOption = Encoder.encode(data, encoding);
+
+        System.out.println(presentationOption);
+        // Optional[["number",2015]]
+
+        System.out.println(Decoder.decode(presentationOption.get(), decoding));
+        // Optional["number"]
+    }
+
+}
+```
