@@ -58,13 +58,24 @@ Now, you can specify dependency:
 
 The driver uses [**Optional<T>**](https://docs.oracle.com/javase/8/docs/api/java/util/Optional.html) as a wrapper for encoding / decoding results.
 ```java
-JsonNode json = IntNode.valueOf(1007);
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.IntNode;
+import com.github.nsnjson.decoding.Decoder;
+import com.github.nsnjson.encoding.Encoder;
 
-Optional<JsonNode> encodedJSON = Encoder.encode(json);
+import java.util.Optional;
 
-System.out.println(encodedJSON);
-// Optional[{ "t": "null" }]
+public class Main {
+    public static void main(String[] args) {
+        JsonNode data = IntNode.valueOf(1007);
 
-System.out.println(Decoder.decode(encodedJSON.get()));
-// Optional[1007]
+        Optional<JsonNode> presentationOption = Encoder.encode(data);
+
+        System.out.println(presentationOption);
+        // Optional[{ "t": 0 }]
+
+        System.out.println(Decoder.decode(presentationOption.get()));
+        // Optional[1007]
+    }
+}
 ```
