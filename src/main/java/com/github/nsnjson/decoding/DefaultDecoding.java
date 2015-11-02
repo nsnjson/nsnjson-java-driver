@@ -13,18 +13,12 @@ public class DefaultDecoding implements Decoding {
     @Override
     public Optional<JsonNodeType> getType(JsonNode presentation) {
         switch (presentation.get(FIELD_TYPE).asInt()) {
-            case TYPE_MARKER_NULL:
-                return Optional.of(NULL);
-            case TYPE_MARKER_NUMBER:
-                return Optional.of(NUMBER);
-            case TYPE_MARKER_STRING:
-                return Optional.of(STRING);
-            case TYPE_MARKER_BOOLEAN:
-                return Optional.of(BOOLEAN);
-            case TYPE_MARKER_ARRAY:
-                return Optional.of(ARRAY);
-            case TYPE_MARKER_OBJECT:
-                return Optional.of(OBJECT);
+            case TYPE_MARKER_NULL:    return Optional.of(NULL);
+            case TYPE_MARKER_NUMBER:  return Optional.of(NUMBER);
+            case TYPE_MARKER_STRING:  return Optional.of(STRING);
+            case TYPE_MARKER_BOOLEAN: return Optional.of(BOOLEAN);
+            case TYPE_MARKER_ARRAY:   return Optional.of(ARRAY);
+            case TYPE_MARKER_OBJECT:  return Optional.of(OBJECT);
         }
 
         return Optional.empty();
@@ -129,18 +123,12 @@ public class DefaultDecoding implements Decoding {
             JsonNodeType type = typeOption.get();
 
             switch (type) {
-                case NULL:
-                    return decodeNull();
-                case NUMBER:
-                    return decodeNumber(presentation);
-                case STRING:
-                    return decodeString(presentation);
-                case BOOLEAN:
-                    return decodeBoolean(presentation);
-                case ARRAY:
-                    return decodeArray(presentation);
-                case OBJECT:
-                    return decodeObject(presentation);
+                case NULL:    return decodeNull();
+                case NUMBER:  return decodeNumber(presentation);
+                case STRING:  return decodeString(presentation);
+                case BOOLEAN: return decodeBoolean(presentation);
+                case ARRAY:   return decodeArray(presentation);
+                case OBJECT:  return decodeObject(presentation);
             }
         }
 
