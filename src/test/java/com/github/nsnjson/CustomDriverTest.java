@@ -64,26 +64,26 @@ public class CustomDriverTest extends AbstractCustomFormatTest {
         assertConsistency(object, presentation);
     }
 
-    private static void assertConsistency(JsonNode json, JsonNode presentation) {
-        assertConsistencyByCustomEncoding(json);
+    private static void assertConsistency(JsonNode data, JsonNode presentation) {
+        assertConsistencyByCustomEncoding(data);
 
         assertConsistencyByCustomDecoding(presentation);
     }
 
-    private static void assertConsistencyByCustomEncoding(JsonNode json) {
-        JsonNode presentation = assertAndGetPresentation(encode(json));
+    private static void assertConsistencyByCustomEncoding(JsonNode data) {
+        JsonNode presentation = assertAndGetPresentation(encode(data));
 
-        Assert.assertEquals(json, assertAndGetValue(decode(presentation)));
+        Assert.assertEquals(data, assertAndGetValue(decode(presentation)));
     }
 
     private static void assertConsistencyByCustomDecoding(JsonNode presentation) {
-        JsonNode json = assertAndGetValue(decode(presentation));
+        JsonNode data = assertAndGetValue(decode(presentation));
 
-        Assert.assertEquals(presentation, assertAndGetPresentation(encode(json)));
+        Assert.assertEquals(presentation, assertAndGetPresentation(encode(data)));
     }
 
-    private static Optional<JsonNode> encode(JsonNode json) {
-        return Driver.encode(json, new CustomEncoding());
+    private static Optional<JsonNode> encode(JsonNode data) {
+        return Driver.encode(data, new CustomEncoding());
     }
 
     private static Optional<JsonNode> decode(JsonNode presentation) {
