@@ -8,12 +8,22 @@ public class Encoder {
 
     private static final Encoding DEFAULT_ENCODING = new DefaultEncoding();
 
-    public static Optional<JsonNode> encode(JsonNode json) {
-        return DEFAULT_ENCODING.encode(json);
+    /**
+     * Encodes JSON to NSNJSON presentation.
+     * @param data any JSON data
+     * @return NSNJSON presentation of JSON
+     */
+    public static Optional<JsonNode> encode(JsonNode data) {
+        return DEFAULT_ENCODING.encode(data);
     }
 
-    public static Optional<JsonNode> encode(JsonNode json, Encoding encoding) {
-        return Optional.ofNullable(encoding).orElse(DEFAULT_ENCODING).encode(json);
+    /**
+     * Encodes JSON to NSNJSON presentation by custom encoding.
+     * @param data any JSON data
+     * @return NSNJSON presentation of JSON
+     */
+    public static Optional<JsonNode> encode(JsonNode data, Encoding encoding) {
+        return Optional.ofNullable(encoding).orElse(DEFAULT_ENCODING).encode(data);
     }
 
 }
