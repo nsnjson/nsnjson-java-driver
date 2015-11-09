@@ -40,16 +40,6 @@ public class Driver {
     }
 
     /**
-     * Decodes JSON from specified NSNJSON presentation.
-     * @see Decoder#decode(JsonNode)
-     * @param presentation NSNJSON presentation of JSON
-     * @return JSON
-     */
-    public static Optional<JsonNode> decode(JsonNode presentation) {
-        return Decoder.decode(presentation);
-    }
-
-    /**
      * Decodes JSON from specified NSNJSON presentation by custom decoding.
      * @see Decoder#decode(JsonNode, Decoding)
      * @param presentation NSNJSON presentation of JSON
