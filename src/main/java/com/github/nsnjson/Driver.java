@@ -40,4 +40,12 @@ public class Driver {
         return Decoder.decode(presentation, decoding);
     }
 
+    public static Optional<JsonNode> decodeWithArrayStyle(JsonNode presentation) {
+        return Decoder.decodeWithArrayStyle(presentation);
+    }
+
+    public static Optional<JsonNode> decodeWithObjectStyle(JsonNode presentation) {
+        return Decoder.decodeWithObjectStyle(presentation);
+    }
+
 }

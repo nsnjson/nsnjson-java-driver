@@ -79,16 +79,9 @@ public class ArrayStyleEncoding extends AbstractEncoding {
             JsonNode value = object.get(name);
 
             encode(value).ifPresent(valuePresentation -> {
-                ObjectNode fieldPresentation = objectMapper.createObjectNode();
-                fieldPresentation.put(FIELD_NAME, name);
-
-                if (valuePresentation.has(FIELD_TYPE)) {
-                    fieldPresentation.set(FIELD_TYPE, valuePresentation.get(FIELD_TYPE));
-                }
-
-                if (valuePresentation.has(FIELD_VALUE)) {
-                    fieldPresentation.set(FIELD_VALUE, valuePresentation.get(FIELD_VALUE));
-                }
+                ArrayNode fieldPresentation = objectMapper.createArrayNode();
+                fieldPresentation.add(name);
+                fieldPresentation.add(valuePresentation);
 
                 presentation.add(fieldPresentation);
             });
