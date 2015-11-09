@@ -61,13 +61,7 @@ public class ObjectStyleEncoding extends AbstractEncoding {
         for (int i = 0; i < array.size(); i++) {
             JsonNode item = array.get(i);
 
-            Optional<JsonNode> itemPresentationOption = encode(item);
-
-            if (itemPresentationOption.isPresent()) {
-                JsonNode itemPresentation = itemPresentationOption.get();
-
-                itemsPresentation.add(itemPresentation);
-            }
+            encode(item).ifPresent(itemsPresentation::add);
         }
 
         ObjectNode presentation = objectMapper.createObjectNode();
@@ -86,11 +80,7 @@ public class ObjectStyleEncoding extends AbstractEncoding {
         object.fieldNames().forEachRemaining(name -> {
             JsonNode value = object.get(name);
 
-            Optional<JsonNode> valuePresentationOption = encode(value);
-
-            if (valuePresentationOption.isPresent()) {
-                JsonNode valuePresentation = valuePresentationOption.get();
-
+            encode(value).ifPresent(valuePresentation -> {
                 ObjectNode fieldPresentation = objectMapper.createObjectNode();
                 fieldPresentation.put(FIELD_NAME, name);
 
@@ -103,7 +93,7 @@ public class ObjectStyleEncoding extends AbstractEncoding {
                 }
 
                 fieldsPresentation.add(fieldPresentation);
-            }
+            });
         });
 
         ObjectNode presentation = objectMapper.createObjectNode();
