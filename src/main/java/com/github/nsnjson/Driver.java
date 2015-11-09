@@ -35,6 +35,10 @@ public class Driver {
         return Encoder.encodeWithArrayStyle(data);
     }
 
+    public static Optional<JsonNode> encodeWithObjectStyle(JsonNode data) {
+        return Encoder.encodeWithObjectStyle(data);
+    }
+
     /**
      * Decodes JSON from specified NSNJSON presentation.
      * @see Decoder#decode(JsonNode)
