@@ -7,7 +7,7 @@ import java.util.Optional;
 
 import static com.github.nsnjson.format.CustomFormat.*;
 
-public class CustomEncoding extends DefaultEncoding {
+public class CustomEncoding extends AbstractEncoding {
 
     @Override
     public Optional<JsonNode> encodeNull() {
