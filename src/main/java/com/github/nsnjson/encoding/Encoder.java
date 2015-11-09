@@ -19,7 +19,7 @@ public class Encoder {
      * @return NSNJSON presentation of JSON
      */
     public static Optional<JsonNode> encode(JsonNode data, Encoding encoding) {
-        return Optional.ofNullable(encoding).orElse(DEFAULT_ENCODING).encode(data);
+        return encoding.encode(data);
     }
 
     public static Optional<JsonNode> encodeWithArrayStyle(JsonNode data) {
