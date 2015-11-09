@@ -1,12 +1,15 @@
 package com.github.nsnjson.encoding;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.nsnjson.encoding.style.*;
 
 import java.util.Optional;
 
 public class Encoder {
 
     private static final Encoding DEFAULT_ENCODING = new DefaultEncoding();
+
+    private static final Encoding ARRAY_STYLE_ENCODING = new ArrayStyleEncoding();
 
     /**
      * Encodes JSON to NSNJSON presentation.
@@ -24,6 +27,10 @@ public class Encoder {
      */
     public static Optional<JsonNode> encode(JsonNode data, Encoding encoding) {
         return Optional.ofNullable(encoding).orElse(DEFAULT_ENCODING).encode(data);
+    }
+
+    public static Optional<JsonNode> encodeWithArrayStyle(JsonNode data) {
+        return ARRAY_STYLE_ENCODING.encode(data);
     }
 
 }
