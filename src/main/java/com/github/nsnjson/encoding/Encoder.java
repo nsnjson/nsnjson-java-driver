@@ -7,8 +7,6 @@ import java.util.Optional;
 
 public class Encoder {
 
-    private static final Encoding DEFAULT_ENCODING = new DefaultEncoding();
-
     private static final Encoding ARRAY_STYLE_ENCODING = new ArrayStyleEncoding();
 
     private static final Encoding OBJECT_STYLE_ENCODING = new ObjectStyleEncoding();
