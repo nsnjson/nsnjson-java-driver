@@ -57,13 +57,7 @@ public class CustomDecoding extends AbstractDecoding {
         for (int i = INDEX_VALUE; i < presentation.size(); i++) {
             JsonNode itemPresentation = presentation.get(i);
 
-            Optional<JsonNode> itemOption = decode(itemPresentation);
-
-            if (itemOption.isPresent()) {
-                JsonNode item = itemOption.get();
-
-                array.add(item);
-            }
+            decode(itemPresentation).ifPresent(array::add);
         }
 
         return Optional.of(array);
@@ -80,13 +74,7 @@ public class CustomDecoding extends AbstractDecoding {
 
             String name = namePresentation.asText();
 
-            Optional<JsonNode> valueOption = decode(fieldPresentation.get(INDEX_VALUE));
-
-            if (valueOption.isPresent()) {
-                JsonNode value = valueOption.get();
-
-                object.set(name, value);
-            }
+            decode(fieldPresentation.get(INDEX_VALUE)).ifPresent(value -> object.set(name, value));
         }
 
         return Optional.of(object);
