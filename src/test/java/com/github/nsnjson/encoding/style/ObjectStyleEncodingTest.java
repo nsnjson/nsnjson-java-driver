@@ -58,13 +58,7 @@ public class ObjectStyleEncodingTest extends AbstractEncodingTest {
         for (int i = 0; i < array.size(); i++) {
             JsonNode item = array.get(i);
 
-            Optional<JsonNode> itemPresentationOption = getPresentation(item);
-
-            if (itemPresentationOption.isPresent()) {
-                JsonNode itemPresentation = itemPresentationOption.get();
-
-                itemsPresentation.add(itemPresentation);
-            }
+            getPresentation(item).ifPresent(itemsPresentation::add);
         }
 
         ObjectNode presentation = objectMapper.createObjectNode();
@@ -83,11 +77,7 @@ public class ObjectStyleEncodingTest extends AbstractEncodingTest {
         object.fieldNames().forEachRemaining(name -> {
             JsonNode value = object.get(name);
 
-            Optional<JsonNode> valuePresentationOption = getPresentation(value);
-
-            if (valuePresentationOption.isPresent()) {
-                JsonNode valuePresentation = valuePresentationOption.get();
-
+            getPresentation(value).ifPresent(valuePresentation -> {
                 ObjectNode fieldPresentation = objectMapper.createObjectNode();
                 fieldPresentation.put(FIELD_NAME, name);
 
@@ -100,7 +90,7 @@ public class ObjectStyleEncodingTest extends AbstractEncodingTest {
                 }
 
                 fieldsPresentation.add(fieldPresentation);
-            }
+            });
         });
 
         ObjectNode presentation = objectMapper.createObjectNode();
