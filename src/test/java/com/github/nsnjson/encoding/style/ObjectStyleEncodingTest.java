@@ -3,9 +3,9 @@ package com.github.nsnjson.encoding.style;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.node.*;
 import com.github.nsnjson.encoding.*;
-import org.junit.Assert;
 
 import java.util.Optional;
+import java.util.function.Function;
 
 import static com.github.nsnjson.format.Format.*;
 
@@ -111,7 +111,8 @@ public class ObjectStyleEncodingTest extends AbstractEncodingTest {
     }
 
     @Override
-    protected void assertEncoding(JsonNode data, JsonNode presentation) {
-        Assert.assertEquals(presentation, assertAndGetPresentation(Encoder.encodeWithObjectStyle(data)));
+    protected Function<JsonNode, Optional<JsonNode>> getEncodeFunction() {
+        return Encoder::encodeWithObjectStyle;
     }
+
 }

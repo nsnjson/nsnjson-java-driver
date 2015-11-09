@@ -3,6 +3,10 @@ package com.github.nsnjson.encoding;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.*;
 import com.github.nsnjson.AbstractTest;
+import org.junit.Assert;
+
+import java.util.Optional;
+import java.util.function.Function;
 
 public abstract class AbstractEncodingTest extends AbstractTest {
 
@@ -36,6 +40,10 @@ public abstract class AbstractEncodingTest extends AbstractTest {
         assertEncoding(object, presentation);
     }
 
-    protected abstract void assertEncoding(JsonNode data, JsonNode presentation);
+    protected void assertEncoding(JsonNode data, JsonNode presentation) {
+        Assert.assertEquals(presentation, assertAndGetPresentation(getEncodeFunction().apply(data)));
+    }
+
+    protected abstract Function<JsonNode, Optional<JsonNode>> getEncodeFunction();
 
 }
