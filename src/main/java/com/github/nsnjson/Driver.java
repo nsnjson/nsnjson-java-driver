@@ -12,16 +12,6 @@ import java.util.Optional;
 public class Driver {
 
     /**
-     * Encodes JSON to NSNJSON presentation.
-     * @see Encoder#encode(JsonNode)
-     * @param data any JSON data
-     * @return NSNJSON presentation of JSON
-     */
-    public static Optional<JsonNode> encode(JsonNode data) {
-        return Encoder.encode(data);
-    }
-
-    /**
      * Encodes JSON to NSNJSON presentation by custom encoding.
      * @see Encoder#encode(JsonNode, Encoding)
      * @param data any JSON data
