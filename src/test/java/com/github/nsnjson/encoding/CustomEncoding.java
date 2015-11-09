@@ -52,13 +52,7 @@ public class CustomEncoding extends AbstractEncoding {
         presentation.add(TYPE_NAME_ARRAY);
 
         for (JsonNode value : array) {
-            Optional<JsonNode> itemPresentationOption = encode(value);
-
-            if (itemPresentationOption.isPresent()) {
-                JsonNode itemPresentation = itemPresentationOption.get();
-
-                presentation.add(itemPresentation);
-            }
+            encode(value).ifPresent(presentation::add);
         }
 
         return Optional.of(presentation);
@@ -74,17 +68,13 @@ public class CustomEncoding extends AbstractEncoding {
         object.fieldNames().forEachRemaining(name -> {
             JsonNode value = object.get(name);
 
-            Optional<JsonNode> valuePresentationOption = encode(value);
-
-            if (valuePresentationOption.isPresent()) {
-                JsonNode valuePresentation = valuePresentationOption.get();
-
+            encode(value).ifPresent(valuePresentation -> {
                 ArrayNode fieldPresentation = objectMapper.createArrayNode();
                 fieldPresentation.add(name);
                 fieldPresentation.add(valuePresentation);
 
                 presentation.add(fieldPresentation);
-            }
+            });
         });
 
         return Optional.of(presentation);
