@@ -3,8 +3,6 @@ package com.github.nsnjson;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.node.*;
 
-import java.util.Optional;
-
 import static com.github.nsnjson.format.CustomFormat.*;
 
 public abstract class AbstractCustomFormatTest extends AbstractTest {
@@ -52,13 +50,7 @@ public abstract class AbstractCustomFormatTest extends AbstractTest {
         presentation.add(TYPE_NAME_ARRAY);
 
         for (JsonNode value : array) {
-            Optional<JsonNode> itemPresentationOption = getPresentation(value);
-
-            if (itemPresentationOption.isPresent()) {
-                JsonNode itemPresentation = itemPresentationOption.get();
-
-                presentation.add(itemPresentation);
-            }
+            getPresentation(value).ifPresent(presentation::add);
         }
 
         return presentation;
@@ -74,17 +66,13 @@ public abstract class AbstractCustomFormatTest extends AbstractTest {
         object.fieldNames().forEachRemaining(name -> {
             JsonNode value = object.get(name);
 
-            Optional<JsonNode> valuePresentationOption = getPresentation(value);
-
-            if (valuePresentationOption.isPresent()) {
-                JsonNode valuePresentation = valuePresentationOption.get();
-
+            getPresentation(value).ifPresent(valuePresentation -> {
                 ArrayNode fieldPresentation = objectMapper.createArrayNode();
                 fieldPresentation.add(name);
                 fieldPresentation.add(valuePresentation);
 
                 presentation.add(fieldPresentation);
-            }
+            });
         });
 
         return presentation;
