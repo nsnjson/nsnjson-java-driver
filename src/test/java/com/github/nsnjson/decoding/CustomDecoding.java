@@ -8,7 +8,7 @@ import java.util.Optional;
 import static com.fasterxml.jackson.databind.node.JsonNodeType.*;
 import static com.github.nsnjson.format.CustomFormat.*;
 
-public class CustomDecoding extends DefaultDecoding {
+public class CustomDecoding extends AbstractDecoding {
 
     @Override
     public Optional<JsonNodeType> getType(JsonNode presentation) {
