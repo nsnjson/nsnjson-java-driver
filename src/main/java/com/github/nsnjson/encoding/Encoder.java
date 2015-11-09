@@ -14,15 +14,6 @@ public class Encoder {
     private static final Encoding OBJECT_STYLE_ENCODING = new ObjectStyleEncoding();
 
     /**
-     * Encodes JSON to NSNJSON presentation.
-     * @param data any JSON data
-     * @return NSNJSON presentation of JSON
-     */
-    public static Optional<JsonNode> encode(JsonNode data) {
-        return DEFAULT_ENCODING.encode(data);
-    }
-
-    /**
      * Encodes JSON to NSNJSON presentation by custom encoding.
      * @param data any JSON data
      * @return NSNJSON presentation of JSON
