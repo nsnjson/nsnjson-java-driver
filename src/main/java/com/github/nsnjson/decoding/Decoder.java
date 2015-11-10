@@ -1,21 +1,15 @@
 package com.github.nsnjson.decoding;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.nsnjson.decoding.style.*;
 
 import java.util.Optional;
 
 public class Decoder {
 
-    private static final Decoding DEFAULT_DECODING = new DefaultDecoding();
+    private static final Decoding ARRAY_STYLE_DECODING = new ArrayStyleDecoding();
 
-    /**
-     * Decodes JSON from specified NSNJSON presentation.
-     * @param presentation NSNJSON presentation of JSON
-     * @return JSON
-     */
-    public static Optional<JsonNode> decode(JsonNode presentation) {
-        return DEFAULT_DECODING.decode(presentation);
-    }
+    private static final Decoding OBJECT_STYLE_DECODING = new ObjectStyleDecoding();
 
     /**
      * Decodes JSON from specified NSNJSON presentation by custom decoding.
@@ -24,7 +18,15 @@ public class Decoder {
      * @return JSON
      */
     public static Optional<JsonNode> decode(JsonNode presentation, Decoding decoding) {
-        return Optional.ofNullable(decoding).orElse(DEFAULT_DECODING).decode(presentation);
+        return decoding.decode(presentation);
+    }
+
+    public static Optional<JsonNode> decodeWithArrayStyle(JsonNode presentation) {
+        return ARRAY_STYLE_DECODING.decode(presentation);
+    }
+
+    public static Optional<JsonNode> decodeWithObjectStyle(JsonNode presentation) {
+        return OBJECT_STYLE_DECODING.decode(presentation);
     }
 
 }

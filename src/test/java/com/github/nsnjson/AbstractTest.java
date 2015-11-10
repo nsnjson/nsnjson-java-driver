@@ -1,158 +1,101 @@
 package com.github.nsnjson;
 
-import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.*;
+import com.github.nsnjson.asset.data.AssetsProvider;
 import org.junit.*;
 
-import java.util.*;
+import java.util.Optional;
 
 public abstract class AbstractTest {
 
     @Test
     public void testNull() {
-        processTestNull(getNull(), getNullPresentation());
+        processTest(getNull(), getNullPresentation());
     }
 
     @Test
     public void testNumberInt() {
-        NumericNode value = getNumberInt();
-
-        processTestNumber(value, getNumberPresentation(value));
+        processTest(getNumberInt(), getIntPresentation());
     }
 
     @Test
     public void testNumberLong() {
-        NumericNode value = getNumberLong();
-
-        processTestNumber(value, getNumberPresentation(value));
+        processTest(getNumberLong(), getLongPresentation());
     }
 
     @Test
     public void testNumberDouble() {
-        NumericNode value = getNumberDouble();
-
-        processTestNumber(value, getNumberPresentation(value));
+        processTest(getNumberDouble(), getDoublePresentation());
     }
 
     @Test
     public void testEmptyString() {
-        TextNode value = getEmptyString();
-
-        processTestString(value, getStringPresentation(value));
+        processTest(getEmptyString(), getEmptyStringPresentation());
     }
 
     @Test
     public void testString() {
-        TextNode value = getString();
-
-        processTestString(value, getStringPresentation(value));
+        processTest(getString(), getStringPresentation());
     }
 
     @Test
     public void testBooleanTrue() {
-        BooleanNode value = getBooleanTrue();
-
-        processTestBoolean(value, getBooleanPresentation(value));
+        processTest(getBooleanTrue(), getTruePresentation());
     }
 
     @Test
     public void testBooleanFalse() {
-        BooleanNode value = getBooleanFalse();
-
-        processTestBoolean(value, getBooleanPresentation(value));
+        processTest(getBooleanFalse(), getFalsePresentation());
     }
 
     @Test
     public void testEmptyArray() {
-        ArrayNode array = getEmptyArray();
-
-        processTestArray(array, getArrayPresentation(array));
+        processTest(getEmptyArray(), getEmptyArrayPresentation());
     }
 
     @Test
     public void testArray() {
-        ArrayNode array = getArray();
-
-        processTestArray(array, getArrayPresentation(array));
+        processTest(getArray(), getArrayPresentation());
     }
 
     @Test
     public void testEmptyObject() {
-        ObjectNode object = getEmptyObject();
-
-        processTestObject(object, getObjectPresentation(object));
+        processTest(getEmptyObject(), getEmptyObjectPresentation());
     }
 
     @Test
     public void testObject() {
-        ObjectNode object = getObject();
-
-        processTestObject(object, getObjectPresentation(object));
+        processTest(getObject(), getObjectPresentation());
     }
 
-    protected abstract void processTestNull(NullNode value, JsonNode presentation);
-
-    protected abstract void processTestNumber(NumericNode value, JsonNode presentation);
-
-    protected abstract void processTestString(TextNode value, JsonNode presentation);
-
-    protected abstract void processTestBoolean(BooleanNode value, JsonNode presentation);
-
-    protected abstract void processTestArray(ArrayNode array, JsonNode presentation);
-
-    protected abstract void processTestObject(ObjectNode object, JsonNode presentation);
-
-    protected Optional<JsonNode> getPresentation(JsonNode data) {
-        if (data instanceof NullNode) {
-            return Optional.of(getNullPresentation());
-        }
-
-        if (data instanceof NumericNode) {
-            NumericNode value = (NumericNode) data;
-
-            return Optional.of(getNumberPresentation(value));
-        }
-
-        if (data instanceof TextNode) {
-            TextNode value = (TextNode) data;
-
-            return Optional.of(getStringPresentation(value));
-        }
-
-        if (data instanceof BooleanNode) {
-            BooleanNode value = (BooleanNode) data;
-
-            return Optional.of(getBooleanPresentation(value));
-        }
-
-        if (data instanceof ArrayNode) {
-            ArrayNode array = (ArrayNode) data;
-
-            return Optional.of(getArrayPresentation(array));
-        }
-
-        if (data instanceof ObjectNode) {
-            ObjectNode object = (ObjectNode) data;
-
-            return Optional.of(getObjectPresentation(object));
-        }
-
-        return Optional.empty();
-    }
+    protected abstract void processTest(JsonNode data, JsonNode presentation);
 
     protected abstract JsonNode getNullPresentation();
 
-    protected abstract JsonNode getNumberPresentation(NumericNode value);
+    protected abstract JsonNode getIntPresentation();
 
-    protected abstract JsonNode getStringPresentation(TextNode value);
+    protected abstract JsonNode getLongPresentation();
 
-    protected abstract JsonNode getBooleanPresentation(BooleanNode value);
+    protected abstract JsonNode getDoublePresentation();
 
-    protected abstract JsonNode getArrayPresentation(ArrayNode array);
+    protected abstract JsonNode getEmptyStringPresentation();
 
-    protected abstract JsonNode getObjectPresentation(ObjectNode object);
+    protected abstract JsonNode getStringPresentation();
 
-    protected static JsonNode assertAndGetValue(Optional<JsonNode> valueOption) {
+    protected abstract JsonNode getTruePresentation();
+
+    protected abstract JsonNode getFalsePresentation();
+
+    protected abstract JsonNode getEmptyArrayPresentation();
+
+    protected abstract JsonNode getArrayPresentation();
+
+    protected abstract JsonNode getEmptyObjectPresentation();
+
+    protected abstract JsonNode getObjectPresentation();
+
+    protected static JsonNode assertAndGetData(Optional<JsonNode> valueOption) {
         Assert.assertTrue(valueOption.isPresent());
 
         return valueOption.get();
@@ -165,69 +108,51 @@ public abstract class AbstractTest {
     }
 
     private static NullNode getNull() {
-        return NullNode.getInstance();
+        return AssetsProvider.getNull();
     }
 
     private static NumericNode getNumberInt() {
-        return new IntNode(new Random().nextInt());
+        return AssetsProvider.getInt();
     }
 
     private static NumericNode getNumberLong() {
-        return new LongNode(new Random().nextLong());
+        return AssetsProvider.getLong();
     }
 
     private static NumericNode getNumberDouble() {
-        return new DoubleNode(new Random().nextDouble());
+        return AssetsProvider.getDouble();
     }
 
     private static TextNode getEmptyString() {
-        return new TextNode("");
+        return AssetsProvider.getEmptyString();
     }
 
     private static TextNode getString() {
-        return new TextNode(UUID.randomUUID().toString().replaceAll("-", ""));
+        return AssetsProvider.getString();
     }
 
     private static BooleanNode getBooleanTrue() {
-        return BooleanNode.getTrue();
+        return AssetsProvider.getTrue();
     }
 
     private static BooleanNode getBooleanFalse() {
-        return BooleanNode.getFalse();
+        return AssetsProvider.getFalse();
     }
 
     private static ArrayNode getEmptyArray() {
-        return new ObjectMapper().createArrayNode();
+        return AssetsProvider.getEmptyArray();
     }
 
     private static ArrayNode getArray() {
-        ArrayNode array = getEmptyArray();
-        array.add(getNull());
-        array.add(getBooleanTrue());
-        array.add(getBooleanFalse());
-        array.add(getNumberInt());
-        array.add(getNumberLong());
-        array.add(getNumberDouble());
-        array.add(getString());
-
-        return array;
+        return AssetsProvider.getArray();
     }
 
     private static ObjectNode getEmptyObject() {
-        return new ObjectMapper().createObjectNode();
+        return AssetsProvider.getEmptyObject();
     }
 
     private static ObjectNode getObject() {
-        ObjectNode object = new ObjectMapper().createObjectNode();
-        object.set("null_field", getNull());
-        object.set("int_field", getNumberInt());
-        object.set("long_field", getNumberLong());
-        object.set("double_field", getNumberDouble());
-        object.set("true_field", getBooleanTrue());
-        object.set("false_field", getBooleanFalse());
-        object.set("string_field", getString());
-
-        return object;
+        return AssetsProvider.getObject();
     }
 
 }

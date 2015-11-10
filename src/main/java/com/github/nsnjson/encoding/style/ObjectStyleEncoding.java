@@ -1,72 +1,78 @@
-package com.github.nsnjson;
+package com.github.nsnjson.encoding.style;
 
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.node.*;
+import com.github.nsnjson.encoding.AbstractEncoding;
 
 import java.util.Optional;
 
 import static com.github.nsnjson.format.Format.*;
 
-public abstract class AbstractFormatTest extends AbstractTest {
+public class ObjectStyleEncoding extends AbstractEncoding {
 
     @Override
-    protected JsonNode getNullPresentation() {
-        ObjectNode presentation = new ObjectMapper().createObjectNode();
-        presentation.put(FIELD_TYPE, TYPE_MARKER_NULL);
+    public Optional<JsonNode> encodeNull() {
+        ObjectMapper objectMapper = new ObjectMapper();
 
-        return presentation;
+        ObjectNode presentation = objectMapper.createObjectNode();
+
+        return Optional.of(presentation);
     }
 
     @Override
-    protected JsonNode getNumberPresentation(NumericNode value) {
-        ObjectNode presentation = new ObjectMapper().createObjectNode();
+    public Optional<JsonNode> encodeNumber(NumericNode value) {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        ObjectNode presentation = objectMapper.createObjectNode();
         presentation.put(FIELD_TYPE, TYPE_MARKER_NUMBER);
         presentation.set(FIELD_VALUE, value);
 
-        return presentation;
+        return Optional.of(presentation);
     }
 
     @Override
-    protected JsonNode getStringPresentation(TextNode value) {
-        ObjectNode presentation = new ObjectMapper().createObjectNode();
+    public Optional<JsonNode> encodeString(TextNode value) {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        ObjectNode presentation = objectMapper.createObjectNode();
         presentation.put(FIELD_TYPE, TYPE_MARKER_STRING);
         presentation.set(FIELD_VALUE, value);
 
-        return presentation;
+        return Optional.of(presentation);
     }
 
     @Override
-    protected JsonNode getBooleanPresentation(BooleanNode value) {
-        ObjectNode presentation = new ObjectMapper().createObjectNode();
+    public Optional<JsonNode> encodeBoolean(BooleanNode value) {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        ObjectNode presentation = objectMapper.createObjectNode();
         presentation.put(FIELD_TYPE, TYPE_MARKER_BOOLEAN);
         presentation.put(FIELD_VALUE, value.asBoolean() ? BOOLEAN_TRUE : BOOLEAN_FALSE);
 
-        return presentation;
+        return Optional.of(presentation);
     }
 
     @Override
-    protected JsonNode getArrayPresentation(ArrayNode array) {
+    public Optional<JsonNode> encodeArray(ArrayNode array) {
         ObjectMapper objectMapper = new ObjectMapper();
 
         ArrayNode itemsPresentation = objectMapper.createArrayNode();
 
-        for (JsonNode value : array) {
-            Optional<JsonNode> itemPresentationOption = getPresentation(value);
+        for (int i = 0; i < array.size(); i++) {
+            JsonNode item = array.get(i);
 
-            if (itemPresentationOption.isPresent()) {
-                itemsPresentation.add(itemPresentationOption.get());
-            }
+            encode(item).ifPresent(itemsPresentation::add);
         }
 
         ObjectNode presentation = objectMapper.createObjectNode();
         presentation.put(FIELD_TYPE, TYPE_MARKER_ARRAY);
         presentation.set(FIELD_VALUE, itemsPresentation);
 
-        return presentation;
+        return Optional.of(presentation);
     }
 
     @Override
-    protected JsonNode getObjectPresentation(ObjectNode object) {
+    public Optional<JsonNode> encodeObject(ObjectNode object) {
         ObjectMapper objectMapper = new ObjectMapper();
 
         ArrayNode fieldsPresentation = objectMapper.createArrayNode();
@@ -74,11 +80,7 @@ public abstract class AbstractFormatTest extends AbstractTest {
         object.fieldNames().forEachRemaining(name -> {
             JsonNode value = object.get(name);
 
-            Optional<JsonNode> valuePresentationOption = getPresentation(value);
-
-            if (valuePresentationOption.isPresent()) {
-                JsonNode valuePresentation = valuePresentationOption.get();
-
+            encode(value).ifPresent(valuePresentation -> {
                 ObjectNode fieldPresentation = objectMapper.createObjectNode();
                 fieldPresentation.put(FIELD_NAME, name);
 
@@ -91,14 +93,14 @@ public abstract class AbstractFormatTest extends AbstractTest {
                 }
 
                 fieldsPresentation.add(fieldPresentation);
-            }
+            });
         });
 
         ObjectNode presentation = objectMapper.createObjectNode();
         presentation.put(FIELD_TYPE, TYPE_MARKER_OBJECT);
         presentation.set(FIELD_VALUE, fieldsPresentation);
 
-        return presentation;
+        return Optional.of(presentation);
     }
 
 }

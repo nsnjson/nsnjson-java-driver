@@ -1,26 +1,30 @@
-package com.github.nsnjson.encoding;
+package com.github.nsnjson.encoding.style;
 
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.node.*;
+import com.github.nsnjson.encoding.AbstractEncoding;
 
 import java.util.Optional;
 
-import static com.github.nsnjson.format.CustomFormat.*;
+import static com.github.nsnjson.format.Format.*;
 
-public class CustomEncoding extends DefaultEncoding {
+public class ArrayStyleEncoding extends AbstractEncoding {
 
     @Override
     public Optional<JsonNode> encodeNull() {
-        ArrayNode presentation = new ObjectMapper().createArrayNode();
-        presentation.add(TYPE_NAME_NULL);
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        ArrayNode presentation = objectMapper.createArrayNode();
 
         return Optional.of(presentation);
     }
 
     @Override
     public Optional<JsonNode> encodeNumber(NumericNode value) {
-        ArrayNode presentation = new ObjectMapper().createArrayNode();
-        presentation.add(TYPE_NAME_NUMBER);
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        ArrayNode presentation = objectMapper.createArrayNode();
+        presentation.add(TYPE_MARKER_NUMBER);
         presentation.add(value);
 
         return Optional.of(presentation);
@@ -28,8 +32,10 @@ public class CustomEncoding extends DefaultEncoding {
 
     @Override
     public Optional<JsonNode> encodeString(TextNode value) {
-        ArrayNode presentation = new ObjectMapper().createArrayNode();
-        presentation.add(TYPE_NAME_STRING);
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        ArrayNode presentation = objectMapper.createArrayNode();
+        presentation.add(TYPE_MARKER_STRING);
         presentation.add(value);
 
         return Optional.of(presentation);
@@ -37,9 +43,11 @@ public class CustomEncoding extends DefaultEncoding {
 
     @Override
     public Optional<JsonNode> encodeBoolean(BooleanNode value) {
-        ArrayNode presentation = new ObjectMapper().createArrayNode();
-        presentation.add(TYPE_NAME_BOOLEAN);
-        presentation.add(value);
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        ArrayNode presentation = objectMapper.createArrayNode();
+        presentation.add(TYPE_MARKER_BOOLEAN);
+        presentation.add(value.asBoolean() ? BOOLEAN_TRUE : BOOLEAN_FALSE);
 
         return Optional.of(presentation);
     }
@@ -49,16 +57,12 @@ public class CustomEncoding extends DefaultEncoding {
         ObjectMapper objectMapper = new ObjectMapper();
 
         ArrayNode presentation = objectMapper.createArrayNode();
-        presentation.add(TYPE_NAME_ARRAY);
+        presentation.add(TYPE_MARKER_ARRAY);
 
-        for (JsonNode value : array) {
-            Optional<JsonNode> itemPresentationOption = encode(value);
+        for (int i = 0; i < array.size(); i++) {
+            JsonNode item = array.get(i);
 
-            if (itemPresentationOption.isPresent()) {
-                JsonNode itemPresentation = itemPresentationOption.get();
-
-                presentation.add(itemPresentation);
-            }
+            encode(item).ifPresent(presentation::add);
         }
 
         return Optional.of(presentation);
@@ -69,22 +73,18 @@ public class CustomEncoding extends DefaultEncoding {
         ObjectMapper objectMapper = new ObjectMapper();
 
         ArrayNode presentation = objectMapper.createArrayNode();
-        presentation.add(TYPE_NAME_OBJECT);
+        presentation.add(TYPE_MARKER_OBJECT);
 
         object.fieldNames().forEachRemaining(name -> {
             JsonNode value = object.get(name);
 
-            Optional<JsonNode> valuePresentationOption = encode(value);
-
-            if (valuePresentationOption.isPresent()) {
-                JsonNode valuePresentation = valuePresentationOption.get();
-
+            encode(value).ifPresent(valuePresentation -> {
                 ArrayNode fieldPresentation = objectMapper.createArrayNode();
                 fieldPresentation.add(name);
                 fieldPresentation.add(valuePresentation);
 
                 presentation.add(fieldPresentation);
-            }
+            });
         });
 
         return Optional.of(presentation);

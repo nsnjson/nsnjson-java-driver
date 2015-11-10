@@ -12,16 +12,6 @@ import java.util.Optional;
 public class Driver {
 
     /**
-     * Encodes JSON to NSNJSON presentation.
-     * @see Encoder#encode(JsonNode)
-     * @param data any JSON data
-     * @return NSNJSON presentation of JSON
-     */
-    public static Optional<JsonNode> encode(JsonNode data) {
-        return Encoder.encode(data);
-    }
-
-    /**
      * Encodes JSON to NSNJSON presentation by custom encoding.
      * @see Encoder#encode(JsonNode, Encoding)
      * @param data any JSON data
@@ -31,14 +21,12 @@ public class Driver {
         return Encoder.encode(data, encoding);
     }
 
-    /**
-     * Decodes JSON from specified NSNJSON presentation.
-     * @see Decoder#decode(JsonNode)
-     * @param presentation NSNJSON presentation of JSON
-     * @return JSON
-     */
-    public static Optional<JsonNode> decode(JsonNode presentation) {
-        return Decoder.decode(presentation);
+    public static Optional<JsonNode> encodeWithArrayStyle(JsonNode data) {
+        return Encoder.encodeWithArrayStyle(data);
+    }
+
+    public static Optional<JsonNode> encodeWithObjectStyle(JsonNode data) {
+        return Encoder.encodeWithObjectStyle(data);
     }
 
     /**
@@ -50,6 +38,14 @@ public class Driver {
      */
     public static Optional<JsonNode> decode(JsonNode presentation, Decoding decoding) {
         return Decoder.decode(presentation, decoding);
+    }
+
+    public static Optional<JsonNode> decodeWithArrayStyle(JsonNode presentation) {
+        return Decoder.decodeWithArrayStyle(presentation);
+    }
+
+    public static Optional<JsonNode> decodeWithObjectStyle(JsonNode presentation) {
+        return Decoder.decodeWithObjectStyle(presentation);
     }
 
 }
